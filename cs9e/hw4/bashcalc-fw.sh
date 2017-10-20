@@ -6,8 +6,9 @@
 
 # bashcalc <expression>
 # This function simply passes in the given expressions to 'bc -l' and prints the result
+
 function bashcalc {
-	# ADD CODE HERE FOR PART 2
+	echo $1 | bc -l	# ADD CODE HERE FOR PART 2
 }
 
 # Remove this line when you start part 3
