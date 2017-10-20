@@ -1,0 +1,5 @@
+for filename in *.jpg 
+do
+  newFilename=$(sed -E 's#img_([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})_(.*)$#newyears_20\3-\2-\1_\4#' <<< "$filename")
+  mv "$filename" "$newFilename"
+done
