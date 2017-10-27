@@ -11,29 +11,41 @@ function bashcalc {
 }
 
 function sine {
-	echo "s($1)" | bc -l
+	bashcalc "s($1)"
 }
 
 function cosine {
-	echo "c($1)" | bc -l	# ADD CODE HERE FOR PART 3
+	bashcalc "c($1)"
 }
 
 function angle_reduce {
-	rem=$(echo "$1 % 1" | bc)
-	result=$(echo "8*a($rem)" | bc -l)
-	echo $result
+	pi=$(bashcalc "8*a(1)")
+
+	div=$(bashcalc "scale = 0; $1 / $pi")
+
+	result=$(bashcalc "$1 - $div*$pi")
+
+	if [ $(float_lte $result 0) -eq 1 ]
+	then
+		result=$(bashcalc "$result + $pi")
+
+	fi
+echo $result
 }
 
 function float_lt {
-	result=$(echo "$1 < $2" | bc -l)
+	result=$(bashcalc "$1 < $2")
+	echo $result
 	return $result
 }
 function float_eq {
-	result=$(echo "$1==$2" | bc -l)
+	result=$(bashcalc "$1 == $2")
+	echo $result
 	return $result
 }
 
 function float_lte {
-	result=$(echo "$1<=$2" | bc -l)
+	result=$(bashcalc "$1<=$2")
+	echo $result
 	return $result
 }
