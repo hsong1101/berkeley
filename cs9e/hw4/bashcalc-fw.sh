@@ -30,22 +30,19 @@ function angle_reduce {
 		result=$(bashcalc "$result + $pi")
 
 	fi
-echo $result
+	return $result
 }
 
 function float_lt {
 	result=$(bashcalc "$1 < $2")
-	echo $result
 	return $result
 }
 function float_eq {
 	result=$(bashcalc "$1 == $2")
-	echo $result
 	return $result
 }
 
 function float_lte {
 	result=$(bashcalc "$1<=$2")
-	echo $result
 	return $result
 }
