@@ -18,9 +18,9 @@ function angle_between {
 	local B=$2
 	local C=$3
 
-#	a=$(angle_reduce "$A")
-#	b=$(angle_reduce "$B")
-#	c=$(angle_reduce "$C")
+	a=$(angle_reduce "$A")
+	b=$(angle_reduce "$B")
+	c=$(angle_reduce "$C")
 
 	BtoA=$(bashcalc "$B - $A")
 	CtoB=$(bashcalc "$C - $B")
@@ -29,7 +29,7 @@ function angle_between {
 
 	if [[ $(cosine "$BtoA") > $(cosine "$CtoA") && $(cosine "$CtoB") > $(cosine "$CtoA") ]]
 	then
-		echo hooray
+		return 1
 	fi
 	return 0
 	
@@ -41,7 +41,6 @@ function angle_between {
 RUNNING=0
 GIVEUP=1
 CAUGHT=2
-return 0
 # does_cat_see_mouse <cat angle> <cat radius> <mouse angle>
 #
 # Returns true (exit code 0) if the cat can see the mouse, false otherwise.
@@ -49,13 +48,41 @@ return 0
 # The cat sees the mouse if
 # (cat radius) * cos (cat angle - mouse angle)
 # is at least 1.0.
+
+
 function does_cat_see_mouse {
 	local cat_angle=$1
 	local cat_radius=$2
 	local mouse_angle=$3
 
-	# ADD CODE HERE FOR PART 1
+	local angle=$(cosine "$1 - $3")
+	local canSee=$(bashcalc "$2 * $angle")
+	local result=1
+
+	if [[ float_lte 1 $canSee ]] ; then
+		result=0
+	fi
+
+	return $result
 }
+
+function get_new_degree {
+
+	local radius=$1
+	local old_rad=$2
+	local pi=3.14159
+	local circ=$(bashcalc "$pi * 2 * $radius")
+
+	local degree=$(bashcalc "$circ * 360")
+	local rad=$(cosine "$degree")
+	
+	return $(bashcalc "$rad + $old_rad")
+
+}
+
+
+
+
 
 # next_step <current state> <current step #> <cat angle> <cat radius> <mouse angle> <max steps>
 # returns string output similar to the input, but for the next step:
@@ -84,24 +111,42 @@ function next_step {
 	# ADD CODE HERE FOR PART 2
 
 	# Move the cat first
-	if _______ ; then
+	if (( bashcalc "$old_cat_radius != 1" && does_cat_see_mouse ${3} ${4} ${5}  )) ; then
+
+		if (( float_lte 2 ${$4} )) ; then
+			old_cat_radius=$(bashcalc "$4 - 1")
+		elif (( float_lt 1 ${4} )) ; then
+			old_cat_radius=1
+		fi
+
 		# Move the cat in if it's not at the statue and it can see the mouse
 	else
+		new_cat_angle=$( get_new_degree $old_cat_radius $old_cat_angle )
+
+		if (( angle_between ${old_cat_angle} ${old_mouse_angle} ${new_cat_angle} )) ; then
+			state=2
+		fi
+		
 		# Move the cat around if it's at the statue or it can't see the mouse
 		# Check if the cat caught the mouse
 	fi
 
 	# Now move the mouse if it wasn't caught
-	if ______ ; then
+	if (( float_eq $state 0 )) ; then
 		# Move the mouse
+		new_mouse_angle=$( get_new_degree 1 $old_mouse_angle )
 
 		# Give up if we're at the last step and haven't caught the mouse
-		if _______ ; then
+		if (( bashcalc "$state != 2" && bashcalc "$step == $max_steps+1" )) ; then
+		
+			state=1
+		
 		fi
 	fi
 
 	echo ${state} ${step} ${new_cat_angle} ${new_cat_radius} ${new_mouse_angle} ${max_steps}
 	return ${state}
+	
 }
 
 ### Main Script ###
@@ -112,4 +157,27 @@ if [[ ${#} != 4 ]] ; then
 	exit 1
 fi
 
-# ADD CODE HERE FOR PART 3
+# ADD CODE HERE FOR PART 
+
+curr=$(next_step 0 0 $2 $3 $1 $4)
+step=1
+
+while [[ $(bashcalc "$curr == 0") ]]
+do
+	curr=$(next_step $curr $step $2 $3 $1 $4)
+	step=$(bashcalc "$step + 1")
+
+
+done
+
+
+
+
+
+
+
+
+
+
+
+
