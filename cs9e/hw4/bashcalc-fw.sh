@@ -30,6 +30,7 @@ function angle_reduce {
 		result=$(bashcalc "$result + $pi")
 
 	fi
+
 	return $result
 }
 

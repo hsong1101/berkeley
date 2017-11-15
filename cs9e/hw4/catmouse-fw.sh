@@ -17,11 +17,21 @@ function angle_between {
 	local A=$1
 	local B=$2
 	local C=$3
-	result=1
-	if [$( && )]
-	then
 
+#	a=$(angle_reduce "$A")
+#	b=$(angle_reduce "$B")
+#	c=$(angle_reduce "$C")
+
+	BtoA=$(bashcalc "$B - $A")
+	CtoB=$(bashcalc "$C - $B")
+	CtoA=$(bashcalc "$C - $A")
+	
+
+	if [[ $(cosine "$BtoA") > $(cosine "$CtoA") && $(cosine "$CtoB") > $(cosine "$CtoA") ]]
+	then
+		echo hooray
 	fi
+	return 0
 	
 	# ADD CODE HERE FOR PART 1
 }
@@ -31,7 +41,7 @@ function angle_between {
 RUNNING=0
 GIVEUP=1
 CAUGHT=2
-
+return 0
 # does_cat_see_mouse <cat angle> <cat radius> <mouse angle>
 #
 # Returns true (exit code 0) if the cat can see the mouse, false otherwise.
