@@ -17,3 +17,6 @@
 'Problem 18-correct', (8192, 70)
 'Problem 19-correct', (8704, 70)
 'tests.scm-correct', (9216, 70)
+'Understanding scheme.py-correct', (9728, 70)
+'Problem 10-correct', (10240, 70)
+'Problem 20 (EC)-correct', (10752, 70)
