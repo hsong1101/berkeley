@@ -1,4 +1,5 @@
 #!/bin/bash
+# Bash Calculator Framework
 # CS9E - Assignment 4.1
 #
 # Framework by Jeremy Huddleston <jeremyhu@cs.berkeley.edu>
@@ -10,33 +11,31 @@
 # bashcalc <expression>
 # This function simply passes in the given expressions to 'bc -l' and prints the result
 function bashcalc {
+	echo "$1" | bc -l;
 	# ADD CODE HERE FOR PART 2
-  echo "$1" | bc -l;
 }
 
 # Remove this line when you start part 3
 
 # sine <expression>
-
 # This function prints the cosine of the given expression
 function sine {
-	# ADD CODE HERE FOR PART 3
-  echo "s("$1")" | bc -l;
+	echo "s("$1")" | bc -l	# ADD CODE HERE FOR PART 3
 }
 
 # cosine <expression>
 # This function prints the cosine of the given expression
 function cosine {
+	echo "s("$1")" | bc -l
 	# ADD CODE HERE FOR PART 3
-  echo "c("$1")" | bc -l;
 }
 
 # angle_reduce <angle>
 # Prints the angle given expressed as a value between 0 and 2pi
 function angle_reduce {
+	pi=$(echo "8*a(1)" | bc -l)
+	echo "scale=0; $1 % $pi" | bc -l;
 	# ADD CODE HERE FOR PART 3
-  pi=$(echo "8*a(1)" | bc -l)
-  echo "scale=0; $1 % $pi" | bc -l;
 }
 
 # float_{lt,lte,eq} <expr 1> <expr 2>
@@ -45,16 +44,16 @@ function angle_reduce {
 # Note: We can't just use BASH's builtin [[ ... < ... ]] operator because that is
 #       for integer math.
 function float_lt {
+	return $(echo !"$1 < $2" | bc -l);
 	# ADD CODE HERE FOR PART 3
-  return $(echo !"$1 < $2" | bc -l);
 }
 
 function float_eq {
+	return $(echo !"$1 == $2" | bc -l);
 	# ADD CODE HERE FOR PART 3
-  return $(echo !"$1 == $2" | bc -l);
 }
 
 function float_lte {
+	return $(echo !"$1 <= $2" | bc -l);
 	# ADD CODE HERE FOR PART 3
-  return $(echo !"$1 <= $2" | bc -l);
 }
