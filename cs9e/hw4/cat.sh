@@ -27,7 +27,7 @@ function angle_between {
 RUNNING=0
 GIVEUP=1
 CAUGHT=2
-
+# this is just to test
 # does_cat_see_mouse <cat angle> <cat radius> <mouse angle>
 #
 # Returns true (exit code 0) if the cat can see the mouse, false otherwise.
