@@ -1,6 +1,6 @@
 CREATE TABLE parents AS
   SELECT "abraham" AS parent, "barack" AS child UNION
-  SELECT "abraham"          , "clinton"         UNION
+  SELECT "abraham"          , "clinton"         UNION   
   SELECT "delano"           , "herbert"         UNION
   SELECT "fillmore"         , "abraham"         UNION
   SELECT "fillmore"         , "delano"          UNION
@@ -44,14 +44,14 @@ CREATE TABLE size_of_dogs AS
 
 -- Sentences about siblings that are the same size
 CREATE TABLE sentences AS
-  with
-    siblings(first, second) as (
-      select a.child, b.child from parents as a, parents as b 
-        where a.parent = b.parent and a.child > b.child 
+  WITH
+    siblings(first, second) AS (
+      SELECT a.child, b.child FROM parents AS a, parents AS b
+        WHERE a.parent = b.parent AND a.child < b.child
     )
-  select second || ' and ' || first || ' are ' || a.size || ' siblings' 
-    from siblings, size_of_dogs as a, size_of_dogs as b 
-    where a.size = b.size and a.name = first and b.name = second;
+  SELECT first || " and " || second || " are " || a.size || " siblings"
+    FROM siblings, size_of_dogs AS a, size_of_dogs AS b
+    WHERE a.size = b.size AND a.name = first AND b.name = second;
 
 
 -- Ways to stack 4 dogs to a height of at least 170, ordered by total height

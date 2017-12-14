@@ -125,12 +125,14 @@ CREATE TABLE calories AS
   
 
 CREATE TABLE schedule AS
-  with
-    transfer(d, a, n, p) as (
-        select departure, arrival, 1, price from flights where departure = "SFO" union
-        select d || ', ' || a, arrival, n+1, p+price from transfer, flights where n < 3 and a != arrival
-    )
-  select distinct d || ', ' || a, p from transfer where n < 3 and a = "PDX" order by p;
+  WITH trips(path, ending, flights, cost) AS (
+    SELECT departure || ", " || arrival, arrival, 1, price FROM flights
+      WHERE departure = "SFO" UNION
+    SELECT path || ", " || arrival, arrival, flights + 1, cost + price
+      FROM trips, flights
+      WHERE ending = departure AND flights < 2
+  )
+  SELECT path, cost FROM trips WHERE ending = "PDX" ORDER BY cost;
 
 
 

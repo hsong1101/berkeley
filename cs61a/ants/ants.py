@@ -282,8 +282,8 @@ class FireAnt(Ant):
         bees = []
 
         if amount >= self.armor:
-            bees = [bee for bee in self.place.bees if bee.armor > self.damage]
-            self.place.bees = bees
+            # bees = [bee for bee in self.place.bees if bee.armor > self.damage]
+            # self.place.bees = bees
 
             for bee in self.place.bees:
                 bee.reduce_armor(self.damage)
