@@ -294,7 +294,7 @@ class CornersProblem(search.SearchProblem):
         Returns the start state (in your state space, not the full Pacman state
         space)
         """
-        "*** YOUR CODE HERE ***"
+        return (self.startingPosition, [False, False, False, False])
         util.raiseNotDefined()
 
     def isGoalState(self, state):
@@ -302,6 +302,7 @@ class CornersProblem(search.SearchProblem):
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
+        return all(state[1])
         util.raiseNotDefined()
 
     def getSuccessors(self, state):
@@ -323,9 +324,22 @@ class CornersProblem(search.SearchProblem):
             #   dx, dy = Actions.directionToVector(action)
             #   nextx, nexty = int(x + dx), int(y + dy)
             #   hitsWall = self.walls[nextx][nexty]
-
             "*** YOUR CODE HERE ***"
+            x,y = state[0][0], state[0][1]
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x + dx), int(y + dy)
 
+            if not self.walls[nextx][nexty]:
+                temp = []
+                for x in range(4):
+                    if self.corners[x] == (nextx, nexty):
+                        temp.append(True)
+                        # state[1][x] = True
+                    else:
+                        temp.append(state[1][x])
+                # print temp
+
+                successors.append( (((nextx, nexty), temp), action, 1))
         self._expanded += 1 # DO NOT CHANGE
         return successors
 
@@ -359,7 +373,11 @@ def cornersHeuristic(state, problem):
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
-    "*** YOUR CODE HERE ***"
+    # dist = [0]
+    # for x in self.goal:
+    #     if not self.goal[x]:
+    #         dist.append(util.manhattanDistance(state[0], corners[i]))
+    # return max(dist)
     return 0 # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
