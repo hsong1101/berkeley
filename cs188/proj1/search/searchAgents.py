@@ -294,7 +294,7 @@ class CornersProblem(search.SearchProblem):
         Returns the start state (in your state space, not the full Pacman state
         space)
         """
-        return (self.startingPosition, [False, False, False, False])
+        return (self.startingPosition, [False]*4)
         util.raiseNotDefined()
 
     def isGoalState(self, state):
@@ -302,6 +302,7 @@ class CornersProblem(search.SearchProblem):
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
+
         return all(state[1])
         util.raiseNotDefined()
 
@@ -330,16 +331,12 @@ class CornersProblem(search.SearchProblem):
             nextx, nexty = int(x + dx), int(y + dy)
 
             if not self.walls[nextx][nexty]:
-                temp = []
-                for x in range(4):
-                    if self.corners[x] == (nextx, nexty):
-                        temp.append(True)
-                        # state[1][x] = True
-                    else:
-                        temp.append(state[1][x])
-                # print temp
-
-                successors.append( (((nextx, nexty), temp), action, 1))
+                # set a new list of T/F for the next successor state
+                temp = [True if self.corners[x] == (nextx, nexty) 
+                             else state[1][x] for x in range(4)]
+                nextpos = (nextx, nexty)
+                successors.append( ((nextpos, temp), action))
+        # should return (nextpos, action, cost)
         self._expanded += 1 # DO NOT CHANGE
         return successors
 
@@ -372,13 +369,11 @@ def cornersHeuristic(state, problem):
     """
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
-
-    # dist = [0]
-    # for x in self.goal:
-    #     if not self.goal[x]:
-    #         dist.append(util.manhattanDistance(state[0], corners[i]))
-    # return max(dist)
-    return 0 # Default to trivial solution
+    pos = state[0]
+    h = []
+    for corner in corners:
+        h.append(abs(pos[0] - corner[0]) + abs(pos[1] - corner[1]))
+    return max(h)
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"

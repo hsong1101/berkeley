@@ -32,6 +32,8 @@ def wrap_solution(solution):
 
 
 def followAction(state, action, problem):
+  # Error here  
+  print action
   for successor1, action1, cost1 in problem.getSuccessors(state):
     if action == action1: return successor1
   return None
@@ -716,6 +718,7 @@ class CornerHeuristicSanity(testClasses.TestCase):
             return False
         path = solutionDict['path'].split()
         states = followPath(path, problem)
+        
         heuristics = []
         for state in states:
             heuristics.append(searchAgents.cornersHeuristic(state, problem))
