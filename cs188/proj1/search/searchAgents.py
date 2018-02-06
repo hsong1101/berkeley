@@ -295,16 +295,14 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         return (self.startingPosition, [False]*4)
-        util.raiseNotDefined()
+        # return (self.startingPosition, self.ateAll)
 
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-
         return all(state[1])
-        util.raiseNotDefined()
 
     def getSuccessors(self, state):
         """
@@ -316,8 +314,7 @@ class CornersProblem(search.SearchProblem):
             state, 'action' is the action required to get there, and 'stepCost'
             is the incremental cost of expanding to that successor
         """
-
-        successors = []
+        successors = []     
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
             # Add a successor state to the successor list if the action is legal
             # Here's a code snippet for figuring out whether a new position hits a wall:
@@ -326,19 +323,22 @@ class CornersProblem(search.SearchProblem):
             #   nextx, nexty = int(x + dx), int(y + dy)
             #   hitsWall = self.walls[nextx][nexty]
             "*** YOUR CODE HERE ***"
-            x,y = state[0][0], state[0][1]
+            # print state
+
+            x,y = state[0]
             dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
 
             if not self.walls[nextx][nexty]:
                 # set a new list of T/F for the next successor state
-                temp = [True if self.corners[x] == (nextx, nexty) 
-                             else state[1][x] for x in range(4)]
                 nextpos = (nextx, nexty)
-                successors.append( ((nextpos, temp), action))
-        # should return (nextpos, action, cost)
+                temp = [True if self.corners[x] == nextpos
+                             else state[1][x] for x in range(4)]
+                successors.append( ((nextpos, temp), action, 1))
+
         self._expanded += 1 # DO NOT CHANGE
         return successors
+        # return successors
 
     def getCostOfActions(self, actions):
         """
@@ -368,11 +368,13 @@ def cornersHeuristic(state, problem):
     admissible (as well as consistent).
     """
     corners = problem.corners # These are the corner coordinates
-    walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
-    pos = state[0]
-    h = []
-    for corner in corners:
-        h.append(abs(pos[0] - corner[0]) + abs(pos[1] - corner[1]))
+    # navigate to the closest corner first.
+    h = [0]
+    for x in range(4):
+
+        if not state[1][x]:
+            h.append(util.manhattanDistance(state[0], corners[x]))
+            
     return max(h)
 
 class AStarCornersAgent(SearchAgent):
@@ -466,6 +468,10 @@ def foodHeuristic(state, problem):
     problem.heuristicInfo['wallCount']
     """
     position, foodGrid = state
+    #foodGrid.asList() = list of food coordinates
+    print foodGrid.asList()
+    # state[1] = array of boolean. T = food is on the grid. F = not
+    # print state[1]
     "*** YOUR CODE HERE ***"
     return 0
 
