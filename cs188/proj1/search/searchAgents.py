@@ -479,6 +479,8 @@ def foodHeuristic(state, problem):
         if manhatDist >= maxDist:
             maxDist = manhatDist
             posMaxFood = lst_foods[i]
+
+    # print posMaxFood, maxDist
     return mazeDistance(position,posMaxFood,problem.startingGameState)
 
 class ClosestDotSearchAgent(SearchAgent):
@@ -510,7 +512,6 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         return search.aStarSearch(problem)
-        util.raiseNotDefined()
 
 class AnyFoodSearchProblem(PositionSearchProblem):
     """
