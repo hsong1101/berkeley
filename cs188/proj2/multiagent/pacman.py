@@ -153,6 +153,19 @@ class GameState:
             raise Exception("Invalid index passed to getGhostState")
         return self.data.agentStates[agentIndex]
 
+    #         GhostRules.applyAction( state, action, agentIndex )
+
+    # def getLegalActions( state, ghostIndex ):
+    #     conf = state.getGhostState( ghostIndex ).configuration
+
+    # def applyAction( state, action, ghostIndex):
+
+    #     legal = GhostRules.getLegalActions( state, ghostIndex )
+
+    # def getLegalActions( state, ghostIndex ):
+    #     conf = state.getGhostState( ghostIndex ).configuration
+
+
     def getGhostPosition( self, agentIndex ):
         if agentIndex == 0:
             raise Exception("Pacman's index passed to getGhostPosition")

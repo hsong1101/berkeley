@@ -246,58 +246,72 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         agents = gs.getNumAgents()
         e = self.evaluationFunction
         m = self.depth * agents
-        d = self.depth
-        check = {}
-        for x in range(d+1):
-          check[x] = []
 
         def player(c, a):
-          return c % a
+          if c < 1:
+            return 0
+          return c % a 
 
-        def returnMax(lst):
-          temp = lst[0]
-          for x in lst[1:]:
-            if x[0] > temp[0]:
-              temp = x
-          return temp
+        # print gs.getLegalActions(8)
 
-        def returnMin(lst):
-          temp = lst[0]
-          for x in lst[1:]:
-            if x[0] < temp[0]:
-              temp = x
-          return temp
+        def returnValue(state, level, alpha, beta):
+          # at every recursion, level + 1
+          p = player(level, agents)
+          # print state.isWin(), state.isLose()
 
-        def returnValue(state, curr, m):
-          # at every recursion, curr + 1
-          p = player(curr, agents)
-          values = []
-          # bottom level
-          if curr == m:
-            check[curr].append(e(state))
-            return e(state)
+          if level == m:
+            return [e(state)]
+
+          elif state.isWin() or state.isLose():
+            return [e(state)]
+
           else:
-            successors = []
-            for action in state.getLegalActions(p):
-              nextState = state.generateSuccessor(p, action)
-              successors.append([nextState, action])
-            if len(successors) == 0:
-              # no children exist
-              print(e(state))
-              check[curr].append(e(state))
-              return e(state)
-            else:
-              for successor in successors:
-                val = returnValue(successor[0], curr+1, m)
-                # check[curr].append(val)
-                values.append([returnValue(successor[0], curr + 1, m), successor[1]])
-              if p:
-                return returnMin(values)
-              else:
-                return returnMax(values)
 
-        print check
-        return returnValue(gs, 0, m)[1]
+            v = 0
+            action = 0
+            # pacman's turn
+            if not p:
+              # print 'pacman'
+              v = -999999
+              for a in state.getLegalActions(p):
+
+                temp = returnValue(state.generateSuccessor(p, a), level + 1, alpha, beta)
+                # print 'pacman temp', temp
+                if v < temp[0]:
+                  v = temp[0]
+                  action = a
+
+                if alpha < v:
+                  alpha = v
+                # print 'pacman v, alpha, beta', v, alpha, beta
+                if alpha > beta:
+                  break
+            # ghosts' turn
+            else:
+              # print 'ghost'
+              v = 999999
+
+              for a in state.getLegalActions(p):
+
+                temp = returnValue(state.generateSuccessor(p, a), level + 1, alpha, beta)
+                # print 'ghost temp', temp
+                if v > temp[0]:
+                  v = temp[0]
+                  action = a
+
+                if beta > v:
+                  beta = v
+
+                # print 'ghost v, alpha, beta', v, alpha, beta
+                if alpha > beta:
+                  break
+
+            return [v, action]
+
+
+        temp = returnValue(gs, 0, -999999, 999999)
+        # print temp
+        return temp[1]
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
     """
