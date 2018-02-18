@@ -106,6 +106,14 @@ def ghostAdjacent(ghostPos, newPos):
     else:
       return False
 
+def foodAdjacent(pos, gs):
+    x, y = pos
+
+    if gs.hasFood(x, y+1) or gs.hasFood(x, y-1) or gs.hasFood(x+1, y) or gs.hasFood(x-1, y):
+      return True
+    else:
+      return False
+
 def farthestFood(pos, foodList):
     temp = 0
     for x in foodList:
@@ -117,10 +125,14 @@ def farthestFood(pos, foodList):
 
 def closestFood(pos, foodList):
     temp = 999999
+    nextTemp = 999999
+    if len(foodList) == 0:
+      return 0
+
     for x in foodList:
       if manhattanDistance(pos, x) < temp:
         temp = manhattanDistance(pos, x)
-    
+
     return temp
 
 def scoreEvaluationFunction(currentGameState):
@@ -391,9 +403,32 @@ def betterEvaluationFunction(currentGameState):
       evaluation function (question 5).
 
       DESCRIPTION: <write something here so we know what you did>
+      
+      Things that can affect the returned value are
+
+      1) distance to a ghost : The closer the ghost is, the value should decrease.
+      2) distance to the closest food : As it gets closer, the value should increase
+      3) number of food remaining : As the number goes down, the value should increase
+      4) number of capsule remaining : Same as above
+      5) score at each state (Does the score increase at this state or not) : Higher score is better than lower
+
+
+
+
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    position = currentGameState.getPacmanPosition()
+    food = currentGameState.getFood().asList()
+    ghost = currentGameState.getGhostPositions()[0]
+    capsule = currentGameState.getCapsules()
+    distance_to_ghost = manhattanDistance(position, ghost)
+    distance_to_closest_food = closestFood(position, food) # 1/cf
+    numFood = currentGameState.getNumFood()
+    ghost_near = ghostAdjacent(position, ghost)
+    numCapsule = len(capsule)
+
+
+    return -1/(distance_to_ghost+0.01) + 1/(distance_to_closest_food+0.1) + currentGameState.getScore() *1.2 + 1/(numFood+0.01) + 1/(numCapsule+0.01)
+
 
 # Abbreviation
 better = betterEvaluationFunction
