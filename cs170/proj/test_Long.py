@@ -57,15 +57,12 @@ def findMinTour(startingKingdom, fullWalk, cqList, matrix, maxtrix_size,kingdomN
 		if kingdomNames[i] == returned_path[-1]:
 			lastKingdom = i
 			break
-	#print("The last kingdom: ", lastKingdom)
-	print(lastKingdom)
 	g = Graph(maxtrix_size)
 
 	dijkstraPath = g.dijkstra(matrix, kingdomNames, lastKingdom, startingKingdom)
 
-	#print("Dijkstra from the last kingdom back to the starting one: ", dijkstraPath)
 	returned_path += dijkstraPath
-	print(dijkstraPath)
+
 	return returned_path
 
 # Python program for Dijkstra's single source shortest
