@@ -80,7 +80,38 @@ class Graph(object):
         Hint: each Variable is also a node that needs to be added to the graph,
         so don't forget to call `self.add` on each of the variables.
         """
-        "*** YOUR CODE HERE ***"
+
+        self.weights = variables[0]
+        self.bias = variables[1]
+        self.prob_called = False
+        # each node in self.nodes has 2 values
+        # First = Node
+        # Second = Accumulated Gradient
+        self.nodes = variables
+        self.outputs = {}
+        self.gradients = {}
+
+        for var in variables:
+            self.add(var)
+
+    def add(self, node):
+        """
+        TODO: Question 3 - [Neural Network] Computation Graph
+
+        Adds a node to the graph.
+
+        This method should calculate and remember the output of the node in the
+        forwards pass (which can later be retrieved by calling `get_output`)
+        We compute the output here because we only want to compute it once,
+        whereas we may wish to call `get_output` multiple times.
+
+        Additionally, this method should initialize an all-zero gradient
+        accumulator for the node, with correct shape.
+        """
+        
+        self.outputs[node] = node.forward(self.data)
+        self.gradients[node] = np.zeros(self.data.shape)
+        self.nodes += [node]
 
     def get_nodes(self):
         """
@@ -92,7 +123,8 @@ class Graph(object):
 
         Returns: a list of nodes
         """
-        "*** YOUR CODE HERE ***"
+
+        return self.nodes
 
     def get_inputs(self, node):
         """
@@ -105,7 +137,11 @@ class Graph(object):
 
         Hint: every node has a `.get_parents()` method
         """
-        "*** YOUR CODE HERE ***"
+
+        # Should get the output or forward values of its parents and return in a list
+        parents = self.nodes[self.nodes.index(node)][0].get_parents()
+        return [self.outputs[x] for x in parents]
+
 
     def get_output(self, node):
         """
@@ -116,7 +152,7 @@ class Graph(object):
 
         Returns: a numpy array or a scalar
         """
-        "*** YOUR CODE HERE ***"
+        return self.outputs[node]
 
     def get_gradient(self, node):
         """
@@ -134,22 +170,11 @@ class Graph(object):
         Returns: a numpy array
         """
         "*** YOUR CODE HERE ***"
+        if self.prop_called:
 
-    def add(self, node):
-        """
-        TODO: Question 3 - [Neural Network] Computation Graph
+        else:
 
-        Adds a node to the graph.
 
-        This method should calculate and remember the output of the node in the
-        forwards pass (which can later be retrieved by calling `get_output`)
-        We compute the output here because we only want to compute it once,
-        whereas we may wish to call `get_output` multiple times.
-
-        Additionally, this method should initialize an all-zero gradient
-        accumulator for the node, with correct shape.
-        """
-        "*** YOUR CODE HERE ***"
 
     def backprop(self):
         """
@@ -285,11 +310,14 @@ class Add(FunctionNode):
 
     @staticmethod
     def forward(inputs):
-        "*** YOUR CODE HERE ***"
+        return np.add(inputs[0], inputs[1])      
+
 
     @staticmethod
     def backward(inputs, gradient):
-        "*** YOUR CODE HERE ***"
+        shape = inputs[0].shape
+        ret = np.ones(shape) * gradient
+        return [ret] * 2
 
 
 class MatrixMultiply(FunctionNode):
@@ -306,11 +334,17 @@ class MatrixMultiply(FunctionNode):
 
     @staticmethod
     def forward(inputs):
-        "*** YOUR CODE HERE ***"
+        return np.matmul(inputs[0], inputs[1])
 
     @staticmethod
     def backward(inputs, gradient):
-        "*** YOUR CODE HERE ***"
+        A = np.matrix(inputs[0])
+        B = np.matrix(inputs[1])
+
+        A = np.transpose(A)
+        B = np.transpose(B)
+
+        return [np.matmul(gradient, B), np.matmul(A, gradient)]
 
 
 class MatrixVectorAdd(FunctionNode):
@@ -327,11 +361,11 @@ class MatrixVectorAdd(FunctionNode):
 
     @staticmethod
     def forward(inputs):
-        "*** YOUR CODE HERE ***"
+        return np.matrix(inputs[0]) + np.matrix(inputs[1])
 
     @staticmethod
     def backward(inputs, gradient):
-        "*** YOUR CODE HERE ***"
+        return [gradient, np.sum(gradient, axis = 0)]
 
 
 class ReLU(FunctionNode):
@@ -346,13 +380,15 @@ class ReLU(FunctionNode):
     Output: same shape as x, with no negative entries
     """
 
-    @staticmethod
+    @staticmethod   
     def forward(inputs):
-        "*** YOUR CODE HERE ***"
+        return np.maximum(np.zeros(inputs[0].shape),inputs[0])
+
 
     @staticmethod
     def backward(inputs, gradient):
-        "*** YOUR CODE HERE ***"
+        return [gradient * np.where(inputs[0] > 0.0, 1.0, 0.0)]
+
 
 
 class SquareLoss(FunctionNode):
@@ -371,12 +407,19 @@ class SquareLoss(FunctionNode):
 
     @staticmethod
     def forward(inputs):
-        "*** YOUR CODE HERE ***"
+        A = inputs[0]
+        B = inputs[1]
+
+        C = A - B
+        C = np.square(C) * 0.5
+
+        return np.mean(C)
 
     @staticmethod
     def backward(inputs, gradient):
-        "*** YOUR CODE HERE ***"
 
+        return [(gradient / inputs[0].size) * (inputs[0] - inputs[1]), 
+                (gradient / inputs[1].size) * (-inputs[0] + inputs[1])]
 
 class SoftmaxLoss(FunctionNode):
     """
