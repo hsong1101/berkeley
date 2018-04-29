@@ -699,6 +699,7 @@ def check_regression(tracker):
     model = models.RegressionModel()
     assert model.get_data_and_monitor == backend.get_data_and_monitor_regression, "RegressionModel.get_data_and_monitor is not set correctly"
     assert model.learning_rate > 0, "RegressionModel.learning_rate is not set correctly"
+
     model.train()
 
     stats = backend.get_stats(model)
@@ -787,7 +788,7 @@ add_prereq('q7', ['q2', 'q3'])
 
 @test('q7', points=1)
 def check_rl(tracker):
-    import models, backend
+    import models, backend, nn
 
     num_trials = 6
     trials_satisfied = 0
@@ -796,7 +797,28 @@ def check_rl(tracker):
         model = models.DeepQModel()
         assert model.get_data_and_monitor == backend.get_data_and_monitor_rl, "DeepQModel.get_data_and_monitor is not set correctly"
         assert model.learning_rate > 0, "DeepQModel.learning_rate is not set correctly"
+
+        # a = [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1]
+        # a = [0.001, 0.0001, 0.00001, 0.000001]
+        # var = [100, 200, 300, 500, 800, 1000, 1500, 2000]
+        # l = {}
+        # for al in a:
+        #     for v in var:
+        #         model.learning_rate = al
+        #         model.w1 = nn.Variable(4, v)
+        #         model.w2 = nn.Variable(v, 2)
         model.train()
+                # l[al + v] = backend.get_stats(model)['mean_reward']
+
+        # print(l)
+
+        # l = {}
+        # for al in a:
+            # model.learning_rate = al
+        # model.train()
+            # l[al] = backend.get_stats(model)['mean_reward']
+
+        # print(l)
 
         stats = backend.get_stats(model)
         if stats['mean_reward'] >= stats['reward_threshold']:

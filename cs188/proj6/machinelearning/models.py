@@ -45,7 +45,13 @@ class RegressionModel(Model):
 
         # Remember to set self.learning_rate!
         # You may use any learning rate that works well for your architecture
-        "*** YOUR CODE HERE ***"
+        # self.learning_rate = 0.1
+        self.learning_rate = 0.1
+        self.w1 = nn.Variable(1,200)
+        self.w2 = nn.Variable(200,1)
+        self.b1 = nn.Variable(200,200)
+        self.b2 = nn.Variable(200,1)
+
 
     def run(self, x, y=None):
         """
@@ -68,18 +74,31 @@ class RegressionModel(Model):
 
         Note: DO NOT call backprop() or step() inside this method!
         """
-        "*** YOUR CODE HERE ***"
+        graph = nn.Graph([self.w1,self.w2,self.b1,self.b2])
+
+        input_x = nn.Input(graph, x)
+
+        xW1 = nn.MatrixMultiply(graph, input_x, self.w1)
+        xW1_plus_b1 = nn.Add(graph, xW1, self.b1)
+        relu1 = nn.ReLU(graph, xW1_plus_b1)
+
+        xW2 = nn.MatrixMultiply(graph, relu1, self.w2)
+        xW2_plus_b2 = nn.Add(graph, xW2, self.b2)
 
         if y is not None:
             # At training time, the correct output `y` is known.
             # Here, you should construct a loss node, and return the nn.Graph
             # that the node belongs to. The loss node must be the last node
             # added to the graph.
-            "*** YOUR CODE HERE ***"
+            input_y = nn.Input(graph, y)
+            loss = nn.SquareLoss(graph, xW2_plus_b2, input_y)
+
+            return graph
         else:
             # At test time, the correct output is unknown.
             # You should instead return your model's prediction as a numpy array
-            "*** YOUR CODE HERE ***"
+            return graph.get_output(xW2_plus_b2)
+
 
 
 class OddRegressionModel(Model):
@@ -100,7 +119,10 @@ class OddRegressionModel(Model):
 
         # Remember to set self.learning_rate!
         # You may use any learning rate that works well for your architecture
-        "*** YOUR CODE HERE ***"
+        self.learning_rate = 0.01
+        self.w1 = nn.Variable(1,16)
+        self.w2 = nn.Variable(16,1)
+        self.b1 = nn.Variable(16)
 
     def run(self, x, y=None):
         """
@@ -123,19 +145,41 @@ class OddRegressionModel(Model):
 
         Note: DO NOT call backprop() or step() inside this method!
         """
-        "*** YOUR CODE HERE ***"
+        graph = nn.Graph([self.w1,self.w2,self.b1])
+        neg = np.array([[-1.0]])
+
+        input_neg = nn.Input(graph, neg)
+        input_x = nn.Input(graph, x)
+
+        xW1 = nn.MatrixMultiply(graph, input_x, self.w1)
+        xW1_plus_b1 = nn.MatrixVectorAdd(graph, xW1, self.b1)
+        relu1 = nn.ReLU(graph, xW1_plus_b1)
+
+        xW2 = nn.MatrixMultiply(graph, relu1, self.w2)
+
+        x_neg = nn.MatrixMultiply(graph, input_x, input_neg)
+        neg_xW1 = nn.MatrixMultiply(graph, x_neg, self.w1)
+        neg_xW1_plus_b1 = nn.MatrixVectorAdd(graph, neg_xW1, self.b1)
+
+        relu2 = nn.ReLU(graph, neg_xW1_plus_b1)
+        xW2_relu = nn.MatrixMultiply(graph, relu2, self.w2)
+        neg_xW2 = nn.MatrixMultiply(graph, xW2_relu, input_neg)
+
+        add = nn.Add(graph, xW2, neg_xW2)
 
         if y is not None:
             # At training time, the correct output `y` is known.
             # Here, you should construct a loss node, and return the nn.Graph
             # that the node belongs to. The loss node must be the last node
             # added to the graph.
-            "*** YOUR CODE HERE ***"
+            input_y = nn.Input(graph, y)
+            loss_node = nn.SquareLoss(graph, add, input_y)
+            return graph
+
         else:
             # At test time, the correct output is unknown.
             # You should instead return your model's prediction as a numpy array
-            "*** YOUR CODE HERE ***"
-
+            return graph.get_output(add)
 
 class DigitClassificationModel(Model):
     """
@@ -160,7 +204,12 @@ class DigitClassificationModel(Model):
 
         # Remember to set self.learning_rate!
         # You may use any learning rate that works well for your architecture
-        "*** YOUR CODE HERE ***"
+        self.learning_rate = 0.5
+        self.w1 = nn.Variable(784, 300)
+
+        self.w2 = nn.Variable(300, 10)
+
+
 
     def run(self, x, y=None):
         """
@@ -186,12 +235,31 @@ class DigitClassificationModel(Model):
                 the loss
             (if y is None) A (batch_size x 10) numpy array of scores (aka logits)
         """
-        "*** YOUR CODE HERE ***"
+        graph = nn.Graph([self.w1, self.w2])
+
+        input_x = nn.Input(graph, x)
+
+        xW1 = nn.MatrixMultiply(graph, input_x, self.w1)
+        # xW1_plus_b1 = nn.Add(graph, xW1, self.b1)
+        relu1 = nn.ReLU(graph, xW1)
+
+        xW2 = nn.MatrixMultiply(graph, relu1, self.w2)
+        # xW2_plus_b2 = nn.Add(graph, xW2, self.b2)
+
 
         if y is not None:
-            "*** YOUR CODE HERE ***"
+            # At training time, the correct output `y` is known.
+            # Here, you should construct a loss node, and return the nn.Graph
+            # that the node belongs to. The loss node must be the last node
+            # added to the graph.
+            input_y = nn.Input(graph, y)
+            loss = nn.SoftmaxLoss(graph, xW2, input_y)
+
+            return graph
         else:
-            "*** YOUR CODE HERE ***"
+            # At test time, the correct output is unknown.
+            # You should instead return your model's prediction as a numpy array
+            return graph.get_output(xW2)
 
 
 class DeepQModel(Model):
@@ -214,7 +282,14 @@ class DeepQModel(Model):
 
         # Remember to set self.learning_rate!
         # You may use any learning rate that works well for your architecture
-        "*** YOUR CODE HERE ***"
+
+        self.learning_rate = 0.01
+        self.w1 = nn.Variable(4, 400)
+        self.b1 = nn.Variable(400)
+
+        self.w2 = nn.Variable(400, 2)
+        self.b2 = nn.Variable(2)
+
 
     def run(self, states, Q_target=None):
         """
@@ -236,19 +311,32 @@ class DeepQModel(Model):
 
         Inputs:
             states: a (batch_size x 4) numpy array
-            Q_target: a (batch_size x 2) numpy array, or None
+            Q_target: a (batch_size x 2) numpy array, or NotImplementedError
         Output:
             (if Q_target is not None) A nn.Graph instance, where the last added
                 node is the loss
             (if Q_target is None) A (batch_size x 2) numpy array of Q-value
                 scores, for the two actions
         """
-        "*** YOUR CODE HERE ***"
+        graph = nn.Graph([self.w1, self.w2])
+        graph = nn.Graph([self.w1, self.w2, self.b1, self.b2])
+        input_x = nn.Input(graph, states)
+
+        xW1 = nn.MatrixMultiply(graph, input_x, self.w1)
+        xW1_plus_b1 = nn.MatrixVectorAdd(graph, xW1, self.b1)
+        relu1 = nn.ReLU(graph, xW1_plus_b1)
+
+        xW2 = nn.MatrixMultiply(graph, relu1, self.w2)
+        xW2_plus_b2 = nn.MatrixVectorAdd(graph, xW2, self.b2)
 
         if Q_target is not None:
-            "*** YOUR CODE HERE ***"
+            input_y = nn.Input(graph, Q_target)
+            loss = nn.SquareLoss(graph, xW2_plus_b2, input_y)
+            return graph
         else:
-            "*** YOUR CODE HERE ***"
+            return graph.get_output(xW2_plus_b2)
+
+
 
     def get_action(self, state, eps):
         """
@@ -269,15 +357,12 @@ class DeepQModel(Model):
 
 class LanguageIDModel(Model):
     """
-    TODO: Question 8 - [Application] Language Identification
-
     A model for language identification at a single-word granularity.
 
     (See RegressionModel for more information about the APIs of different
     methods here. We recommend that you implement the RegressionModel before
     working on this part of the project.)
     """
-
     def __init__(self):
         Model.__init__(self)
         self.get_data_and_monitor = backend.get_data_and_monitor_lang_id
@@ -291,12 +376,19 @@ class LanguageIDModel(Model):
 
         # Remember to set self.learning_rate!
         # You may use any learning rate that works well for your architecture
-        "*** YOUR CODE HERE ***"
+        self.learning_rate = 0.01
+
+
+        self.w1 = nn.Variable(60, 400)
+        self.b1 = nn.Variable(400)
+
+        self.w2 = nn.Variable(400, 60)
+        self.b2 = nn.Variable(60)
+
+        self.w3 = nn.Variable(60, 5)
 
     def run(self, xs, y=None):
         """
-        TODO: Question 8 - [Application] Language Identification
-
         Runs the model for a batch of examples.
 
         Although words have different lengths, our data processing guarantees
@@ -334,9 +426,31 @@ class LanguageIDModel(Model):
         """
         batch_size = xs[0].shape[0]
 
-        "*** YOUR CODE HERE ***"
+        graph = nn.Graph([self.w1,self.w2, self.w3, self.b1, self.b2])
+
+        zeros = np.zeros((batch_size, 60))
+        temp = np.zeros((batch_size, 60 - self.num_chars))
+
+        h = nn.Input(graph, zeros)
+
+        for x in xs:
+
+            input_x = nn.Input(graph, np.hstack((x,temp)))
+            x_plus_H = nn.Add(graph, input_x, h)
+            xW1 = nn.MatrixMultiply(graph, x_plus_H, self.w1)
+            xW1_plus_b1 = nn.MatrixVectorAdd(graph, xW1, self.b1)
+            relu = nn.ReLU(graph, xW1_plus_b1)
+            xW2 = nn.MatrixMultiply(graph, relu, self.w2)
+            h = nn.MatrixVectorAdd(graph, xW2, self.b2)
+
+        xW3 = nn.MatrixMultiply(graph, h, self.w3)
 
         if y is not None:
-            "*** YOUR CODE HERE ***"
+
+            input_y = nn.Input(graph, y)
+            loss = nn.SoftmaxLoss(graph, xW3, input_y)
+
+            return graph
         else:
-            "*** YOUR CODE HERE ***"
+            
+            return graph.get_output(xW3)

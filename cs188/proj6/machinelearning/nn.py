@@ -81,37 +81,18 @@ class Graph(object):
         so don't forget to call `self.add` on each of the variables.
         """
 
-        self.weights = variables[0]
-        self.bias = variables[1]
-        self.prob_called = False
-        # each node in self.nodes has 2 values
-        # First = Node
-        # Second = Accumulated Gradient
-        self.nodes = variables
+        # self.weights = variables[0]
+        # self.bias = variables[1]
+        self.variables = variables
+        self.prop_called = False
         self.outputs = {}
+        self.inputs = {}
         self.gradients = {}
+        self.nodes = []
 
         for var in variables:
             self.add(var)
 
-    def add(self, node):
-        """
-        TODO: Question 3 - [Neural Network] Computation Graph
-
-        Adds a node to the graph.
-
-        This method should calculate and remember the output of the node in the
-        forwards pass (which can later be retrieved by calling `get_output`)
-        We compute the output here because we only want to compute it once,
-        whereas we may wish to call `get_output` multiple times.
-
-        Additionally, this method should initialize an all-zero gradient
-        accumulator for the node, with correct shape.
-        """
-        
-        self.outputs[node] = node.forward(self.data)
-        self.gradients[node] = np.zeros(self.data.shape)
-        self.nodes += [node]
 
     def get_nodes(self):
         """
@@ -138,8 +119,10 @@ class Graph(object):
         Hint: every node has a `.get_parents()` method
         """
 
+        # get_inputs(node) = get_output(parent of node)
+
         # Should get the output or forward values of its parents and return in a list
-        parents = self.nodes[self.nodes.index(node)][0].get_parents()
+        parents = self.nodes[self.nodes.index(node)].get_parents()
         return [self.outputs[x] for x in parents]
 
 
@@ -169,11 +152,34 @@ class Graph(object):
 
         Returns: a numpy array
         """
-        "*** YOUR CODE HERE ***"
-        if self.prop_called:
+        return self.gradients[node]
 
+    def add(self, node):
+        """
+        TODO: Question 3 - [Neural Network] Computation Graph
+
+        Adds a node to the graph.
+
+        This method should calculate and remember the output of the node in the
+        forwards pass (which can later be retrieved by calling `get_output`)
+        We compute the output here because we only want to compute it once,
+        whereas we may wish to call `get_output` multiple times.
+
+        Additionally, this method should initialize an all-zero gradient
+        accumulator for the node, with correct shape.
+        """
+        
+        self.nodes += [node]
+
+
+        if not node.get_parents():
+            self.inputs[node] = node.forward([])
         else:
+            self.inputs[node] = self.get_inputs(node)
+        
+        self.outputs[node] = node.forward(self.inputs[node])
 
+        self.gradients[node] = np.zeros(self.outputs[node].shape)
 
 
     def backprop(self):
@@ -193,7 +199,20 @@ class Graph(object):
         loss_node = self.get_nodes()[-1]
         assert np.asarray(self.get_output(loss_node)).ndim == 0
 
-        "*** YOUR CODE HERE ***"
+        self.gradients[loss_node] = 1.0
+
+        for node in self.get_nodes()[::-1]:
+            parents = node.get_parents()
+
+            inputs = self.get_inputs(node)
+
+            back = node.backward(inputs, self.get_gradient(node))
+
+            for x, y in zip(parents, back):
+                self.gradients[x] += y
+
+
+        self.prop_called = True
 
     def step(self, step_size):
         """
@@ -205,7 +224,8 @@ class Graph(object):
 
         Hint: each Variable has a `.data` attribute
         """
-        "*** YOUR CODE HERE ***"
+        for node in self.variables:
+            node.data -= step_size * self.get_gradient(node)
 
 
 class DataNode(object):
@@ -361,7 +381,7 @@ class MatrixVectorAdd(FunctionNode):
 
     @staticmethod
     def forward(inputs):
-        return np.matrix(inputs[0]) + np.matrix(inputs[1])
+        return inputs[0] + inputs[1]
 
     @staticmethod
     def backward(inputs, gradient):
