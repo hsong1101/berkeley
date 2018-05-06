@@ -75,6 +75,7 @@ class RegressionModel(Model):
         Note: DO NOT call backprop() or step() inside this method!
         """
         graph = nn.Graph([self.w1,self.w2,self.b1,self.b2])
+        # print(x.shape)
 
         input_x = nn.Input(graph, x)
 
@@ -120,9 +121,9 @@ class OddRegressionModel(Model):
         # Remember to set self.learning_rate!
         # You may use any learning rate that works well for your architecture
         self.learning_rate = 0.01
-        self.w1 = nn.Variable(1,16)
-        self.w2 = nn.Variable(16,1)
-        self.b1 = nn.Variable(16)
+        self.w1 = nn.Variable(1,30)
+        self.w2 = nn.Variable(30,1)
+        self.b1 = nn.Variable(30)
 
     def run(self, x, y=None):
         """
@@ -318,23 +319,10 @@ class DeepQModel(Model):
             (if Q_target is None) A (batch_size x 2) numpy array of Q-value
                 scores, for the two actions
         """
-        graph = nn.Graph([self.w1, self.w2])
-        graph = nn.Graph([self.w1, self.w2, self.b1, self.b2])
-        input_x = nn.Input(graph, states)
 
-        xW1 = nn.MatrixMultiply(graph, input_x, self.w1)
-        xW1_plus_b1 = nn.MatrixVectorAdd(graph, xW1, self.b1)
-        relu1 = nn.ReLU(graph, xW1_plus_b1)
+        # if Q_target is not None:
 
-        xW2 = nn.MatrixMultiply(graph, relu1, self.w2)
-        xW2_plus_b2 = nn.MatrixVectorAdd(graph, xW2, self.b2)
-
-        if Q_target is not None:
-            input_y = nn.Input(graph, Q_target)
-            loss = nn.SquareLoss(graph, xW2_plus_b2, input_y)
-            return graph
-        else:
-            return graph.get_output(xW2_plus_b2)
+        # else:
 
 
 
@@ -378,15 +366,6 @@ class LanguageIDModel(Model):
         # You may use any learning rate that works well for your architecture
         self.learning_rate = 0.01
 
-
-        self.w1 = nn.Variable(60, 400)
-        self.b1 = nn.Variable(400)
-
-        self.w2 = nn.Variable(400, 60)
-        self.b2 = nn.Variable(60)
-
-        self.w3 = nn.Variable(60, 5)
-
     def run(self, xs, y=None):
         """
         Runs the model for a batch of examples.
@@ -426,31 +405,8 @@ class LanguageIDModel(Model):
         """
         batch_size = xs[0].shape[0]
 
-        graph = nn.Graph([self.w1,self.w2, self.w3, self.b1, self.b2])
 
-        zeros = np.zeros((batch_size, 60))
-        temp = np.zeros((batch_size, 60 - self.num_chars))
+        # if y is not None:
 
-        h = nn.Input(graph, zeros)
-
-        for x in xs:
-
-            input_x = nn.Input(graph, np.hstack((x,temp)))
-            x_plus_H = nn.Add(graph, input_x, h)
-            xW1 = nn.MatrixMultiply(graph, x_plus_H, self.w1)
-            xW1_plus_b1 = nn.MatrixVectorAdd(graph, xW1, self.b1)
-            relu = nn.ReLU(graph, xW1_plus_b1)
-            xW2 = nn.MatrixMultiply(graph, relu, self.w2)
-            h = nn.MatrixVectorAdd(graph, xW2, self.b2)
-
-        xW3 = nn.MatrixMultiply(graph, h, self.w3)
-
-        if y is not None:
-
-            input_y = nn.Input(graph, y)
-            loss = nn.SoftmaxLoss(graph, xW3, input_y)
-
-            return graph
-        else:
+        # else:
             
-            return graph.get_output(xW3)
