@@ -1,0 +1,152 @@
+---
+title: "Lab10"
+author: "Hanmaro Song"
+date: "April 10, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.path = 'lab10-images/')
+library(stringr)
+library(ggmap)
+library(plotly)
+```
+
+
+
+```{r}
+github <- "https://raw.githubusercontent.com/ucb-stat133/stat133-spring-2018/master/"
+datafile <- "data/mobile-food-sf.csv"
+download.file(paste0(github, datafile), destfile = "mobile-food-sf.csv")
+dat <- read.csv('mobile-food-sf.csv', stringsAsFactors = FALSE)
+```
+
+
+# Your turn 1
+```{r}
+times <- c('12PM', '10AM', '9AM', '8AM', '2PM')
+
+# Subset time
+hours = str_sub(times, start = 1, end = -3)
+
+# Subset period
+period = str_sub(times, start = -2)
+
+```
+
+
+
+
+# Your turn 2
+```{r}
+# Using times, create a numeric vector hours containing just the number time (i.e. hour)
+hours = str_sub(times, start = 1, end = -3)
+
+# Using times, create a character vector periods containing the period, e.g. AM or PM
+periods = str_sub(times, start = -2)
+
+freq = table(periods)
+
+# Use plot_ly() to make a barchart of the counts for AM and PM values.
+plot_ly(x = names(freq), y = freq, type = 'bar')
+
+
+
+# Write R code to create a vector start24 that contains the hour in 24hr scale.
+start24 = seq(1, 24, 1)
+
+# Add two columns start and end to the data frame dat, containing the starting and ending hour respectively (columns must be "numeric").
+dat['start'] = rep(0, length(dat$starttime))
+dat['end'] = str_sub(dat$endtime, start = 1, end = -3)
+
+
+for (i in 1:nrow(dat['starttime'])) {
+#  print(i)
+  if (str_sub(dat[i, 'starttime'], start = -2) == 'PM') {
+    dat[i, 'start'] = as.numeric(str_sub(dat[i, 'starttime'], start = 1, end = -3)) + 12
+  } else {
+    dat[i, 'start'] = str_sub(dat[i, 'starttime'], start = 1, end = -3)
+  }
+  
+  if (str_sub(dat[i, 'endtime'], start = -2) == 'PM') {
+    dat[i, 'end'] = as.numeric(str_sub(dat[i, 'endtime'], start = 1, end = -3)) + 12
+  } else {
+    dat[i, 'end'] = str_sub(dat[i, 'endtime'], start = 1, end = -3)
+  }
+}
+
+head(dat, 3)
+
+dat$start = as.numeric(dat$start)
+dat$end = as.numeric(dat$end)
+
+
+# With the starting and ending hours, calculate the duration, and add one more column duration to the data frame dat:
+dat['duration'] = dat['end'] - dat['start']
+head(dat, 3)
+
+```
+
+
+
+
+# Your turn 3
+```{r}
+loc1 <- "(37.7651967350509,-122.416451692902)"
+# "remove" opening parenthesis 
+str_replace(loc1, pattern = '\\(', replacement = '')
+
+# "remove" closing parenthesis
+str_replace(loc1, pattern = '\\)', replacement = '')
+
+str_replace(loc1, pattern = '\\(|\\)', replacement = '')
+
+str_replace_all(loc1, pattern = '\\(|\\)', replacement = '')
+
+lat_lon <- str_replace_all(loc1, pattern = '\\(|\\)', replacement = '')
+
+str_replace(lat_lon, pattern = ',', replacement = '')
+
+# string split in stringr
+str_split(lat_lon, pattern = ',')
+
+locs <- c(
+  "(37.7651967350509,-122.416451692902)",
+  "(37.7907890558203,-122.402273431333)",
+  "(37.7111991003088,-122.394693339395)",
+  "(37.7773000262759,-122.394812784799)",
+  NA
+)
+
+locs = str_replace_all(locs, pattern = '\\(|\\)', replacement = '')
+locs
+lat_lon = str_split(locs, pattern = ',')
+lat_lon
+lat <- lapply(lat_lon, function(x) x[1])
+lat
+lon <- lapply(lat_lon, function(x) x[2])
+lon
+
+
+lat <- as.numeric(unlist(lat))
+lon <- as.numeric(unlist(lon))
+
+lat_lon <- str_split(
+  str_replace_all(dat$Location, pattern = '\\(|\\)', replacement = ''), 
+  pattern = ',')
+
+lat <- lapply(lat_lon, function(x) x[1])
+lon <- lapply(lat_lon, function(x) x[2])
+
+dat$lat <- as.numeric(unlist(lat))
+dat$lon <- as.numeric(unlist(lon))
+
+head(dat, 3)
+```
+
+
+
+
+
+
+

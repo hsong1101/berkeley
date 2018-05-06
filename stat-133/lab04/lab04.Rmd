@@ -1,0 +1,258 @@
+---
+title: "lab04"
+author: "Hanmaro Song"
+date: "February 14, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+origin <- 'http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data'
+destination <- 'abalone.data'
+download.file(origin, destination)
+
+```
+
+```{r}
+# vector of column names
+column_names <- c(
+	'sex',
+	'length',
+	'diameter',
+	'height',
+	'whole_weight',
+	'shucked_weight',
+	'viscera_weight',
+	'shell_weight',
+	'rings'
+)
+
+# vector of data types (for each column)
+column_types <- c(
+	'character',
+	'real',
+	'real',
+	'real',
+	'real',
+	'real',
+	'real',
+	'real',
+	'integer'	
+)
+```
+```{r}
+
+abalone <- read.table(
+	'abalone.data',
+	col.names = column_names,
+	colClasses = column_types,
+	sep = ","
+)
+
+# check its structure again
+str(abalone, vec.len = 1)
+```
+
+```{r}
+# Read the Abalone data with the read.csv() function.
+# Use the inputs col.names and colClasses to specify column names and their data types.
+# Look at the data description in the following link: Correct
+
+data = read.csv('abalone.data', col.names = column_names, colClasses = column_types)
+head(data, 10)
+```
+
+
+
+
+
+```{r}
+csv <- "https://github.com/ucb-stat133/stat133-fall-2017/raw/master/data/nba2017-players.csv"
+download.file(url = csv, destfile = 'nba2017-players.csv')
+dat <- read.csv('nba2017-players.csv', stringsAsFactors = FALSE)
+
+```
+
+
+
+
+```{r}
+#Display the last 5 rows of the data.
+tail(dat, 5)
+
+#Display those rows associated to players having height less than 70 inches tall.
+dat[dat['height']<70, ]
+
+#Of those players that are centers (position C), display their names and salaries
+dat[dat['position']=='C', c('player', 'salary')]
+
+#Create a data frame durant with Kevin Durant's information (i.e. row).
+df_KevinDurant = data.frame(dat[dat['player']=='Kevin Durant',])
+df_KevinDurant
+
+#Create a data frame ucla with the data of players from college UCLA ("University of California, Los Angeles")
+df_ucla = data.frame(dat[dat['college']=='University of California, Los Angeles', ])
+df_ucla
+
+#Create a data frame rookies with those players with 0 years of experience.
+df_rookies = data.frame(dat[dat['experience'] == 0, ])
+head(df_rookies, 20)
+
+#Create a data frame rookie_centers with the data of Center rookie players.
+df_rookiesCenter = data.frame(df_rookies[df_rookies['position']=='C', ])
+head(df_rookiesCenter, 20)
+
+#Create a data frame top_players for players with more than 50 games and more than 100 minutes played.
+df_topPlayers = data.frame(dat[c(dat['games']>50, dat['minutes']>100), ])
+# limited due to large number of rows
+head(df_topPlayers, 20)
+
+#What's the largest height value?
+#what's the minimum height value?
+#What's the overall average height?
+max(dat['height'])
+min(dat['height'])
+colMeans(dat['height'])
+
+#Who is the tallest player?
+#Who is the shortest player?
+dat[dat['height']==max(dat['height']), ]
+dat[dat['height'] == min(dat['height']), ]
+
+#Which are the unique teams?
+#How many different teams?
+unique(dat['team'])
+nrow(unique(dat['team']))
+
+#Who is the oldest player?
+dat[dat['age'] == max(dat['age']), 'player'] 
+
+#What is the median salary of all players?
+#What is the median salary of the players with 10 years of experience or more?
+#What is the median salary of Shooting Guards (SG) and Point Guards (PG)?
+#What is the median salary of Power Forwards (PF), 29 years or older, and 74 inches tall or less?
+colMeans(dat['salary'])
+mean(dat[dat['experience'] > 9, 'salary'])
+mean(dat[dat['position'] == c('PG', 'SG') , 'salary'])
+mean(dat[dat['position'] == "PF" & dat['age'] > 28 & dat['height'] < 75, 'salary']) #No one
+
+#How many players scored 4 points or less?
+#Who are those players who scored 4 points or less?
+#Who is the player with 0 points?
+nrow(dat[dat['points'] < 5, ])
+dat[dat['points'] < 5, 'player']
+dat[dat['points'] == 0, 'player']
+
+#How many players are from "University of California, Berkeley"?
+nrow(dat[dat['college'] == "University of California, Los Angeles", ])
+
+#Are there any players from "University of Notre Dame"? If so how many and who are they?
+c(nrow(dat[dat['college']=="University of Notre Dame", ]), dat[dat['college']=="University of Notre Dame", 'player'])
+
+#Are there any players with weight greater than 260 pounds? If so how many and who are they?
+c(nrow(dat[dat['weight'] > 260, ]), dat[dat['weight'] > 260, 'player'])
+
+#How many players did not attend a college in the US?
+nrow(dat[dat['college'] == '', ])
+
+#Who is the player with the maximum rate of points per minute?
+#Who is the player with the maximum rate of three-points per minute?
+#Who is the player with the maximum rate of two-points per minute?
+#Who is the player with the maximum rate of one-points (free-throws) per minute?
+pointsPerMinute = dat['points'] / dat['minutes']
+dat[max(pointsPerMinute) == pointsPerMinute, 'player']
+threePerMinute = dat['points3'] / dat['minutes']
+dat[max(threePerMinute) == threePerMinute, 'player']
+twoPerMinute = dat['points2'] / dat['minutes']
+dat[max(twoPerMinute) == twoPerMinute, 'player']
+onePerMinute = dat['points1'] / dat['minutes']
+dat[max(onePerMinute) == onePerMinute, 'player']
+
+
+#Create a data frame gsw with the name, height, weight of Golden State Warriors (GSW)
+#Display the data in gsw sorted by height in increasing order (hint: see ?sort and ?order)
+#Display the data in gsw by weight in decreasing order (hint: see ?sort and ?order)
+#Display the player name, team, and salary, of the top 5 highest-paid players (hint: see ?sort and ?order)
+#Display the player name, team, and points3, of the top 10 three-point players (hint: see ?sort and ?order)
+df_gsw = data.frame(dat[dat['team'] == "GSW", c('player', 'height', 'weight')])
+df_gsw
+df_gsw[order(df_gsw$height), ]
+df_gsw[order(-df_gsw$weight), ]
+head(dat[order(-dat$salary), c('player', 'team', 'salary')], 5)
+head(dat[order(-dat$points3), c('player', 'team', 'points3')], 10)
+```
+
+```{r}
+
+# I will limit number of values to be printed in the following answers since too many rows.
+
+df_position = data.frame(aggregate(dat[, c('height', 'weight', 'age')] , by = list(dat$position), FUN = mean))
+head(df_position,10)
+
+df_team = data.frame(aggregate(dat[, c('height', 'weight', 'age')], by = list(dat$team), FUN = mean))
+head(df_team,10)
+
+df_team_position = data.frame(aggregate(dat[, c('height', 'weight', 'age')], by = list(dat$team, dat$position), FUN = mean))
+head(df_team_position,10)
+
+df_team_position_salary = aggregate(dat$salary, by = list(team = dat$team), FUN = function(x) c(min=min(x), med=median(x), avg=mean(x), max=max(x)))
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

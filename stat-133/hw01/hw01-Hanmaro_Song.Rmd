@@ -1,0 +1,248 @@
+---
+title: "HW1"
+author: "Hanmaro Song"
+date: "February 19, 2018"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.path = './hw01-Hanmaro_Song_files/')
+```
+
+Download the imports-85 data file
+```{r}
+
+library(readr)
+
+col_names = c('symboling', 'normalized_losses', 'make', 'fuel_type', 'aspiration', 'num_of_doors', 'body_style', 'drive_wheels', 'engine_location', 'wheel_base', 'length', 'width', 'height', 'curb_weight', 'engine_type', 'num_of_cylinders', 'engine_size', 'fuel_system', 'bore', 'stroke', 'compression_ratio', 'horsepower', 'peak_rpm', 'city_mpg', 'highway_mpg', 'price')
+
+col_types = c(col_double(), 
+              col_double(),
+              col_character(),
+              col_character(),
+              col_character(),
+              col_character(),
+              col_character(),
+              col_character(),
+              col_character(),
+              col_double(),
+              col_double(),
+              col_double(),
+              col_double(),
+              col_integer(),
+              col_character(),
+              col_character(),
+              col_integer(),
+              col_character(),
+              col_double(),
+              col_double(),
+              col_integer(),
+              col_integer(),
+              col_integer(),
+              col_integer(),
+              col_integer(),
+              col_integer()
+)
+
+
+data = read_csv('imports-85.data', col_names = col_names, col_types = col_types, na=c('?', 'NA'))
+data2 = read.csv('imports-85.data', col.names = col_names, na.strings = "?")
+
+class(data$symboling) = 'double'
+class(data$normalized_losses) = 'double'
+class(data2$symboling) = 'double'
+class(data2$normalized_losses) = 'double'
+class(data2$make) = 'character'
+class(data2$fuel_type) = 'character'
+class(data2$aspiration) = 'character'
+class(data2$num_of_doors) = 'character'
+class(data2$body_style) = 'character'
+class(data2$drive_wheels) = 'character'
+class(data2$engine_location) = 'character'
+class(data2$wheel_base) = 'double'
+class(data2$length) = 'double'
+class(data2$width) = 'double'
+class(data2$height) = 'double'
+class(data2$curb_weight) = 'integer'
+class(data2$engine_type) = 'character'
+class(data2$num_of_cylinders) = 'character'
+class(data2$engine_size) = 'integer'
+class(data2$fuel_system) = 'character'
+class(data2$bore) = 'double'
+class(data2$stroke) = 'double'
+class(data2$compression_ratio) = 'integer'
+class(data2$horsepower) = 'integer'
+class(data2$peak_rpm) = 'integer'
+class(data2$city_mpg) = 'integer'
+class(data2$highway_mpg) = 'integer'
+class(data2$price) = 'integer'
+
+str(data)
+str(data2)
+
+```
+
+
+Question 3
+
+a. If the col.names are not given when reading it, it will be set as the value of each column in the first line.
+
+b. If the header is set to false, it will have col.names of v1, v2, v3, ... vn where n is last number of column.
+
+c. Its type will be set as factors even if other values are integer or character.
+
+d. The bytes should actually decrease when we specify types of columns in given data set because some characters have less bytes than the other. For example, the character only takes up 1 byte while integer takes 4 while double takes up 32(or 64) bytes. If there are more types with bigger bytes than the number of factors, then it would get bigger or else at most equal or less than it. The size depending on actual types of each columns will vary.
+
+e. When dataframe is converted into matrix, its column names and row names(if any) will be removed. Not only that, the matrix can only have arrays with same data type while dataframe can have columns with different data type. Both are still 2 dimensional arrays.
+
+Question 4
+```{r histogram}
+hist(data$price, col = c("red", "blue", 'green', 'yellow', 'black', 'brown', 'orange', 'pink', 'violet'))
+
+```
+```{r boxplot}
+boxplot(data$horsepower, horizontal = TRUE)
+```
+
+```{r barplot}
+barplot(sort(table(data$body_style), decreasing = TRUE ))
+```
+
+```{r stars}
+stars(data[data['aspiration'] == 'turbo', c('height', 'length', 'price', 'width', 'wheel_base')])
+```
+
+Question 5
+```{r}
+
+gas_type = data[data['fuel_type'] == 'gas', ]
+mean(gas_type$price, na.rm=TRUE)
+diesel_type = data[data['fuel_type'] == 'diesel', ]
+mean(diesel_type$price, na.rm=TRUE)
+data[data['num_of_cylinders'] == 'twelve', 'make']
+
+tbl = table(data[data['fuel_type'] == 'diesel', 'make'])
+names(tbl[tbl == max(tbl)])
+
+price_list = data[!is.na(data['price']), ]
+price = data.frame(price_list[price_list['horsepower'] == max(price_list['horsepower'], na.rm=TRUE), 'price'])
+price[!is.na(price)]
+strongest_horsepower_make = data[data['horsepower'] == max(data['horsepower'], na.rm=TRUE), 'make']
+strongest_horsepower_make[!is.na(strongest_horsepower_make),]
+
+bottom = quantile(data$city_mpg, .1)
+
+bottom
+top = quantile(data$highway_mpg, .9)
+top
+
+median(data[data['city_mpg'] == bottom,]$price, na.rm=TRUE)
+
+```
+
+Question 6
+
+a. It gives an error: Unknown or uninitialised column: 'xyz'.NULL
+
+b. 1) It returns a vector
+
+   2) It returns a list
+   
+   3) It returns a vector
+   
+   4) It returns an error
+   
+   5) It returns a vector
+   
+   6) It returns a vector
+   
+   7) It returns a list
+   
+c. 2) returns a subset of dataframe which results in returning another dataframe or a list
+
+   4) returns an error because there is no object variable named mpg in mtcars. If one wanted to use mpg, one should       enclose it in quotes which exist in mtcars as a column name. 
+   
+   7) This is similar to 2) that it returns a subset of mtcars. 
+   
+d. No, because while a list can contain multiple types of variable while a vector within a dataframe should be having one specific type of variables. 
+
+e. It returns a list of lists that each list contains elements of each columns values. It converts each column into a list.
+
+f. Simply use data.frame(mtcars)
+
+
+Question 7
+```{r}
+library(corrplot)
+
+M = na.omit(data)
+M = c(M[10:14], M[17], M[19:26])
+qdat = data.frame(M)
+
+# There are some features completely inversely proportional while many are proportional.
+# For example, as the price goes up, the city_mpg and highway_mpg gets decreases.
+# Also as those two mpg values decrease, wheel_base, length, width, curb_weight, engine_size increase while 
+# it almost doesn't affect the height of a car. 
+# Stroke almost is not correlated to any other features of a car as well. 
+# Peak_rpm doesn't do anything with horsepower, stroke, and mpg values but its value is slightly inversely propotional to other features that are inversely proportional to mpgs. 
+# Two top features that don't get affected by other features are stroke and compression_ratio while height is the third feature.
+```
+```{r corrplot1}
+col = colorRampPalette(c('red', 'white', 'blue'))(20)
+corrplot(cor(qdat), method='circle', type='upper', order='hclust', col=col)
+```
+
+```{r corrplot2}
+corrplot(cor(qdat), method='color', sig.level = 0.03, insig = 'blank', col=col)
+```
+Question 8
+```{r}
+
+
+pca = prcomp(qdat, scale. = TRUE)
+
+summary(pca)
+
+#Proportion of Variance
+#PC1 = 0.5557
+#PC2 = 0.1462
+#PC3 = 0.09415
+```
+
+
+```{r scatterplots}
+# scatter plot
+plot(pca$x)
+
+group = factor(rownames(pca$rotation))
+plot(pca$rotation, col = group)
+legend(0,0,group, col=group, pch=1)
+
+biplot(pca)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,199 @@
+---
+title: "lab08"
+author: "Hanmaro Song"
+date: "March 15, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+#knitr::include_graphics('lab07-images/error-true.png')
+```
+
+I was trying to do all the functions but Average, SD and Mean are just repetition of same thing so I skipped (since it is not Your Turn stuff.)
+
+```{r}
+vec <- c(3, 1, 4) # Change this value!
+
+for (j in 1:3) { # Replace c() with an appropriate sequence.
+  print(vec[j] * 3)
+  
+}
+
+vec2 <- rep(0, length(vec))  # "empty" of zeros vector to be filled in the loop
+
+for (i in 1:length(vec)) {# Replace c() with an appropriate sequence.
+  vec2[i] = vec[i]
+}
+
+vec2
+
+
+```
+
+```{r}
+
+summation2 = function(x=0) {
+  temp = 0
+  for(i in 0:x) {
+    temp = temp + 1/2^i
+  }
+  print(temp)
+}
+summation2(99)
+
+summation9 = function(x=0) {
+  temp = 0
+  for(i in 0:x) {
+    temp = temp + 1/9^i
+  }
+  print(temp)
+}
+
+```
+```{r}
+
+arithmetic = function(x) {
+  a_1 = 3
+  d = 3
+  return(a_1 + (x-1) * d)
+}
+
+ari = rep(0, 10)
+for(i in 1:10) {
+  ari[i] = arithmetic(i)
+}
+
+
+geometric = function(x) {
+  a_1 = 3
+  r = 2
+  return(a_1 * r^(x-1))
+}
+geo = rep(0, 10)
+for(i in 1:10) {
+  geo[i] = geometric(i)
+}
+
+sine_approximation = function(x) {
+  x - (x^3)/factorial(3) + (x^5)/factorial(5) - (x^7)/factorial(7)
+}
+
+for(i in c(5, 10, 50, 100)) {
+  print(sine_approximation(i))
+  print(sin(i))
+}
+
+```
+```{r}
+
+set.seed(123)
+A <- matrix(rnorm(12), nrow = 4, ncol = 3)
+Y = matrix(rep(0,12), nrow = 4, ncol = 3)
+
+for (i in 1:nrow(A)) {
+  for (j in 1:ncol(A)) {
+    if (A[i,j] < 0) {
+      Y[i,j] = A[i,j]^2
+    } else {
+      Y[i,j] = sqrt(A[i,j])
+    }
+  }
+}
+Y
+
+```
+
+
+
+```{r}
+
+reduce <- function(x) {
+  while(x %% 2 == 0) {
+    x = x/2
+    print(x)
+  }
+  x
+  
+}
+
+reduce(898128000)
+
+
+```
+
+```{r}
+num_letters <- length(LETTERS)
+set.seed(123)
+values <- sample.int(num_letters) 
+distances <- values %*% t(values)
+diag(distances) <- 0
+dimnames(distances) <- list(LETTERS, LETTERS)
+
+get_dist <- function(dists, ltrs) {
+  if (!all(ltrs %in% LETTERS)) {
+    stop('Unrecognized character')
+  }
+  sum_dist <- 0
+  for (l in 1:(length(ltrs)-1)) {
+    from <- ltrs[l]
+    to <- ltrs[l+1]
+    sum_dist <- sum_dist + dists[from,to]
+  }
+  sum_dist
+}
+
+vec <- c('E', 'D', 'A')
+get_dist(distances, vec)
+
+cal = c('C', 'A', 'L')
+get_dist(distances, cal)
+stats <- c('S', 'T', 'A', 'T', 'S')
+oski <- c('O', 'S', 'K', 'I')
+zzz <- rep('Z', 3)
+lets <- LETTERS
+first = c('H', 'A', 'N', 'M', 'A', 'R', 'O')
+last = c('S', 'O', 'N', 'G')
+
+strings <- list(
+  cal = cal,
+  stats = stats,
+  oski = oski,
+  zzz = zzz,
+  lets = lets,
+  first = first,
+  last = last
+)
+
+strings_dists = rep(0, length(strings))
+j=1
+for(i in strings) {
+  strings_dists[j] = get_dist(distances, i)
+  j = j + 1
+}
+
+strings_dists
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

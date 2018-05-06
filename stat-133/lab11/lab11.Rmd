@@ -1,0 +1,94 @@
+---
+title: "lab11"
+author: "Hanmaro Song"
+date: "April 13, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE, fig.path = 'lab11-images/')
+knitr::include_graphics('lab11-images/freqs-plot.png')
+```
+
+
+```{r}
+library(ggplot2)
+
+```
+
+
+
+
+
+```{r}
+
+# Your turn 1
+# 3 Box 1 contains two blue balls, and one red ball. Box 2 contains two blue balls, three red balls, and one white ball.
+
+
+box1 = c('blue','white','white')
+box2 = c('blue','blue','red','red','red','white')
+drawn_balls = matrix(, nrow = 1000, ncol = 4)
+
+for(i in 1:1000){
+  rand = runif(1)
+  rand_sample = '4'
+  
+  if(rand > 0.5){
+    rand_sample = sample(box1, size=4, replace=TRUE)
+  }else{
+    rand_sample = sample(box2, size=4, replace=FALSE)
+  }
+  
+  drawn_balls[i,] = rand_sample
+}
+
+drawn_balls[1:5,1:4]
+
+```
+
+
+
+```{r}
+balls = rep(0, 1000)
+
+for (i in 1:1000) {
+  balls[i] = sum(drawn_balls[i,] == 'white')
+}
+
+table(balls) / 1000
+
+dat = data.frame(numeric(),numeric(),numeric(),numeric(),numeric())
+
+for(i in 1:1000){
+  row = rep(0, 5)
+  names(row) = c(as.character(0:4))
+  
+  tbl = table(balls[1:i]) / i
+  tbl_names = names(tbl)
+  
+  for(j in 1:length(tbl_names)){
+    row[tbl_names[j]] = tbl[j]
+  }
+  
+  dat <- rbind(dat, row)
+}
+
+colnames(dat) = c('0','1','2','3','4')
+dat['rep'] = c(1:1000)
+
+ggplot(dat, aes(rep)) +
+  geom_line(aes(y = dat$`0`, colour = "0")) + 
+  geom_line(aes(y = dat$`1`, colour = "1")) +
+  geom_line(aes(y = dat$`2`, colour = "2")) + 
+  geom_line(aes(y = dat$`3`, colour = "3")) + 
+  geom_line(aes(y = dat$`4`, colour = "4")) +
+  ylab("Frequency")
+
+```
+
+
+
+
+
+

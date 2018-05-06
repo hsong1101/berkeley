@@ -1,0 +1,44 @@
+a = 3
+b = 4
+c = sqrt(a^2 + b^2)
+
+n = 5
+k = 2
+p = 0.5
+
+combinations = factorial(n) / (factorial(k) * factorial(n-k))
+r1 = combinations * p^k * (1 - p)^(n-k)
+r2 = choose(5, 2) * p^k * (1 - p)^(n-k)
+print(r1 == r2)
+print(r1)
+print(r2)
+
+roll_ten = choose(10, 3) * (1/6)^3 * (1 - (1/6))^(7)
+print(roll_ten)
+
+r3 = dbinom(2, 5, 0.5)
+r4 = dbinom(3, 10, (1/6))
+print(r3)
+print(r4)
+
+biased = dbinom(2, 5, .35)
+print(biased)
+
+more_than_four = dbinom(4, 5, .35) + dbinom(5, 5, 0.35)
+print(more_than_four)
+
+###########################
+# Questions after installing the libraries
+x = 2
+r1 = 3*x^2 + 4*x + 8
+x <- -3:3
+r2 = 3*x^2 + 4*x + 8
+print(r1)
+print(r2)
+
+# One can use help.search() and type any keyword that (s)he wants to find. ex) help.search('operator') 
+# Files tab is good when navigating through files and load up a file instead of minimizing the RStudio
+# When I have no clue as to how to use a certain function (command) or look for a function with search
+# History is good when I need to check what I've run in the past.
+# Navigate the current display all the way back to home directory of RStudio where one can easily click a link to view wanted page.
+# In environment tab, one can view all the variables declared. 

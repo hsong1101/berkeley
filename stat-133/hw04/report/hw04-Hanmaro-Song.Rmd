@@ -1,0 +1,108 @@
+---
+title: "hw04"
+author: "Hanmaro Song"
+date: "April 2, 2018"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.path = '../images/')
+
+library(XML)
+library(stringr)
+library(ggplot2)
+```
+
+
+```{r}
+source('../code/archive-functions.R')
+source('../code/regex-functions.R')
+
+raw_stringr = read_archive('stringr')
+raw_dplyr = read_archive('dplyr')
+raw_ggplot2 = read_archive('ggplot2')
+raw_XML = read_archive('XML')
+raw_knitr = read_archive('knitr')
+
+clean_stringr = clean_archive(raw_stringr)
+clean_dplyr = clean_archive(raw_dplyr)
+clean_ggplot2 = clean_archive(raw_ggplot2)
+clean_XML = clean_archive(raw_XML)
+clean_knitr = clean_archive(raw_knitr)
+
+write.csv(clean_stringr, '../data/stringr.csv')
+write.csv(clean_dplyr, '../data/dplyr.csv')
+write.csv(clean_ggplot2, '../data/ggplot2.csv')
+write.csv(clean_XML, '../data/XML.csv')
+write.csv(clean_knitr, '../data/knitr.csv')
+
+
+dat = rbind(clean_dplyr, clean_ggplot2, clean_XML, clean_knitr)
+
+plot_archive(clean_stringr)
+
+plt = ggplot(dat, aes(x = date, y = size, group = name, colour = name)) +
+  geom_step() +
+  ylab('Size (Kilobytes)')
+
+plt
+
+plt + facet_wrap( ~ name, scale = 'free')
+```
+
+
+
+
+```{r}
+
+emotion = read.csv('../data/text-emotion.csv')
+
+
+# 3.1
+emotion['length'] = str_count(emotion$content)
+ggplot(emotion, aes(emotion$length)) + geom_histogram(binwidth = 5) + xlab("Count") + ylab("Frequency")
+
+
+# '@[^!@#$%^&*()<>?;:"\\s]{1, 15}\\s?'
+# 3.2
+at = unlist(lapply(str_extract_all(emotion$content, pattern = '@[[:alnum:]]{1,15}[ ]?|@[[:alnum:]]{1,15}$'), function(x) length(x)))
+emotion['at count'] = at
+total_mentions = sum(emotion$`at count`)
+total_mentions
+frequency_plot = barplot(table(at))
+table(at)
+frequency_plot
+most_mention_content = emotion[emotion['at count'] == 10, 'content']
+summary(emotion$`at count`)
+
+
+# 3.3
+hash = unlist(lapply(str_extract_all(emotion$content, pattern = '#[a-zA-Z]*[0-9a-zA-Z]*'), function(x) length(x)))
+emotion['hash count'] = hash
+total_hash = unlist(lapply(str_extract_all(emotion$content, pattern = '#[a-zA-Z]*[0-9a-zA-Z]*'), function(x) nchar(x) - 1))
+
+barplot(table(hash))
+average_hash = mean(total_hash)
+
+uniqv <- unique(total_hash)
+uniqv[which.max(tabulate(match(total_hash, uniqv)))]
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+

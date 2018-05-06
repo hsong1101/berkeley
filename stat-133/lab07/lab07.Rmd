@@ -1,0 +1,346 @@
+---
+title: "lab07"
+author: "Hanmaro Song"
+date: "March 12, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+#knitr::include_graphics('lab07-images/error-true.png')
+```
+
+
+```{r}
+
+f = function(x) {
+  x^2
+}
+
+f(2)
+f(-5)
+
+g = function(x) {
+  2*x + 5
+}
+g(0)
+g(-5/2)
+
+
+fog = function(x) {
+  f(g(x))
+}
+
+gof = function(x) {
+  g(f(x))
+}
+
+fog(2)     
+fog(-5)    
+
+gof(0)     
+gof(-5/2) 
+
+```
+
+# Pythagorian
+```{r}
+# set y to x, by default
+pythagoras = function(x, y = x) {
+  sqrt(x^2 + y^2)
+}
+
+pythagoras(3,4)
+
+pythagoras(5)
+
+```
+
+```{r}
+
+circle_area = function(r = 1) {
+  # stop if the r is negative
+  if (r < 0) {
+    stop("radius cannot be negative")
+  }
+  pi * r^2
+}
+circle_area()
+circle_area(3)
+circle_area(-5)
+
+
+```
+
+```{r}
+cylinder_area = function(r = 1, h = 1) {
+  if (r < 0 | h < 0) {
+    stop("negative value cannot be inserted")
+  }
+  # return the area
+  2 * pi * r * h + 2 * pi * r^2
+}
+
+cylinder_area()
+cylinder_area(2, 3)
+cylinder_area(-1, 2)
+
+```
+
+```{r}
+cylinder_volume = function(r = 1, h = 1) {
+  #check if negative
+  if (r < 0 | h < 0) {
+    stop("negative value cannot be inserted")
+  }
+  #return the volume of cylinder
+  pi * r^2 * h
+}
+
+cylinder_volume()
+cylinder_volume(3, 2)
+cylinder_volume(2, -1)
+```
+
+```{r}
+# convert miles to kilometers
+miles2kms <- function(x = 1) {
+  if (x < 0) {
+    stop("negative value cannot be inserted")
+  }
+  x * 1.6
+}
+
+miles = c(1:10, seq(20, 100, 10))
+kms = miles2kms(miles)
+
+m_k_tbl = data.frame(miles, kilos)
+tbl
+
+
+```
+
+```{r}
+# convert gallons to liters
+liters2gallons = function(x = 1) {
+  if (x < 0) {
+    stop("negative value cannot be inserted")
+  }
+  x * 0.2641722
+}
+
+liters = c(1:10, seq(20, 100, 10))
+gallons = liters2gallons(liters)
+
+l_g_tbl = data.frame(liters, gallons)
+l_g_tbl
+
+
+```
+
+```{r}
+
+# convert seconds into year
+seconds2year = function(x) {
+  if (x < 0) {
+    stop("negative value cannot be inserted")
+  }
+  x * 3.17098e-8
+}
+
+seconds2year(1000000000)
+```
+
+```{r}
+# Gaussian function
+gaussian = function(x, m, s) {
+  (1 / (s * sqrt(pi * 2))) * exp(-0.5 * (((x - m) / s) ^ 2))
+}
+
+gaussian(0,2,1)
+dnorm(1, 0, 2)
+
+x_values <- seq(from = -4.5, to = 4.5, by = 0.1)
+y_values <- gaussian(x_values, 0, 2)
+plot(x_values, y_values, las = 1, type = "l", lwd = 2)
+
+```
+
+
+```{r}
+
+poly1 <- function(x) {
+  x^3
+}
+
+poly2 <- function(x) {
+  (x^2 - 1) * (x + 3)^3
+}
+
+poly3 <- function(x) {
+  (x^2 - 1) * (x^2 - 9)
+}
+
+x <- seq(-4, 4, length.out = 20)
+y <- poly1(x)
+
+# graph polynomial
+plot(x, y, type = 'l', lwd = 3, col = "#FB7215", las = 1)
+abline(h = 0, v = 0, col = '#888888aa', lwd = 1.5)
+title(main = expression(paste(f(x), ' = ', x^3)))
+
+y = poly2(x)
+plot(x, y, type = 'l', lwd = 3, col = "#FB7215", las = 1)
+abline(h = 0, v = 0, col = '#888888aa', lwd = 1.5)
+title(main = expression(paste(f(x), ' = ', (x^2 - 1), (x + 3)^3)))
+
+y = poly3(x)
+plot(x, y, type = 'l', lwd = 3, col = "#FB7215", las = 1)
+abline(h = 0, v = 0, col = '#888888aa', lwd = 1.5)
+title(main = expression(paste(f(x), ' = ', (x^2 - 1), (x^2 - 9))))
+
+```
+
+```{r}
+# descriptive function
+
+descriptive <- function(x) {
+
+  y = c(min(x), quantile(x, 0.25), median(x), mean(x), quantile(x, 0.75), max(x), max(x) - min(x), IQR(x), sd(x))
+  names(y) = c("min", "q1", "median", "mean", "q3", "max", "range", "iqr", "sd")
+  y
+}
+
+descriptive(c(1:10))
+
+
+```
+
+
+```{r}
+
+is_even = function(x) {
+  x %% 2 == 0
+}
+
+is_odd = function(x) {
+  x %% 2 == 1
+}
+
+is_even(4)
+is_even(3)
+
+is_odd(4)
+is_odd(3)
+
+```
+
+
+
+```{r}
+grade = function(x) {
+  if (x < 0) {
+    stop("score must be a number between 0 and 100")
+  }
+  
+  if (x >= 90) {
+    "A"
+  } else if(x >= 80) {
+    "B"
+  } else if(x >= 70) {
+    "C"
+  } else if(x >= 60) {
+    "D"
+  } else {
+    "F"
+  }
+}
+
+grade(90)
+grade(89.99)
+grade(70.0001)
+grade(50)
+grade(-1)
+
+
+```
+
+
+
+```{r}
+
+miles2inches = function(x) {
+  x * 63360
+}
+
+miles2feet = function(x) {
+  x * 5280
+}
+
+miles2yards = function(x) {
+  x * 1760
+}
+
+miles2meters = function(x) {
+  x / 0.00062137
+}
+
+miles2kms = function(x) {
+  x / 0.62137
+}
+miles2inches(2)
+miles2feet(2)
+miles2yards(2)
+miles2meters(2)
+miles2kms(2)
+
+convert = function(x, to = "in") {
+  switch(to,
+         'in' = miles2inches(x),
+         'ft' = miles2feet(x),
+         'yd' = miles2yards(x),
+         'm' = miles2meters(x),
+         'km' = miles2kms(x))
+}
+
+
+
+convert(3, "in")
+convert(3, "ft")
+convert(3, "yd")
+convert(3, "m")
+convert(3, "km")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

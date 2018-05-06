@@ -1,0 +1,2 @@
+"0","knitr::opts_chunk$set(collapse = T, comment = ""#>"")"
+"0","library(dieroller)"

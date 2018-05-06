@@ -1,0 +1,129 @@
+---
+title: "Report for HW5"
+author: "Hanmaro Song"
+date: "April 25, 2018"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+## Installation
+devtools::install_github("stat133-sp18/hw-stat133-hsong1101")
+
+
+
+
+## Load library
+```{r}
+library(dieroller)
+```
+
+## Usage
+```{r}
+
+set.seed(123)
+d = die(sides = c('i', 'ii', 'iii', 'iv', 'v', 'vi'), prob = c(0.2, 0.2, 0.3, 0.1, 0.1, 0.1))
+r = roll(d, times = 10)
+r
+names(r)
+summary(r)
+plot(r)
+s = summary(r)
+s
+s$freqs
+s$freqs$count[6]
+
+set.seed(123)
+fair_die = die()
+fair_50rolls = roll(fair_die, times = 50)
+fair_sum = summary(fair_50rolls)
+fair_sum
+plot(fair_50rolls)
+names(fair_sum$freqs)
+
+set.seed(123)
+fair500 = roll(fair_die, times = 500)
+summary(fair500)
+fair500[500]
+fair500[500] = 1
+fair500[500]
+summary(fair500)
+fair600 = fair500 + 100
+summary(fair600)
+plot(fair500, 500)
+
+```
+
+
+## De Mere's Problem
+```{r}
+# Problem 1
+
+total_games = 1000
+
+die1 = die()
+freq = 0
+set.seed(123)
+for (i in 1:total_games) {
+  r = roll(die1, times = 4)
+  s = summary(r)
+  if (6 %in% r$rolls) {
+    freq = freq + 1
+  }
+}
+freq = freq / total_games
+
+# The probability of getting at least '6' in four rolls of a die
+freq
+
+# The probability of getting at least '6' in four rolls of a die
+1 - (5/6)^4
+```
+
+
+
+```{r}
+# Problem 2
+
+freq = 0
+set.seed(123)
+for (i in 1:total_games) {
+  
+  r1 = roll(die1, times = 24)
+  r2 = roll(die1, times = 24)
+  
+  count = 0
+  
+  for (i in 1:24) {
+    if (r1[i] == 6 & r2[i] == 6) {
+      count = count + 1
+    }
+    if (count > 0) {
+      freq = freq + 1
+      break
+    }
+  }
+  
+  
+  
+  }
+freq = freq / total_games
+
+# The probability of getting at least two '6' in 24 rolls of a pair of a die
+freq
+
+# The probability of getting at least two '6' in 24 rolls of a pair of a die
+1 - (35/36)^24
+
+```
+
+
+
+
+
+
+
+
+

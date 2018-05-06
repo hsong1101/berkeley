@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1524509927557.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1210961083",
+    "id" : "15C69F84",
+    "lastKnownWriteTime" : 1524675008,
+    "last_content_update" : 1524675008292,
+    "path" : "C:/Users/hsong1101/Desktop/dieroller/R/roll.R",
+    "project_path" : "R/roll.R",
+    "properties" : {
+        "cursorPosition" : "14,8",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

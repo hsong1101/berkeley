@@ -1,0 +1,11 @@
+---
+title: "lab04"
+author: "Hanmaro Song"
+date: "February 14, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+

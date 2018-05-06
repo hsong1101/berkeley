@@ -1,0 +1,94 @@
+Open (or launch) the command line
+window key + r. enter cmd
+
+Use mkdir to create a new directory stat133-lab03
+mkdir stat133-lab03
+
+Change to the directory stat133-lab03
+cd stat133-lab03
+
+Use the command curl to download the following text file:
+curl -O http://textfiles.com/food/bread.txt
+
+Use the command ls to list the contents in your current directory
+ls
+
+Use the command curl to download these other text files:
+curl -O http://textfiles.com/food/btaco.txt
+curl -O http://textfiles.com/food/1st_aid.txt
+curl -O http://textfiles.com/food/beesherb.txt
+
+Use the command curl to download the following csv files:
+curl -O http://archive.ics.uci.edu/ml/machine-learning-databases/forest-fires/forestfires.csv
+curl -O http://www.math.uah.edu/stat/data/Fisher.csv
+curl -O http://web.pdx.edu/~gerbing/data/cars.csv
+
+Now try ls -l to list the contents in your current directory in long format
+ls -l
+
+Look at the man documentation of ls to find out how to list the contents in reverse order
+man ls
+ls -r
+
+How would you list the contents in long format and by time?
+ls -lt
+
+Inside stat133-lab03 create a directory data
+mkdir data
+
+Change to the directory data
+cd data
+
+Create a directory txt-files
+mkdir txt-files
+
+Create a directory csv-files
+mkdir csv-files
+
+Use the command mv to move the bread.txt file to the folder txt-files
+mv bread.txt ./txt-files
+
+Use the wildcard * to move all the text files to the directory txt-files
+mv *.txt ./txt-files
+
+Use the wildcard * to move all the .csv files to the directory csv-files
+mv *.csv ./csv-files
+
+Go back to the parent directory stat133-lab03
+cd ..
+
+Create a directory copies
+mkdir copies
+
+Use the command cp to copy the bread.txt file (the one inside the folder txt-files) to the copies directory
+cp stat133-lab03/txt-files/bread.txt ./copies/
+
+Use the wildcard * to copy all the .txt files in the directory copies
+cp stat133-lab03/txt-files/*.txt ./copies
+
+Use the wildcard * to copy all the .csv files in the directory copies
+cp stat133-lab03/csv-files/*.csv ./copies
+
+Change to the directory copies
+cd copies
+
+Use the command mv to rename the file bread.txt as bread-recipe.txt
+mv bread.txt bread-recipe.txt
+
+Rename the file Fisher.csv as iris.csv
+mv Fisher.csv iris.csv
+
+Rename the file btaco.txt as breakfast-taco.txt
+mv btaco.txt breakfast-taco.txt
+
+Change to the parent directory (i.e. stat133-lab03)
+cd ..
+
+Rename the directory copies as copy-files
+mv copies copy-files
+
+Find out how to use the rm command to delete the directory copy-files
+rm -rf copy-files
+
+List the contents of the directory txt-files displaying the results in reverse (alphabetical) order
+ls -r stat133-lab03/txt-files/ 

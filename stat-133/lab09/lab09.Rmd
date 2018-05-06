@@ -1,0 +1,184 @@
+---
+title: "lab09"
+author: "Hanmaro Song"
+date: "March 22, 2018"
+output: html_document
+---
+
+```{r}
+library(testthat)
+```
+
+```{r}
+test_file("tests.R")
+
+```
+
+
+
+
+
+```{r}
+# Your turn : string manipulation & challenge
+head(USArrests)
+
+states <- rownames(USArrests)
+num_chars <- nchar(states)
+head(states)
+
+head(states, 5)
+paste(head(states, 5), nchar(head(states, 5)) , sep = ' = ')
+
+paste(head(states, 5), collapse = '')
+
+# barchart of num_chars frequency
+freq_table = table(num_chars)
+barplot(freq_table, xlab = "Number of charcters", main = "Frequency Table of # of chars")
+freq_table
+
+# first three char of states
+substr(states, 1, 3)
+
+# last three char of states
+substr(states, nchar(states)-2, nchar(states))
+
+# shorten names with first letter and last three letters
+paste(substr(states, 1, 1), substr(states, nchar(states)-2, nchar(states)), sep = '')
+
+# states_list with even = Capital letter, odd = lower case letters
+states_list = c()
+for(i in min(num_chars):max(num_chars)){
+  
+  name = paste(i, 'chars', sep='-')
+
+  if (i %% 2 == 0) {
+    states_list[name] = toupper(paste(states[num_chars == i], collapse = ', '))
+  } else {
+    states_list[name] = tolower(paste(states[num_chars == i], collapse = ', '))
+  }
+
+}
+
+
+```
+
+
+```{r}
+
+#Your turn : modify x to be either capital or lower case letter
+
+to_celsius <- function(x = 1) {
+  (x - 32) * (5/9)
+}
+
+to_kelvin <- function(x = 1) {
+  (x + 459.67) * (5/9)
+}
+
+to_reaumur <- function(x = 1) {
+  (x - 32) * (4/9)
+}
+
+to_rankine <- function(x = 1) {
+  x + 459.67
+}
+
+temp_convert <- function(x = 1, to = "celsius") {
+  
+  to = tolower(to)
+  
+  switch(to,
+         "celsius" = to_celsius(x),
+         "kelvin" = to_kelvin(x),
+         "reaumur" = to_reaumur(x),
+         "rankine" = to_rankine(x))
+}
+
+temp_convert(30, 'celsius')
+temp_convert(30, 'Celsius')
+temp_convert(30, 'CELSIUS')
+
+```
+
+```{r}
+
+# Your turn : file with cat()
+
+# name of output file
+outfile <- "output.txt"
+
+# Modification here!
+cat("---\n", file = outfile)
+cat("title: \"Some title\"\n", file = outfile, append = TRUE)
+cat("author: \"Your name\"\n", file = outfile, append = TRUE)
+cat("date: \"Today\'s date\"\n", file = outfile, append = TRUE)
+cat("output: \"html_document\"\n", file = outfile, append = TRUE)
+cat("---\n\n", file = outfile, append = TRUE)
+
+# writing to 'outfile.txt'
+cat("This is the first line", file = outfile, append = TRUE)
+# insert new line
+cat("\n", file = outfile, append = TRUE)
+cat("A 2nd line", file = "output.txt", append = TRUE)
+# insert 2 new lines
+cat("\n\n", file = outfile, append = TRUE)
+cat("\nThe quick brown fox jumps over the lazy dog\n",
+    file = outfile, append = TRUE)
+
+
+```
+
+```{r}
+
+is_color = function(x) {
+  return(tolower(x) %in% colors())
+}
+
+is_color('yeLlow')
+
+colplot = function(x) {
+  if (is_color(x)) {
+    plot(rnorm(20), rnorm(20), main=paste('Testing color', x), pch=19)
+  } else {
+    stop(paste("invalid color", x))
+  }
+}
+colplot('red')
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

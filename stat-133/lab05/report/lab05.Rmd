@@ -1,0 +1,186 @@
+---
+title: "lab05"
+author: "Hanmaro Song"
+date: "February 22, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.path = '../images/')
+library(dplyr)
+library(ggplot2)
+```
+
+
+
+```{r}
+dat <- read.csv('../data/nba2017-players.csv', stringsAsFactors = FALSE)
+
+
+
+slice(dat, 1:5)
+slice(dat, seq(10, 50, by=5))
+slice(dat, seq(n()-4, n()))
+filter(dat, height< 70)
+filter(dat, team=="GSW")
+filter(dat, team=="GSW" & position=='C')
+select(filter(dat, team=="LAL"), 'player')
+select(filter(dat, team=="GSW" & position=="PG"), 'player', 'salary')
+select(filter(dat, salary <= 10000000 & experience > 10), 'player', 'age', 'team')
+head(select(filter(dat, age==20), 'player', 'team', 'height', 'weight'), 5)
+```
+
+
+
+```{r}
+gsw <- filter(dat, team == 'GSW')
+gsw <- select(gsw, player, height, weight)
+gsw <- slice(gsw, c(4, 8, 10, 14, 15))
+
+mutate(gsw, height / weight)
+mutate(gsw, ht_wt = height / weight)
+gsw2 <- mutate(gsw, ht_m = height * 0.0254, wt_kg = weight * 0.4536)
+
+gsw = mutate(gsw, product = height * weight)
+gsw3 = mutate(gsw, log_height=log(height), log_weight=log(weight))
+
+arrange(filter(dat, height<71), height)
+head(select(arrange(dat, desc(salary)), 'player', 'team', 'salary'), 5)
+head(select(arrange(dat, desc(points3)), 'player', 'team', 'salary'), 10)
+
+gsw_mpg = mutate(filter(dat, team=="GSW"), min_per_game = minutes/games)
+gsw_mpg = select(arrange(gsw_mpg, desc(min_per_game)), 'player', 'experience', 'min_per_game')
+```
+
+```{r}
+
+summarise(dat, largest_height = max(height))
+summarise(dat, standard_deviation = sd(points3))
+summarise(group_by(dat, team), med = median(points3))
+head(arrange(summarise(group_by(dat, team), avg = mean(points3)), avg), 5)
+summarise(filter(dat, experience > 4 & experience < 11 & position == "PF"), standard_deviation = sd(age))
+
+```
+
+
+
+
+
+```{r gsw_plot}
+#gsw_plot
+ggplot(data = gsw, aes(x=height, y=weight)) + geom_point()
+
+```
+
+```{r gsw_plot_name}
+#gsw_plot_name
+ggplot(data = gsw, aes(x = height, y = weight, label=player)) + geom_text()
+```
+
+```{r gsw_plot_label}
+#gsw_plot_label
+all_gsw = filter(dat, team=='GSW')
+
+ggplot(data = all_gsw, aes(x=height, y=weight, label=player)) + geom_label()
+```
+
+```{r all_salary_densityplot}
+#all_salary_densityplot
+ggplot(dat, aes(salary)) + geom_density() 
+```
+
+
+```{r histogram_points2}
+#histogram_points2
+ggplot(dat, aes(points2)) + geom_histogram(binwidth = 50)
+
+```
+
+
+```{r barchar_position}
+#barchar_position
+ggplot(dat, aes(position)) + geom_bar()
+```
+
+
+```{r scatter_exp_salary_C_lm}
+#scatter_exp_salary_C_lm
+ggplot(filter(dat, position=="C"), aes(salary, experience)) + geom_point() + geom_smooth(method='lm')
+```
+
+```{r scatter_exp_salary_C_loess}
+#scatter_exp_salary_C_loess
+ggplot(filter(dat, position=="C"), aes(salary, experience)) + geom_point() + geom_smooth(method='loess')
+```
+
+```{r scatter_exp_salary_position}
+#scatter_exp_salary_position
+ggplot(dat, aes(experience, salary)) + geom_point() + facet_wrap(~ position)
+```
+
+```{r scatter_exp_salary_team}
+#scatter_exp_salary_team
+ggplot(dat, aes(experience, salary)) + geom_point() + facet_wrap(~ team)
+```
+
+```{r density_age_team}
+#density_age_team
+ggplot(dat, aes(age)) + facet_wrap(~ team) + geom_density()
+```
+
+```{r scatter_height_weight_position}
+#scatter_height_weight_position
+ggplot(dat, aes(height, weight)) + geom_point() + facet_wrap(~ position)
+```
+
+```{r density2_height_weight_team}
+#density2_height_weight_team
+ggplot(dat, aes(height, weight)) + geom_density2d() + facet_wrap(~ position)
+```
+
+```{r scatter_exp_salary_gsw_themebw}
+#scatter_exp_salary_gsw_themebw
+ggplot(filter(dat, team=="GSW"), aes(experience, salary)) + geom_point() + theme_bw()
+```
+
+
+```{r scatter_exp_salary_gsw_thememinimal}
+#scatter_exp_salary_gsw_thememinimal
+ggplot(filter(dat, team=="GSW"), aes(experience, salary)) + geom_point() + theme_minimal()
+```
+
+```{r scatter_exp_salary_gsw_themedark}
+#scatter_exp_salary_gsw_themedark
+ggplot(filter(dat, team=="GSW"), aes(experience, salary)) + geom_point() + theme_dark()
+```
+
+```{r scatter_exp_salary_gsw_themeclassic}
+#scatter_exp_salary_gsw_themeclassic
+ggplot(filter(dat, team=="GSW"), aes(experience, salary)) + geom_point() + theme_classic()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
