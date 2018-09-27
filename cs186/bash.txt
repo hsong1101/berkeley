@@ -1,0 +1,7 @@
+docker run -v C:\Users\hsong1101\Desktop\berkeley\cs186:/cs186 -it cs186/environment bash
+
+sudo service postgresql start
+
+psql to check
+
+psql dbname
