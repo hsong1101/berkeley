@@ -1,0 +1,313 @@
+\documentclass[preview]{standalone}
+\usepackage{header_problems}
+\usepackage{header_template}
+\begin{document}
+\fontsize{12}{15}\selectfont
+
+\Question{Getting Started}
+
+\textbf{Read through this page carefully.} You may typeset your homework in latex or submit neatly handwritten/scanned solutions. Please start each question on a new page. Deliverables:
+
+\begin{enumerate}
+  \item Submit a PDF of your writeup, 
+  %\textbf{with an appendix for your code}, 
+  to assignment on Gradescope, ``<<title>> Write-Up". 
+  %If there are graphs, include those graphs in the correct sections. Do not simply reference your appendix.
+  %\item If there is code, submit all code needed to reproduce your results, ``<<title>> Code".
+  %\item If there is a test set, submit your test set evaluation results, ``<<title>> Test Set".
+\end{enumerate}
+
+%After you've submitted your homework, watch out for the self-grade form.
+
+\begin{Parts}
+
+\Part Who else did you work with on this homework? In case of course events, just describe the group. How did you work on this homework? Any comments about the homework?
+
+\vspace{15pt}
+\framebox(465, 75){}
+
+\Part Please copy the following statement and sign next to it. We just want to make it \textit{extra} clear so that no one inadvertently cheats.
+
+\textit{I certify that all solutions are entirely in my words and that I have not looked at another student's solutions. I have credited all external sources in this write up.}
+
+\vspace{15pt}
+\framebox(465, 75){}
+
+\end{Parts}
+
+\pagebreak
+
+This homework is due \textbf{Monday, November 12 at 10pm.}
+
+% neural net math problem
+% max: linear neural network
+\Question{Linear Neural Networks}
+
+
+
+\newcommand{\weight}{\mathbf{W}}
+\newcommand{\weightprod}{\overline{\mathbf{W}}}
+
+In this problem, we will consider neural networks with the the identity function as the activation. These are known as \emph{linear neural networks}. Formally, consider a set of input data $\vec x_1,\dots,\vec x_n \in \R^d$, and outputs $\vec y_1,\dots,\vec y_n \in \R^p$. For a depth $L \ge 1$, and weight dimensions $d_0,\dots,d_L$, where $d_0 = d$ and $d_L = p$, an $L$-layer neural network with weights $\weight_{1:L} := (\weight_1,\dots,\weight_L)$, where $\weight_i \in \R^{d_{i} \times d_{i-1}}$, is defined as the predictor function
+\begin{align*}
+\mat f_{\weight_{1:L}}(\vec x) := (\weight_L \cdot \weight_{L-1} \cdot \dots \weight_{1})\vec x.
+\end{align*}
+Note then that $\mat f_{\weight_{1:L}}(\vec x) = \weightprod \vec x$, where $\weightprod := \weight_L \cdot \weight_{L-1} \cdot \dots \weight_{1} \in \R^{p\times d}$. Thus, $\mat f_{\weight_{1:L}}(\vec x)$ is a \emph{linear predictor}.
+
+In what follows, we will examine the optimization landscape to understand the relationship between critical points and global minima.
+\begin{Parts}
+\Part
+	We begin by understanding the \emph{capacity} of the linear network.
+	Fix a matrix $\weight_0 \in \R^{p\times d}$. \textbf{Show that there exists weights} $(\weight_1, \weight_{2} \dots \weight_{L})$ of associated dimensions $d_1,\dots,d_L$ \textbf{such that $\weightprod  = \weight_0 $ if and only if $\rank(\weight_0) \le \min_{i=0}^L d_i$.} 
+
+	\emph{Hint: For the ``if'' direction, start with the case where 
+	\begin{align*}
+	\weight_0 = \begin{bmatrix} I_{d_*} & \mathbf{0_{d_* \times (d - d_*)}} \\
+\mathbf{0}_{(p - d_*) \times d_*} & \mathbf{0}_{(p - d_*) \times (d_*-d)},
+\end{bmatrix}
+	\end{align*} }
+
+	
+
+
+\Part
+Next, we consider the convexity of the training loss.
+\newcommand{\riskhat}{\widehat{\mathcal{R}}}
+For a function $\mat f: \R^{d} \to \R^p$, and data $(\vec x_1,\vec y_1),\dots,(\vec x_n,\vec y_n)$, where $x_i$ in $\R^{d}$ and $y_i$ in $\R^{p}$, we introduce the training loss
+\begin{align*}
+\riskhat(\mat f) := \frac{1}{2}\sum_{i=1}^n\|\mat f(\vec x_i) - \vec y_i\|_2^2. 
+\end{align*}
+\textbf{Show that for $\mat f_{\weight_{1:L}}$ defined above},
+\begin{align*}
+\riskhat(f_{\weight_{1:L}}) = Q(\weightprod) := \frac{1}{2}\|\weightprod\mat X^\top  - \mat Y^\top\|_F^2
+\end{align*}
+where we define the data matrices $\mat X$ and $\mat Y$ to have rows given by $\vec x_i$ and $\vec y_i$ respectively.
+
+\textbf{Then, argue that $Q(\weight)$ is a convex function}.
+
+\emph{Hint: you may use the following fact for convexity. For a matrix $\weight \in \R^{p \times d}$, let $\weight[j] \in \R^{d}$ denote the $j$-th row of $\weight$. Then if $F(\weight) = \sum_{j=1}^p F_j(\weight[j])$, and each $F_j(\cdot)$ is convex, then $F$ is convex.} 
+
+
+
+
+
+\Part
+Now, we will consider derivatives of the training loss. First, we will compute the derivative of the loss with respect to the \emph{matrix product} $\weightprod$.
+To do so, we may want to make use of our knowledge of backpropagation. Consider the relation $\mat F = \mat A \mat B$ and let $\mat Z$ denote the message backpropagated to the $\mat F$ node. The recall from lecture that 
+$\mat Z_1 = \mat Z \mat B^\top $ and $\mat Z_2 = \mat A^\top\mat Z$ are the messages that will be passed back from the $\mat A$ and $\mat B$ nodes respectively. 
+
+\textbf{Derive the expression for $\frac{\partial Q}{\partial \weightprod}$}.
+
+\emph{Hint: write $Q(\weightprod)$ as a computation graph: $\mat E = \weightprod \mat X^\top -\mat Y^\top$, $Q = \frac{1}{2}\sum_{i,j}\mat E_{ij}^2$}
+
+
+
+
+	\Part
+	Now, we can reason about the global minimizers of the training loss.
+	\textbf{Prove that if $\min_{i=0}^L d_i = \min\{p,d\}$, then $\weight_1,\dots,\weight_L$ is a global minimizer of $(\weight_1,\dots,\weight_L) \mapsto \riskhat(f_{\weight_{1:L}})$ if and only if $ \weightprod\mat X^\top\mat X - \mat Y^\top \mat X = 0$. }
+
+	\emph{Hint: for this problem, you will need to show an equivalence (i.e. ``if and only if'') between the global minimizer of $Q(\cdot)$ and the global minimizers of the training loss $\riskhat(f_{\weight_{1:L}})$. }
+
+	
+
+	
+	
+
+\Part
+Now we consider each layer's weight matrix independently. 
+\textbf{Write down $\frac{\partial \riskhat(f_{\weight_{1:L}})}{\partial \weight_i}$}.
+You may want to write $\riskhat(f_{\weight_{1:L}})$ as an extension of the computation graph in part (c). For this, you can define $\overline{\weight}_{(i-1:1)} := \weight_{i-1} \cdot \dots \cdot \weight_{1}$ and $\overline{\weight}_{(L:i+1)} := \weight_{L} \cdot \dots \cdot \weight_{i+1}$ (or identity if $i  = 1,L$). 
+Then $\mat P = \weight_i\overline{\weight}_{(i-1:1)}$ and $\weightprod = \overline{\weight}_{(L:i+1)}\mat P $.
+
+
+\textbf{Use this answer to explain why a critical point of $\riskhat$ is not necessarily a global minimum}.
+
+
+
+
+
+\Part
+Suppose that $p = d$ and $d = d_0 = d_1 = \dots = d_L$, that is, all the the weight matrices are square. Moreover, suppose that ${\weight}^*_{1:L} = ({\weight}^*_1,\dots,{\weight}^*_L)$ is a critical point of the objective $\weight_{1:L} \mapsto \riskhat(f_{\weight_{1:L}})$. \textbf{Give a sufficient condition on ${\weight}^*_1,\dots,{\weight}^*_L$ which ensures that ${\weight}^*_{1:L}$ is in fact a global minimum.}
+
+
+
+
+
+
+
+\end{Parts}
+% Pitfalls of NN
+\Question{Promises and Pitfalls of Neural Networks}
+
+\newcommand{\calV}{\mathcal{V}}
+\newcommand{\1}{\mathbf{1}}
+
+In this problem, we will consider the ability of neural networks to represent and learn functions. 
+Consider the following setting: features $\vec x$ are be drawn uniformly at random from $\calX = \{0,1\}^d$. The labels depend on the parameter $\vec v_*$, drawn uniformly at random (and independently from $\vec x$) from $\calV = \{0,1\}^d$. 
+Then the labels are given as $y = (-1)^{\vec v_*^\top \vec x}$.
+
+In this setting, we can consider the parameter $\vec v_*$ as a mask, so $\vec v_*^\top \vec x$ counts the nonzero elements of $\vec x$ at the positions determined by the mask $\vec v_*$. Then the output $y$ classifies whether this quantity is even or odd.
+
+In this problem we will show that neural networks of modest size can approximate such a function exactly. This is a positive result on the \emph{capacity} of neural networks. However, we will then explore the failure of a gradient-based training scheme to arrive at these correct parameters, showing a negative result on the ability to \emph{learn}.
+
+We will consider the two layer fully connected neural network with $k$ ReLu activation units in the hidden layer and a linear activation (with a bias term) on the single output node:
+\[f_{\vec w, \vec b, \vec\alpha,\beta}(\vec x) = \sum_{i=1}^k \alpha_{i} \max\{0,\vec w_{i}^\top \vec x + b_{i}\} + \beta\:.\]
+For brevity, we will define a vector of parameters as
+\[\vec p = \begin{bmatrix} \vec w_1^\top & \dots & \vec w_k^\top & b_1 & \dots & b_k & \alpha_1 & \dots & \alpha_k & \beta \end{bmatrix} \in \R^{dk+2k+1}\:.\]
+
+In this problem, we will make use of pytorch, a python library which supports tensor computation and auto-differentiation. You should install pytorch and take a look at the basic tutorial here: \url{https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html}.
+
+\begin{Parts}
+\Part 
+We claim that if $k\geq \frac{3 d}{2}$, then the network can exactly represent the function $y = (-1)^{\vec v_*^\top \vec x}$ for a fixed $\vec v_*.$
+Specifically, we claim that the following parameter settings achieve this: \begin{itemize}
+	\item $\vec w_{i} = \vec v_*$ for $1\leq i\leq \frac{3d}{2}$, and zero otherwise,
+	\item for $0\leq i\leq \frac{d}{2}$, set \begin{itemize}
+		\item $b_{3i+1} = -(2i-\frac{1}{2})$, $b_{3i+2} = -2i$, $b_{3i+3} = -(2i+\frac{1}{2})$,
+		\item $\alpha_{3i+1} = 4$, $\alpha_{3i+2} = -8$, $\alpha_{3i+3} = 4$,
+	\end{itemize}
+	\item $\beta=-1$.
+\end{itemize}
+Your task is to verify this statement numerically. To do so, first {\bf implement the network structure using the starter code in \texttt{pitfalls.py} with $k=10d$}. Please read the starter code comments and examples carefully. Then, {\bf manually set the weights of the network as described above} (make note of the fact that python indexing starts at $0$ rather than $1$!). Running the script will verify that the network does represent the function. Please include screenshots of your code.
+
+
+
+\Part Instead of specifying weights by hand, we prefer to train a deep classifier based on data $\{\vec x_i, y_i\}_{i=1}^n$.
+To do so, we will run gradient descent on the hinge loss: 
+\[\ell(f_{\vec p}(\vec x), y) =\max\{0,1-f_{\vec p}(\vec x)\cdot y\}\:.\]
+{\bf Implement the batch loss in \texttt{myLoss()}}. 
+Be sure that you use only functions supplied in the \texttt{torch} library so that the auto-differentiation functionality will work.
+Then use the provided code to train the network for $5\times10^4$ iterations with input dimensions $d=5,10,30$. {\bf Plot the loss over iterations, and comment on what you see}. Please include plots and screenshots of your code.
+
+
+
+\Part Despite the capacity result in (a), it appears that in some cases, our neural network is not learning. We will now show that this failure comes from a lack of informative gradients, i.e. gradients do not give useful information about the key parameter $\vec v_*$. A network is trained with gradient descent updates on the \emph{risk}, which for this problem is given by\footnote{
+	In practice, networks are trained on the \emph{empirical risk}, which is $\frac{1}{n}\sum_{i=1}^n\ell(f_{\vec p}(\vec x_i), y_i)$. In this problem, we analyze the full \emph{population risk} to show that even in the best case, the gradients are uninformative.
+}
+\[R(\vec p) = \E_{\vec x,y}\left[\ell(f_{\vec p}(\vec x), y)\right] = \E_{\vec x}\left[\max\{0,1-f_{\vec p}(\vec x)\cdot (-1)^{\vec v_*^\top \vec x}\} \right]\:.\]
+To show that gradients are uninformative, we will show that there is little variation in their value for different values of $\vec v_*$.
+Specifically, we will show that
+\[\E_{\vec v_*}\left[\|\nabla R(\vec p) - \vec a\|_2^2\right] \leq \frac{C_{\vec p}}{2^d}\:,\]
+where $\vec a$ is a quantity independent of $\vec v_*$ and $C_{\vec{p}}$ is a constant depending on network parameters. 
+This statement means the amount of information that the gradient contains about the underlying parameter $\vec v_*$ exponentially decreases in $d$.
+\begin{enumerate}[(i)]
+\item The first step is to compute the gradient of the network with respect to its parameters.
+{\bf Compute $\nabla_{\vec p} f_{\vec p}(\vec x)$}, which is defined as
+\[\nabla_{\vec p} f_{\vec p}(\vec x) = 
+\begin{bmatrix}
+\frac{\partial f_{\vec p}(\vec x)}{\partial \vec w_{1}} 
+ & \dots &
+\frac{\partial f_{\vec p}(\vec x)}{\partial b_{1}}
+ & \dots &
+\frac{\partial f_{\vec p}(\vec x)}{\partial \alpha_{1}}
+ & \dots &
+\frac{\partial f_{\vec p}(\vec x)}{\partial \beta}
+\end{bmatrix}^\top \:.\]
+Then, {\bf find a constant $c_{\vec p}$ depending only on} $\vec w_i,b_i,\alpha_i,\beta$ such that every element of the gradient is bounded, $|\nabla_{\vec p} f_{\vec p}(\vec x)_j| \leq c_{\vec p}$ for all $j$.
+
+
+
+
+\item The next step is to write an expression for $\nabla R(\vec p)$ that is amenable to analysis. {\bf Show that} $\nabla R(\vec p) = \vec a + \E_{\vec x}\left[(-1)^{\vec v_*^\top\vec x} \vec g(\vec x)\right]$ for some vector valued function $\vec g(\vec x)$ (that may also depend on $\vec p$) and $\vec a = -\E_{\vec x}\left[ \frac{\1_1(f_{\vec p}(\vec x))-\1_1(-f_{\vec p}(\vec x))}{2} \nabla_{\vec p}f_{\vec p}(\vec x) \right]$, where we define an indicator function
+\[\1_1(u) = \begin{cases}0 & u \geq 1\\ 1 & u\leq 1\end{cases}\:.\]
+
+\emph{Hint: It may be useful to note that $y\cdot\1_1(f_{\vec{p}}(\vec x)\cdot y) = \begin{cases} \1_1(f_{\vec{p}}(\vec x)) & y = 1\\ -\1_1(-f_{\vec{p}}(\vec x)) & y = -1 \end{cases} $} 
+
+
+
+
+\item 
+Next, we verify an important property that will help in later simplifications. A collection of functions $f_i:\calX\to\R$ for $i=1,\dots,m$ is said to be \emph{sub-orthonormal} if
+\[\E_{\vec x}\left[f_i(\vec x)f_\ell(\vec x)\right]=0~\text{for}~i\neq\ell~~\text{and}~\E_{\vec x}[f_i(\vec x)^2]\leq1\:.\]
+{\bf Show that for distinct $v_1, ..., v_{|\calV|}$, the functions given by} $(-1)^{\vec v_i^\top \vec x}$ for $i=1,\dots,|\calV|$ are sub-orthonormal.
+
+
+
+\item {\bf Finally, show that} $\E_{\vec v_*}\left[\|\nabla R(\vec p) - \vec a\|_2^2\right] \leq \frac{C_{\vec p}}{2^d}$, where $C_{\vec p}$ is a constant you will define (which may depend polynomially on $d$). You may use the following property without proof:\footnote{
+	You are equipped with the right skill set to prove this property.
+	If you are interested, try to prove this simpler statement first: For a collection of vectors $\{\vec z_i\}_{i=1}^n$ for which $\vec z_i\perp\vec z_j$ and $\|\vec z_i\|_2\leq 1$,
+	\[\sum_{i=1}^n (\vec z_i^\top \vec x)^2 
+	\leq \|\vec x\|_2^2\:.\]
+	Then think about the connection between this statement and the problem.
+} If functions $f_i:\calX\to\R$ for $i=1,\dots,m$ are \emph{sub-orthonormal}, then for any scalar valued function $h:\calX\to\R$,
+\[\sum_{i=1}^{m}(\E_{\vec x}\left[f_i(\vec x)h(\vec x)\right])^{2} \leq \E_{\vec x}[h(\vec x)^2]\:.\]
+
+\emph{Hint: Expand $\E_{\vec v_*}\left[\|\nabla R(\vec p) - \vec a\|_2^2\right]$ as a double summation, over elements $\vec v_i\in\calV$ and elements of vector valued function $\vec g_j(\vec x)$.}
+
+
+\end{enumerate}
+
+\Part Your ask your friend, who did not take 189, about the training problems that you observed in part (b). Uninterested in your thoughtful analysis in part (c), your friend suggests that you make the network deeper, and switch to sigmoid activation functions. {\bf Why might this be a bad idea, even for small $d$?} 
+
+
+
+\end{Parts}
+
+% image classification problem
+% features/CNN
+\Question{Image Classification}
+
+In this problem, we will consider the task of image classification. 
+We will use the CIFAR-10 dataset, which contains sixty thousand $32\times32$ color images in ten different classes: airplanes, cars, birds, cats, deer, dogs, frogs, horses, ships, and trucks. The dataset is split into $50,000$ training images and $10,000$ validation images.
+
+First, we approach this problem using linear methods studied earlier in the semester.
+We will visualize the data using principle component analysis (PCA) and canonical correlation analysis (CCA), and then we will try a simple linear regression approach to classification. 
+Finally, we will use a state-of-the-art convolution neural network (CNN) model.
+There are many images in the CIFAR-10 dataset, and the CNN model we use will be fairly computationally intensive. 
+For this reason, make sure to give yourself plenty of time to complete this problem.
+
+
+\begin{Parts}
+\Part 
+How hard is this image classification problem? We will investigate by visualizing the dataset in two dimensions. 
+Dataset loading code is provided for you in \texttt{cifar10.py}, along with methods to compute the PCA and CCA embeddings of the dataset. {\bf Fill in code to visualize the two dimensional PCA and CCA embeddings.} Make sure to use different colors for each class, and label your plots with titles and legends.
+{\bf Include your plots, and explain the difference between these two visualization methods.} 
+
+
+
+
+\Part 
+Overlapping clusters in a two dimensional visualization does not necessarily mean overlap in a higher dimensional space. 
+As a baseline, we will try linear regression. {\bf Set \texttt{LINEAR\_FLAG=True} and report the training and validation accuracy}.
+
+
+
+\Part Now, we will use state-of-the-art neural net architectures. Specifically, we will use a ResNet18 model: a residual CNN with 18 layers. Inspect the code in the class \texttt{ResNet18} to understand the architecture. You may also want to run the script with \texttt{PRINT\_NN\_FLAG=True}. {\bf Include a diagram summarizing the network architecture.} Your diagram should indicate the number of dimensions for each layer. 
+
+
+
+
+\Part For state-of-the-art performance, a common strategy is data augmentation, in which random crops and shifts are added to the dataset. 
+{\bf Modify \texttt{transform\_train} to include a random crop of size $32$ and a random horizontal flip}. You should use methods in \\
+\texttt{torchvision.transform}. Include a screenshot of your code.
+
+
+
+
+
+\Part We are almost ready to train the network.
+In this step, we will compare three different learning rate schemes: constant, annealed, and a specially defined scheme.
+The constant learning rate should always return a constant value. The annealed learning rate should return the previous learning rate multiplied by a decay factor.
+The special scheme is defined for you and does not need to be modified. 
+{\bf Implement the constant and annealed learning rate functions}. 
+Include a screenshot of you code in your writeup.
+
+Now, train the network with each of these learning rate schemes for one epoch, using the existing code and setting \texttt{TRAIN\_NN\_FLAG=True}.
+You may want to use the subset flags to test your code (e.g. \texttt{python cifar10\_sol.py --subset-train 128 --subset-val 512}), since it will take a nontrivial amount of time to run on a CPU.
+{\bf Report your results here}. 
+
+
+
+\Part ({\bf Not required}) 
+Continue running with the best learning rate scheme for several more epochs to increase the accuracy.
+By running for several epochs, it is possible to get to over $90\This will take several hours on a CPU. 
+(If you have access to a GPU, you can speed up the training significantly.)
+
+
+
+\end{Parts}
+
+
+
+\end{document}
