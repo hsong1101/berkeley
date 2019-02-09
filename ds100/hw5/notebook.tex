@@ -1,0 +1,2255 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{hw5}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    Before you turn in the homework, make sure everything runs as expected.
+To do so, select \textbf{Kernel}\(\rightarrow\)\textbf{Restart \& Run
+All} in the toolbar above. Remember to submit both on \textbf{DataHub}
+and \textbf{Gradescope}.
+
+Please fill in your name and include a list of your collaborators below.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{n}{NAME} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Hanmaro Song}\PY{l+s+s2}{\PYZdq{}}
+        \PY{n}{COLLABORATORS} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Emily You}\PY{l+s+s2}{\PYZdq{}}
+\end{Verbatim}
+
+
+    \begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+    Table of Contents{}
+
+{Hypothesis Testing: Does The Hot Hand Effect Exist?}
+
+{The Data}
+
+{Problem 1 {[}5pts{]}}
+
+{Problem 2 {[}5pts{]}}
+
+{The Hypothesis}
+
+{Understanding the Data}
+
+{Problem 3 {[}1pt{]}}
+
+{Problem 4 {[}2pts{]}}
+
+{Problem 5 {[}2pts{]}}
+
+{Problem 6 {[}10pts{]}}
+
+{Problem 7 {[}5pts{]}}
+
+{Defining a Test Statistic}
+
+{Problem 8 {[}10pts{]}}
+
+{Problem 9 {[}10pts{]}}
+
+{A Different Statistic}
+
+{Problem 10 {[}10pts{]}}
+
+{Worked examples}
+
+{Example 1}
+
+{Example 2}
+
+{Check your understanding}
+
+{Computing the Expectated Value of \(T_{1, make}\)}
+
+{Thought Exercise}
+
+{Problem 11 {[}5pts{]}}
+
+{Problem 12 {[}5pts{]}}
+
+{The "Tversky Statistic" for Hot Hand Detection}
+
+{Problem 13 {[}5pts{]}}
+
+{Problem 14 {[}5pts{]}}
+
+{Statistically Testing the Null Hypothesis}
+
+{Problem 15 {[}10pts{]}}
+
+{Problem 16 {[}Graded in the Synthesis Portion{]}}
+
+{Synthesis}
+
+{Data Generation Model {[}8pts{]}}
+
+{Null Hypothesis {[}5pts{]}}
+
+{Test Statistic {[}2pts{]}}
+
+{Results {[}20pts{]}}
+
+{Further Reading}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{k+kn}{from} \PY{n+nn}{pathlib} \PY{k}{import} \PY{n}{Path}
+        \PY{k+kn}{import} \PY{n+nn}{json}
+        \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+        \PY{k+kn}{import} \PY{n+nn}{re}
+        \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+        \PY{k+kn}{import} \PY{n+nn}{itertools}
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+        \PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+\end{Verbatim}
+
+
+    \section{Hypothesis Testing: Does The Hot Hand Effect
+Exist?}\label{hypothesis-testing-does-the-hot-hand-effect-exist}
+
+\textbf{Due Date: Tuesday, November 20, 2018 at 11:59pm}
+
+This homework concerns the game of basketball. If you're unfamiliar with
+basketball, the first minute of
+\href{https://www.youtube.com/watch?v=wYjp2zoqQrs}{this youtube video}
+does a pretty good job of giving you the basic idea.
+
+In basketball, the "hot hands effect" is a supposed phenomenon in which
+a person who makes several successful baskets in a row experiences a
+greater probability of scoring in further attempts. For example, a
+player who has "made" three sucessful baskets in a row is considered to
+have a higher probability of making a 4th basket than if they had just
+missed a shot. In this assignment, we'll use 0 to represent a missed
+basket and 1 to represent a made basket. Restating the hot hands effect
+in these terms, under the hot hands theory, a player whose last three
+shots were \texttt{\textquotesingle{}111\textquotesingle{}} (three
+consecutive makes) has a higher chance of making a fourth basket than if
+their last three shots were
+\texttt{\textquotesingle{}110\textquotesingle{}}. The failed third shot
+"resets" their hot hands.
+
+The notion of a hot hand is often considered to be a cognitive fallacy,
+a tendency for our brains to ascribe more meaning to a random sequence
+of shots than it rightly should. People have taken many different
+approaches to this topic. This homework shows how one can use
+statistical testing tools to test the existence of the hot hands effect
+in basketball.
+
+\subsection{The Data}\label{the-data}
+
+Shot records for the Golden State Warriors (our local NBA basketball
+team) from the 2016-2017 season are given to you in the
+\texttt{data\_dir} path. The files are stored in \texttt{json} format
+and are named '\{match\_date\}0\{team\}.json'. \texttt{match\_date} is
+the date of the game and \texttt{team} is either 'GSW' or the
+abbreviation for the opposing team. The structure of the data is simple:
+each file holds shot records for a single game in key/value pairs. The
+keys are player names and the values are ordered arrays of shot
+attempts. A \texttt{1} represents a "make" (successful attempt) and a
+\texttt{0} is a "miss" (failed attempt). Although this will perhaps
+overly simplify the analysis, for this assignment, we will not
+differentiate between 2-point attempts (2FGA), 3-point attempts (3FGA),
+and free-throws (FT).
+
+    \paragraph{Problem 1 {[}5pts{]}}\label{problem-1-5pts}
+
+Write a function \texttt{game\_json\_to\_game\_df} that takes a json
+file and builds a dataframe where each row of the table represents the
+information about shots for each player. Your table should have three
+columns \texttt{player}, \texttt{shots}, and \texttt{game}, described
+below:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{player}: strings, player name
+\item
+  \texttt{shots}: strings, the sequence of attempted shots concatenated
+  into a single string e.g. '110101'.
+\item
+  \texttt{game}: strings, the name of the json file (without the .json
+  extension)
+\end{itemize}
+
+Run the cell below to see an example of the expected output. The index
+should just be the numbers 0 through N - 1 (i.e. you don't need to do
+anything special to generate the index).
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{single\PYZus{}file\PYZus{}shot\PYZus{}data\PYZus{}example.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}3}]:}            player                                 shots          game
+        0     A. Iguodala                                   001  201610250GSW
+        1      A. Varejao                                    01  201610250GSW
+        2      D. Bertans                                    11  201610250GSW
+        3       D. Dedmon                                  0010  201610250GSW
+        4        D. Green                      0010011110100111  201610250GSW
+        5          D. Lee                                110101  201610250GSW
+        6         D. West                                    10  201610250GSW
+        7        I. Clark                            0011001000  201610250GSW
+        8        J. McGee                                   100  201610250GSW
+        9      J. Simmons                     11111101001000001  201610250GSW
+        10    K. Anderson                                     1  201610250GSW
+        11      K. Durant               11110010110001001111111  201610250GSW
+        12     K. Leonard  011100111111100101110011001111111110  201610250GSW
+        13    K. Thompson                         0000010110101  201610250GSW
+        14    L. Aldridge            01101000110111100111111000  201610250GSW
+        15    M. Ginobili                            1001000110  201610250GSW
+        16       P. Gasol                                  1000  201610250GSW
+        17       P. McCaw                                   001  201610250GSW
+        18       P. Mills                             001010110  201610250GSW
+        19       S. Curry              011111001111100000110110  201610250GSW
+        20  S. Livingston                                   010  201610250GSW
+        21      T. Parker                             100011001  201610250GSW
+        22    Z. Pachulia                                     1  201610250GSW
+\end{Verbatim}
+            
+    \textbf{Hints:}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  You can load a json file as a dictionary with:
+
+\begin{verbatim}
+with open(json_filename) as f:
+    data = json.load(f)
+\end{verbatim}
+\item
+  The \texttt{json\_filename} given to you is a
+  \href{https://docs.python.org/3/library/pathlib.html}{\texttt{Path\ object}},
+  which has a handy method called \texttt{stem} that you might find
+  useful.
+\end{enumerate}
+
+    Write a function game\_json\_to\_game\_df that takes a json file and
+builds a dataframe where each row of the table represents the
+information about shots for each player. Your table should have three
+columns player, shots, and game, described below:
+
+player: strings, player name shots: strings, the sequence of attempted
+shots concatenated into a single string e.g. '110101'. game: strings,
+the name of the json file (without the .json extension) Run the cell
+below to see an example of the expected output. The index should just be
+the numbers 0 through N - 1 (i.e. you don't need to do anything special
+to generate the index).
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{k}{def} \PY{n+nf}{game\PYZus{}json\PYZus{}to\PYZus{}game\PYZus{}df}\PY{p}{(}\PY{n}{json\PYZus{}filename}\PY{p}{)}\PY{p}{:}
+            \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{json\PYZus{}filename}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+                \PY{n}{data} \PY{o}{=} \PY{n}{json}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n}{f}\PY{p}{)}
+                \PY{n}{dat} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{)}
+                
+                \PY{k}{for} \PY{n}{key} \PY{o+ow}{in} \PY{n}{data}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+                    
+                    \PY{n}{shots} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{n}{key}\PY{p}{]}
+                    \PY{n}{shots} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{p}{[}\PY{n+nb}{str}\PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n}{shots}\PY{p}{]}\PY{p}{)}
+        
+                    \PY{n}{game} \PY{o}{=} \PY{n+nb}{str}\PY{p}{(}\PY{n}{json\PYZus{}filename}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{10}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{5}\PY{p}{]}
+        
+                    \PY{n}{dat} \PY{o}{=} \PY{n}{dat}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{player}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{p}{[}\PY{n}{key}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shots}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{p}{[}\PY{n}{shots}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{game}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{p}{[}\PY{n}{game}\PY{p}{]}\PY{p}{\PYZcb{}}\PY{p}{)}\PY{p}{,} \PY{n}{ignore\PYZus{}index}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+                    
+                \PY{k}{return} \PY{n}{dat}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{player}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shots}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{game}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{datafile\PYZus{}path} \PY{o}{=} \PY{n}{Path}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data/2017/201610250GSW.json}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{student\PYZus{}output\PYZus{}201610250GSW} \PY{o}{=} \PY{n}{game\PYZus{}json\PYZus{}to\PYZus{}game\PYZus{}df}\PY{p}{(}\PY{n}{datafile\PYZus{}path}\PY{p}{)}
+        \PY{k}{assert} \PY{n}{student\PYZus{}output\PYZus{}201610250GSW}\PY{o}{.}\PY{n}{shape} \PY{o}{==} \PY{p}{(}\PY{l+m+mi}{23}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{,} \PYZbs{}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The dimensions of your data frame are incorrect}\PY{l+s+s1}{\PYZsq{}}
+        \PY{k}{assert} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{player}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{student\PYZus{}output\PYZus{}201610250GSW}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{values}\PY{p}{,} \PYZbs{}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{You seem to be missing the player column}\PY{l+s+s1}{\PYZsq{}}
+        \PY{k}{assert} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shots}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{student\PYZus{}output\PYZus{}201610250GSW}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{values}\PY{p}{,} \PYZbs{}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{You seem to be missing the shots column}\PY{l+s+s1}{\PYZsq{}}
+        \PY{k}{assert} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{game}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{student\PYZus{}output\PYZus{}201610250GSW}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{values}\PY{p}{,} \PYZbs{}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{You seem to be missing the game column}\PY{l+s+s1}{\PYZsq{}}
+        \PY{n}{expected\PYZus{}output\PYZus{}201610250GSW} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{single\PYZus{}file\PYZus{}shot\PYZus{}data\PYZus{}example.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{k}{assert}\PY{p}{(}\PY{n}{student\PYZus{}output\PYZus{}201610250GSW}\PY{o}{.}\PY{n}{equals}\PY{p}{(}\PY{n}{expected\PYZus{}output\PYZus{}201610250GSW}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \paragraph{Problem 2 {[}5pts{]}}\label{problem-2-5pts}
+
+Read in all 99 \texttt{json} files and combine them into a single data
+frame called \texttt{unindexed\_shot\_data}. This dataframe should have
+the exact same structure as in the previous part, where the index is
+just the numbers 0 through N - 1, where N is the total number of rows in
+ALL files. The following cell shows the first 25 rows of the result you
+should generate.
+
+\textbf{Hints:}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The \texttt{ignore\_index} property of the \texttt{append} method of
+  the \texttt{DataFrame} class might be useful.
+\item
+  The \texttt{glob} method of the \texttt{Path} class might be useful.
+\end{enumerate}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{every\PYZus{}file\PYZus{}shot\PYZus{}data\PYZus{}first\PYZus{}25\PYZus{}rows.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}6}]:}            player                                          shots          game
+        0     A. Iguodala                                            001  201610250GSW
+        1      A. Varejao                                             01  201610250GSW
+        2      D. Bertans                                             11  201610250GSW
+        3       D. Dedmon                                           0010  201610250GSW
+        4        D. Green                               0010011110100111  201610250GSW
+        5          D. Lee                                         110101  201610250GSW
+        6         D. West                                             10  201610250GSW
+        7        I. Clark                                     0011001000  201610250GSW
+        8        J. McGee                                            100  201610250GSW
+        9      J. Simmons                              11111101001000001  201610250GSW
+        10    K. Anderson                                              1  201610250GSW
+        11      K. Durant                        11110010110001001111111  201610250GSW
+        12     K. Leonard           011100111111100101110011001111111110  201610250GSW
+        13    K. Thompson                                  0000010110101  201610250GSW
+        14    L. Aldridge                     01101000110111100111111000  201610250GSW
+        15    M. Ginobili                                     1001000110  201610250GSW
+        16       P. Gasol                                           1000  201610250GSW
+        17       P. McCaw                                            001  201610250GSW
+        18       P. Mills                                      001010110  201610250GSW
+        19       S. Curry                       011111001111100000110110  201610250GSW
+        20  S. Livingston                                            010  201610250GSW
+        21      T. Parker                                      100011001  201610250GSW
+        22    Z. Pachulia                                              1  201610250GSW
+        23       A. Davis  111011000011001110110110111100100111100111001  201610280NOP
+        24    A. Iguodala                                        0101110  201610280NOP
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{k+kn}{import} \PY{n+nn}{os}
+        
+        \PY{n}{unindexed\PYZus{}shot\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{)}
+        
+        \PY{n}{data\PYZus{}dir} \PY{o}{=} \PY{n}{Path}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data/2017}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{files} \PY{o}{=} \PY{n}{os}\PY{o}{.}\PY{n}{listdir}\PY{p}{(}\PY{n}{data\PYZus{}dir}\PY{p}{)}
+        
+        \PY{k}{for} \PY{n}{name} \PY{o+ow}{in} \PY{n}{files}\PY{p}{:}
+            \PY{n}{dat} \PY{o}{=} \PY{n}{game\PYZus{}json\PYZus{}to\PYZus{}game\PYZus{}df}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data/2017/}\PY{l+s+s1}{\PYZsq{}}\PY{o}{+}\PY{n}{name}\PY{p}{)}
+            \PY{n}{unindexed\PYZus{}shot\PYZus{}data} \PY{o}{=} \PY{n}{unindexed\PYZus{}shot\PYZus{}data}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{dat}\PY{p}{,} \PY{n}{ignore\PYZus{}index}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{k}{assert} \PY{n}{unindexed\PYZus{}shot\PYZus{}data}\PY{o}{.}\PY{n}{shape} \PY{o}{==} \PY{p}{(}\PY{l+m+mi}{2144}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{,} \PYZbs{}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The dimensions of shot\PYZus{}data are off}\PY{l+s+s1}{\PYZsq{}}
+        \PY{k}{assert} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shots}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{unindexed\PYZus{}shot\PYZus{}data}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{values}\PY{p}{,} \PYZbs{}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{You seem to be missing the shots column}\PY{l+s+s1}{\PYZsq{}}
+        \PY{k}{assert} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201610250GSW}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{unindexed\PYZus{}shot\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{game}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{,} \PYZbs{}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201610280NOP is missing from the game column of the data frame}\PY{l+s+s1}{\PYZsq{}}
+        \PY{k}{assert} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{K. Thompson}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{unindexed\PYZus{}shot\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{player}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{,} \PYZbs{}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{K. Thompson is missing from the player column of the data frame}\PY{l+s+s1}{\PYZsq{}}
+        \PY{k}{assert} \PY{n+nb}{len}\PY{p}{(}\PY{n}{unindexed\PYZus{}shot\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shots}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{o}{==} \PY{l+m+mi}{22051}\PY{p}{,} \PYZbs{}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The total number of attempts seems off}\PY{l+s+s1}{\PYZsq{}}
+\end{Verbatim}
+
+
+    Run the line of code below. It converts your integer-indexed data frame
+into a multi-indexed one, where the first index is \texttt{game}, and
+the second index is \texttt{player}.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{n}{shot\PYZus{}data} \PY{o}{=} \PY{n}{unindexed\PYZus{}shot\PYZus{}data}\PY{o}{.}\PY{n}{set\PYZus{}index}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{game}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{player}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+        \PY{n}{shot\PYZus{}data}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}9}]:}                                                   shots
+        game         player                                    
+        201703050NYK A. Iguodala                          00110
+                     C. Anthony                  10010101101011
+                     C. Lee                               01010
+                     D. Green                     0100101111011
+                     D. Rose      11000111010110011101111101101
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{k}{assert} \PY{n}{shot\PYZus{}data}\PY{o}{.}\PY{n}{shape} \PY{o}{==} \PY{p}{(}\PY{l+m+mi}{2144}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PYZbs{}
+         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The dimensions of shot\PYZus{}data are off}\PY{l+s+s1}{\PYZsq{}}
+         \PY{k}{assert} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shots}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{shot\PYZus{}data}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{values}\PY{p}{,} \PYZbs{}
+         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{You seem to be missing the shots column}\PY{l+s+s1}{\PYZsq{}}
+         \PY{k}{assert} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201610250GSW}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{shot\PYZus{}data}\PY{o}{.}\PY{n}{index}\PY{o}{.}\PY{n}{get\PYZus{}level\PYZus{}values}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{,} \PYZbs{}
+         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201610250GSW is missing from the index}\PY{l+s+s1}{\PYZsq{}}
+         \PY{k}{assert} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{K. Thompson}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{shot\PYZus{}data}\PY{o}{.}\PY{n}{index}\PY{o}{.}\PY{n}{get\PYZus{}level\PYZus{}values}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PYZbs{}
+         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{K. Thompson is missing from the index}\PY{l+s+s1}{\PYZsq{}}
+         \PY{k}{assert} \PY{n+nb}{len}\PY{p}{(}\PY{n}{shot\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shots}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{o}{==} \PY{l+m+mi}{22051}\PY{p}{,} \PYZbs{}
+         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The total number of attempts seems off}\PY{l+s+s1}{\PYZsq{}}
+\end{Verbatim}
+
+
+    \subsection{The Hypothesis}\label{the-hypothesis}
+
+Our \textbf{null hypothesis} is that there is no hot hands effect,
+meaning that the probability of making shots do not change when a player
+makes several baskets in a row. In this null world, every permutation of
+a given shot sequence is equally likely. For example
+\texttt{\textquotesingle{}00111\textquotesingle{}} is just as likely as
+\texttt{\textquotesingle{}10101\textquotesingle{}},
+\texttt{\textquotesingle{}10011\textquotesingle{}}, and
+\texttt{\textquotesingle{}01101\textquotesingle{}}. In a universe where
+hot hands exists, the first sequence would be more likely than the other
+three.
+
+Often in modeling the world, we begin by specifying a simplified model
+just to see if the question makes sense. We've hidden some other strong
+assumptions (perhaps erroneously) about the shots in our model. Here are
+some things we are not controlling for:
+
+\begin{itemize}
+\tightlist
+\item
+  Opposing defenders affect the difficulty of a shot
+\item
+  Distance affects the difficulty of a shot
+\item
+  Shot types vary in difficulty (3-pointers, 2-points, free-throws)
+\item
+  Team mate behavior may create more favorable scoring conditions
+\end{itemize}
+
+\subsection{Understanding the Data}\label{understanding-the-data}
+
+Recall that as good data scientists, we should strive to understand our
+data before we analyze it (data provenance). Let's take a look at
+\href{https://www.basketball-reference.com/play-index/shooting.fcgi?player_id=thompkl01\&year_id=2017\&opp_id=IND\&game_location=H}{Klay
+Thompson's shooting performance from Dec. 5, 2016 versus the Indiana
+Pacers}. Klay scored 60 points in 29 minutes of playing time. For those
+of you unfamiliar with basketball, this is a crazy number of points to
+score while only being in a game for 30 minutes. In the
+\href{https://www.basketball-reference.com/play-index/pgl_finder.cgi?request=1\&match=game\&is_playoffs=N\&age_min=0\&age_max=99\&pos_is_g=Y\&pos_is_gf=Y\&pos_is_f=Y\&pos_is_fg=Y\&pos_is_fc=Y\&pos_is_c=Y\&pos_is_cf=Y\&c1stat=mp\&c1comp=lt\&c1val=30\&order_by=pts}{entire
+history of professional basketball}, nobody has come close (note these
+records are spotty before 1983).
+
+During this game, Klay took a total of 44 shots, landing 10/11 1 point
+free-throws, 13/19 2 point shots, and 8/14 3 point shots.
+\href{https://www.usatoday.com/story/sports/nba/warriors/2016/12/06/klay-thompson-60-points-outburst-by-the-numbers-warriors-pacers/95030316/}{At
+least one news story} specifically called him out as having a 'hot hand'
+during this game.
+
+We'll start by looking at this game to make sure we understanding the
+structure of the data.
+
+\paragraph{Problem 3 {[}1pt{]}}\label{problem-3-1pt}
+
+We first summarize Klay's sequence of shot results. Calculate his number
+of \texttt{attempts}, number of \texttt{makes} (number of successes,
+denoted as 1), and \texttt{accuracy} for this one game. The cell below
+stores Klay's shots in the game described above into the klay\_example
+variable. Your answer should go in the cell below that.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{n}{klay\PYZus{}example} \PY{o}{=} \PY{n}{shot\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201612050GSW}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{K. Thompson}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shots}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+         \PY{n}{klay\PYZus{}example}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}11}]:} '11011110010111111001110111101110111101010101'
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{n}{attempts\PYZus{}ex} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{klay\PYZus{}example}\PY{p}{)}
+         \PY{n}{makes\PYZus{}ex} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{klay\PYZus{}example}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+         \PY{n}{accuracy\PYZus{}ex} \PY{o}{=} \PY{n}{makes\PYZus{}ex} \PY{o}{/} \PY{n}{attempts\PYZus{}ex}
+         
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+s2}{attempts:  }\PY{l+s+si}{\PYZob{}attempts\PYZus{}ex\PYZcb{}}
+         \PY{l+s+s2}{makes:     }\PY{l+s+si}{\PYZob{}makes\PYZus{}ex\PYZcb{}}
+         \PY{l+s+s2}{accuracy:  }\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{round(accuracy\PYZus{}ex, 2)\PYZcb{}}
+         \PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+attempts:  44
+makes:     31
+accuracy:  0.7
+
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}13}]:} \PY{k}{assert} \PY{n}{attempts\PYZus{}ex} \PY{o}{==} \PY{l+m+mi}{44}
+         \PY{k}{assert} \PY{n}{makes\PYZus{}ex} \PY{o}{==} \PY{l+m+mi}{31}
+         \PY{k}{assert} \PY{n+nb}{round}\PY{p}{(}\PY{n}{accuracy\PYZus{}ex}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)} \PY{o}{==} \PY{l+m+mf}{0.7}
+\end{Verbatim}
+
+
+    We might be interested in the number of runs of various lengths that
+Thompson makes over the course of the game. A run of length k is defined
+as k consecutive successes in a row. We will include overlapping runs in
+our counts. For example, the shot record
+\texttt{\textquotesingle{}1111\textquotesingle{}} contains three runs of
+length 2: {11}11, 1{11}1, 11{11}).
+
+\paragraph{Problem 4 {[}2pts{]}}\label{problem-4-2pts}
+
+How many runs of length 2 did Thompson make in the Dec. 5, 2016 game? To
+answer this question, we used a regular expression, but you're free to
+answer this however you'd like (with code, of course). In our regular
+expression we make use of
+\href{https://docs.python.org/2/library/re.html}{positive lookbehinds}
+\texttt{(?\textless{}=...)}.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{n}{unindexed\PYZus{}shot\PYZus{}data}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}14}]:}         player                          shots          game
+         0  A. Iguodala                          00110  201703050NYK
+         1   C. Anthony                 10010101101011  201703050NYK
+         2       C. Lee                          01010  201703050NYK
+         3     D. Green                  0100101111011  201703050NYK
+         4      D. Rose  11000111010110011101111101101  201703050NYK
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{k+kn}{import} \PY{n+nn}{re}
+         \PY{n}{run\PYZus{}length\PYZus{}2} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{re}\PY{o}{.}\PY{n}{findall}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{(?\PYZlt{}=11)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{klay\PYZus{}example}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+s2}{Klay Thompson made }\PY{l+s+si}{\PYZob{}run\PYZus{}length\PYZus{}2\PYZcb{}}\PY{l+s+s2}{ runs of length 2 in the game against the Indiana Pacers.}
+         \PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+Klay Thompson made 19 runs of length 2 in the game against the Indiana Pacers.
+
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}16}]:} \PY{k}{assert} \PY{n}{run\PYZus{}length\PYZus{}2} \PY{o}{==} \PY{l+m+mi}{19}
+\end{Verbatim}
+
+
+    \paragraph{Problem 5 {[}2pts{]}}\label{problem-5-2pts}
+
+How many runs of length 3?
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} \PY{n}{run\PYZus{}length\PYZus{}3} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{re}\PY{o}{.}\PY{n}{findall}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{(?\PYZlt{}=111)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{klay\PYZus{}example}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+s2}{Klay Thompson made }\PY{l+s+si}{\PYZob{}run\PYZus{}length\PYZus{}3\PYZcb{}}\PY{l+s+s2}{ runs of length 3 in the game against the Indiana Pacers.}
+         \PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+Klay Thompson made 12 runs of length 3 in the game against the Indiana Pacers.
+
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} \PY{c+c1}{\PYZsh{} Empty, soulless cells like these contain hidden tests}
+         \PY{c+c1}{\PYZsh{} Do not delete}
+\end{Verbatim}
+
+
+    \paragraph{Problem 6 {[}10pts{]}}\label{problem-6-10pts}
+
+Let's generalize the work we did above by writing a function
+\texttt{count\_runs}. \texttt{count\_runs} takes two arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{shot\_sequences}: a pandas series of strings, each
+  representing a sequence of shots for a player in a game
+\item
+  \texttt{run\_length}: integer, the run length to count
+\end{itemize}
+
+\texttt{count\_runs} should return a pandas series, where the ith
+element is the number of occurrences of \texttt{run\_length} in the ith
+sequence in \texttt{shot\_sequences}.
+
+Some example input/outputs for \texttt{count\_runs} are given below:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{count\_runs(pd.Series({[}\textquotesingle{}111\textquotesingle{},\ \textquotesingle{}000\textquotesingle{},\ \textquotesingle{}011\textquotesingle{},\ \textquotesingle{}000\textquotesingle{}{]}),\ 2)}
+  should return \texttt{pd.Series({[}2,\ 0,\ 1,\ 0{]})}
+\item
+  \texttt{count\_runs(pd.Series({[}\textquotesingle{}1100110011\textquotesingle{}{]}),\ 2)}
+  should return \texttt{pd.Series({[}3{]})}
+\end{itemize}
+
+For convenience, \texttt{count\_runs} should also work if
+\texttt{shot\_sequences} is a single string representing a single game,
+e.g.
+
+\texttt{count\_runs((1100110011),\ 2)} should return
+\texttt{pd.Series({[}3{]})}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} \PY{k}{def} \PY{n+nf}{count\PYZus{}runs}\PY{p}{(}\PY{n}{shot\PYZus{}sequences}\PY{p}{,} \PY{n}{run\PYZus{}length}\PY{p}{)}\PY{p}{:}
+             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{    Counts consecutive occurences of an event}
+         \PY{l+s+sd}{    }
+         \PY{l+s+sd}{    shot\PYZus{}sequences: a pandas series of strings, each representing a sequence of shots for a player in a game}
+         \PY{l+s+sd}{    run\PYZus{}length: integer, the run length to count}
+         \PY{l+s+sd}{    }
+         \PY{l+s+sd}{    return: pd.Series of the number of times a run of length run\PYZus{}length occurred in each shot\PYZus{}sequence}
+         \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+             
+             \PY{n}{ret} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+             \PY{n}{ones} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1}\PY{l+s+s1}{\PYZsq{}} \PY{o}{*} \PY{n}{run\PYZus{}length}
+             \PY{n}{reg} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{(?\PYZlt{}=}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{ones} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{)}\PY{l+s+s1}{\PYZsq{}}
+             
+             \PY{k}{if} \PY{n+nb}{type}\PY{p}{(}\PY{n}{shot\PYZus{}sequences}\PY{p}{)} \PY{o}{==} \PY{n+nb}{str}\PY{p}{:}
+                 \PY{n}{shot\PYZus{}sequences} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{n}{shot\PYZus{}sequences}\PY{p}{)}
+                 
+             \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n}{shot\PYZus{}sequences}\PY{p}{:}
+                 \PY{n}{ret}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{re}\PY{o}{.}\PY{n}{findall}\PY{p}{(}\PY{n}{reg}\PY{p}{,} \PY{n}{x}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                 
+             \PY{k}{return} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{n}{ret}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}19}]:} \PY{k}{assert} \PY{n}{count\PYZus{}runs}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{111}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{000}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{011}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{000}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{o}{.}\PY{n}{equals}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PYZbs{}
+         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{There should be 2, 0, 1, and 0 runs of length 2, respectively.}\PY{l+s+s1}{\PYZsq{}}
+         \PY{k}{assert} \PY{n}{count\PYZus{}runs}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1100110011}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{o}{.}\PY{n}{equals}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PYZbs{}
+         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{There should be 1 run of length 3}\PY{l+s+s1}{\PYZsq{}}
+         \PY{k}{assert} \PY{n}{count\PYZus{}runs}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{000}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{equals}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PYZbs{}
+         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{There should be 0 runs of 1, and your code must support string inputs (hint: if the input a string, convert it into a pandas series)}\PY{l+s+s1}{\PYZsq{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}20}]:} \PY{c+c1}{\PYZsh{} *Leers*}
+\end{Verbatim}
+
+
+    \paragraph{Problem 7 {[}5pts{]}}\label{problem-7-5pts}
+
+Use \texttt{count\_runs} to transform the data as follows: for each
+player, count the number of times they have made a run of length \(k\)
+where \(k = 1, 2, 3, ..., 10\). The column names should be
+\texttt{str(k)} and the index be the player names. A sample of the
+output is given below for three players in the data. The count should be
+across all games played by the player across the entire dataset.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}21}]:} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{count\PYZus{}runs\PYZus{}example.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{index\PYZus{}col}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{player}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}21}]:}                 1    2    3    4    5   6   7   8   9  10
+         player                                                   
+         K. Thompson   950  491  251  126   62  31  13   4   1   0
+         S. Curry     1269  714  392  200   94  41  14   5   2   1
+         K. Durant    1128  695  410  243  136  80  44  24  14   7
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}72}]:} \PY{n}{run\PYZus{}counts} \PY{o}{=} \PY{n}{unindexed\PYZus{}shot\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{player}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shots}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}73}]:} \PY{n}{run\PYZus{}counts}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}73}]:}         player  shots
+         0  A. Iguodala  00110
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}74}]:} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{11}\PY{p}{)}\PY{p}{:}
+             \PY{n}{run\PYZus{}counts}\PY{p}{[}\PY{n+nb}{str}\PY{p}{(}\PY{n}{i}\PY{p}{)}\PY{p}{]} \PY{o}{=} \PY{n}{run\PYZus{}counts}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shots}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{count\PYZus{}runs}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{i}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}75}]:} \PY{n}{run\PYZus{}counts} \PY{o}{=} \PY{n}{run\PYZus{}counts}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shots}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{set\PYZus{}index}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{player}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{run\PYZus{}counts} \PY{o}{=} \PY{n}{run\PYZus{}counts}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{n}{run\PYZus{}counts}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n+nb}{sum}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}76}]:} \PY{n}{run\PYZus{}counts}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}76}]:}              1   2  3  4  5  6  7  8  9  10
+         player                                     
+         A. Abrines   8   3  0  0  0  0  0  0  0   0
+         A. Afflalo   7   0  0  0  0  0  0  0  0   0
+         A. Ajinca   12   6  3  1  0  0  0  0  0   0
+         A. Aminu    36  16  8  4  1  0  0  0  0   0
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}120}]:} \PY{k}{assert} \PY{n}{pd}\PY{o}{.}\PY{n}{api}\PY{o}{.}\PY{n}{types}\PY{o}{.}\PY{n}{is\PYZus{}string\PYZus{}dtype}\PY{p}{(}\PY{n}{run\PYZus{}counts}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{,} \PYZbs{}
+          \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Index should consist of strings.}\PY{l+s+s1}{\PYZsq{}}
+          \PY{k}{assert} \PY{n}{pd}\PY{o}{.}\PY{n}{api}\PY{o}{.}\PY{n}{types}\PY{o}{.}\PY{n}{is\PYZus{}string\PYZus{}dtype}\PY{p}{(}\PY{n}{run\PYZus{}counts}\PY{o}{.}\PY{n}{columns}\PY{p}{)}\PY{p}{,} \PYZbs{}
+          \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Column names should be strings.}\PY{l+s+s1}{\PYZsq{}}
+          \PY{k}{assert} \PY{n}{run\PYZus{}counts}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{A. Abrines}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{8}\PY{p}{,} \PYZbs{}
+          \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{A. Abrines should have 8 single makes.}\PY{l+s+s1}{\PYZsq{}}
+          \PY{k}{assert} \PY{n}{run\PYZus{}counts}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{K. Thompson}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)} \PY{o}{==} \PY{l+m+mi}{1929}\PY{p}{,} \PYZbs{}
+          \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The sum of K Thompson}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{s values seems off.}\PY{l+s+s2}{\PYZdq{}}
+\end{Verbatim}
+
+
+    So far, we've just been exploring the data. The \texttt{run\_counts}
+table you built above does not provide us any sort of information about
+the validity of the hot hands hypothesis.
+
+\texttt{run\_counts} does seem to indicate that very long streaks are
+pretty rare. We'll use this as a starting point for our analysis in the
+next section.
+
+    \subsection{Defining a Test Statistic}\label{defining-a-test-statistic}
+
+People who refer to "hot hands" often treat it as Justice Potter Stewart
+treats obscenity:
+\href{https://en.wikipedia.org/wiki/I_know_it_when_I_see_it}{"I know it
+when I see it."} As data scientists, this isn't good enough for us.
+Instead, we should think about how to quantify the question in an
+empirically verifiable way.
+
+Unfortunately, it's not immediately clear how we might test the null
+hypothesis. In other hypothesis test settings like website A/B testing
+and drug efficacy, we have obvious choices for important and measurable
+outcomes to demonstrate increases in revenue or positive health impacts,
+respectively.
+
+However, the hot hands is not as well-defined, so we're going to try a
+few things that seem to have the flavor of measuring "streakiness".
+
+\paragraph{Problem 8 {[}10pts{]}}\label{problem-8-10pts}
+
+Our first attempt at a test statistic will be the length of the longest
+streak. We saw in the previous section that long runs were rare, so
+perhaps we can use the occurrence of long runs as evidence either for or
+against the hot hands hypothesis.
+
+Write a function \texttt{find\_longest\_run} that computes this test
+statistics. Specifically, \texttt{find\_longest\_run} should takes a
+\texttt{pd.Series} of shot sequences and returns a \texttt{pd.Series} of
+the lengths of the longest make sequences (consecutive 1s) in each
+sequence. As with \texttt{run\_counts}, for convenience, make the
+function work for a python string input as well.
+
+For example: *
+\texttt{find\_longest\_run(pd.Series({[}\textquotesingle{}111\textquotesingle{},\ \textquotesingle{}000\textquotesingle{},\ \textquotesingle{}011\textquotesingle{},\ \textquotesingle{}000\textquotesingle{}{]}))}
+should return \texttt{pd.Series({[}3,\ 0,\ 2,\ 0{]})} *
+\texttt{find\_longest\_run(pd.Series({[}\textquotesingle{}1100110011\textquotesingle{}{]}))}
+should return \texttt{pd.Series({[}2{]})} *
+\texttt{find\_longest\_run(\textquotesingle{}1100110011\textquotesingle{})}
+should return \texttt{pd.Series({[}2{]})}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}78}]:} \PY{k}{def} \PY{n+nf}{find\PYZus{}longest\PYZus{}run}\PY{p}{(}\PY{n}{shot\PYZus{}sequences}\PY{p}{)}\PY{p}{:}
+             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{    Finds longest run in a pd.Series of shot\PYZus{}sequences}
+         \PY{l+s+sd}{    }
+         \PY{l+s+sd}{    shot\PYZus{}sequences: pd.Series (string) shot data for a set of games or a single python string}
+         \PY{l+s+sd}{       to be coerced into a pd.Series}
+         \PY{l+s+sd}{    }
+         \PY{l+s+sd}{    return: as pd.Series of the lengths of longest sequences of 1s in each game}
+         \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+             \PY{k}{if} \PY{n+nb}{type}\PY{p}{(}\PY{n}{shot\PYZus{}sequences}\PY{p}{)} \PY{o}{==} \PY{n+nb}{str}\PY{p}{:}
+                 \PY{n}{shot\PYZus{}sequences} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{n}{shot\PYZus{}sequences}\PY{p}{)}
+                 
+             \PY{k}{return} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{n+nb}{len}\PY{p}{(}\PY{n+nb}{max}\PY{p}{(}\PY{n}{re}\PY{o}{.}\PY{n}{findall}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{x}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n}{shot\PYZus{}sequences}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}79}]:} \PY{k}{assert} \PY{n+nb}{isinstance}\PY{p}{(}\PY{n}{find\PYZus{}longest\PYZus{}run}\PY{p}{(}\PY{n}{klay\PYZus{}example}\PY{p}{)}\PY{p}{,} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{)}\PY{p}{,} \PYZbs{}
+         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The output should be a pd.Series}\PY{l+s+s1}{\PYZsq{}}
+         \PY{k}{assert} \PY{n}{find\PYZus{}longest\PYZus{}run}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{111}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{000}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{011}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{000}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{equals}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PYZbs{}
+         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The longest runs should be of length 3, 0, 2, and 0, respectively.}\PY{l+s+s1}{\PYZsq{}}
+         \PY{k}{assert} \PY{n}{find\PYZus{}longest\PYZus{}run}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1100110011}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{equals}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PYZbs{}
+         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The longest run should be of length 2.}\PY{l+s+s1}{\PYZsq{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}80}]:} \PY{c+c1}{\PYZsh{} Nothing to see here.  Move along}
+\end{Verbatim}
+
+
+    \paragraph{Problem 9 {[}10pts{]}}\label{problem-9-10pts}
+
+If you look at the test inputs above, you'll see that the extreme game
+featuring Klay Thompson scoring 60 points in 29 minutes has a longest
+run length of 6.
+
+Let's try to understand whether this value for our test statistic is
+indicative of Klay having a hot hand during this game. To do this, we
+need to know how 6 stacks up as a streak compared to a player similar to
+Klay but who definitely does not have a hot hand effect.
+
+How do we find data on such a player? Well, \textbf{under the null
+hypothesis, Klay \emph{himself} is such a player}, and the shot record
+we observe is really a sequence of independent shots. This suggests a
+bootstrap procedure to estimate the sampling distribution of longest
+runs. Write a function called \texttt{bootstrap\_longest\_run} that
+simulates the sampling distribution of the \texttt{longest\_run} test
+statistic under the null hypothesis given the shot record of a single
+game. For example, \texttt{bootstrap\_longest\_run(klay\_example,\ 100)}
+should return a pandas series of longest runs for 100 simulated games,
+where the simulated games are bootstrapped from the Klay example.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}81}]:} \PY{k}{def} \PY{n+nf}{bootstrap\PYZus{}longest\PYZus{}run}\PY{p}{(}\PY{n}{game}\PY{p}{,} \PY{n}{num\PYZus{}iter}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{    game: string, shot sequence data for a single game}
+         \PY{l+s+sd}{    num\PYZus{}iter: number of statistics to generate}
+         \PY{l+s+sd}{    }
+         \PY{l+s+sd}{    returns: num\PYZus{}iter statistics drawn from the bootstrapped sampling distribution}
+         \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+             
+             \PY{k}{return} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{n}{find\PYZus{}longest\PYZus{}run}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{game}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}\PY{p}{)} \PY{p}{)}\PY{o}{.}\PY{n}{values}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}iter}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}82}]:} \PY{n}{longest\PYZus{}run\PYZus{}simulations} \PY{o}{=} \PY{n}{bootstrap\PYZus{}longest\PYZus{}run}\PY{p}{(}\PY{n}{klay\PYZus{}example}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+         \PY{k}{assert} \PY{n+nb}{isinstance}\PY{p}{(}\PY{n}{longest\PYZus{}run\PYZus{}simulations}\PY{p}{,} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{)}
+         \PY{k}{assert} \PY{n+nb}{len}\PY{p}{(}\PY{n}{longest\PYZus{}run\PYZus{}simulations}\PY{p}{)} \PY{o}{==} \PY{l+m+mi}{100}
+         \PY{k}{assert} \PY{n}{longest\PYZus{}run\PYZus{}simulations}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{l+m+mi}{30}
+         \PY{k}{assert} \PY{n}{longest\PYZus{}run\PYZus{}simulations}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{0}
+\end{Verbatim}
+
+
+    Use \texttt{bootstrap\_longest\_run} and the longest run statistic to
+answer the following question: Is Klay's performance against the Indiana
+Pacers indicative of hot hands? Support your answer with:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  A plot of the observed statistic against its (bootstrapped) sampling
+  distribution. In this plot, each possible value of longest streak
+  length should get its own bin, centered at its value. Restrict the
+  x-axis to the interval {[}0, 20{]}.
+\item
+  A p-value compared to significance level 0.05
+\item
+  A sentence describing how the p-value should be interpreted.
+\end{enumerate}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}83}]:} \PY{n}{plots} \PY{o}{=} \PY{n}{bootstrap\PYZus{}longest\PYZus{}run}\PY{p}{(}\PY{n}{klay\PYZus{}example}\PY{p}{,} \PY{l+m+mi}{1000}\PY{p}{)}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+         \PY{n}{sns}\PY{o}{.}\PY{n}{barplot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{plots}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{plots}\PY{o}{/}\PY{l+m+mi}{1000}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlim}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{21}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Number of Consecutive Shots Made}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{15}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P\PYZhy{}Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{15}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P\PYZhy{}Value of \PYZdl{}k\PYZdl{} Consecutive Shots}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{21}\PY{p}{)}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{hlines}\PY{p}{(}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{n}{xmin}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{o}{.}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{xmax}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{,} \PY{n}{colors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_51_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    As we can see from the above graph, the probability or p-value decreases
+fast as the number of sequential shtos made increase and beyond some
+number, it becomes impossible to make. And so we can conclude that until
+the fourth shots, it is not significant that it is not considered as
+having hot hands but from five and more shots, it could be interpretted
+as having hot hands.
+
+    \subsection{A Different Statistic}\label{a-different-statistic}
+
+Arguably, the longest run isn't a particularly good test-statistic for
+capturing what people mean when they say "hot hands".
+
+Let's try a test-statistics that captures the essence of "hot-hands" a
+bit more. We're now going to explore a well-known approach proposed by
+\href{https://en.wikipedia.org/wiki/Amos_Tversky}{Amos Tversky} and his
+collaborators. The hot hand of Tversky is similar to the notion of being
+"on fire" in the old arcade game
+\href{https://www.youtube.com/watch?v=ipzstdPtxNw}{NBA Jam}. In that
+game, if you make 3 shots in a row with a player, your player would be
+on fire (with flame sprites!). While on fire (until a miss), the player
+has an inflated probability of making shots.
+
+The statistic to capture this affect, called \(T_{k, make}\), is easy to
+compute:
+
+\begin{align*}
+  T_{k, make}
+  & = \hat{\mathbb{P}}(\text{Make next shot}\ \vert\ \text{Made last $k$ shots})\\
+  & = \frac{\#\{\text{Streaks of $k+1$ makes in a row}\}}{\#\{\text{Streaks of $k$ makes in a row preceeding an attempt}\}}
+\end{align*}
+
+If \(T_{k, make}\) is especially high, then we might say that our player
+is experiencing a hot hand.
+
+A similar statistic can try to capture a cold hand reversal:
+
+\begin{align*}
+  T_{k, miss}
+  & = \hat{\mathbb{P}}(\text{Make next shot}\ \vert\ \text{Missed last $k$ shots})\\
+  & = \frac{\#\{\text{Streaks of $k$ misses followed by make}\}}{\#\{\text{Streaks of $k$ misses in a row preceeding an attempt}\}}
+\end{align*}
+
+Note: If the value of \(T_{k, miss}\) is especially high, this doesn't
+mean the player is expected to miss a bunch of shots in a row, instead
+we'd say that they tend to see reversals in their streaks.
+
+\paragraph{Problem 10 {[}10pts{]}}\label{problem-10-10pts}
+
+Start by writing a utility function \texttt{count\_conditionally}, which
+takes a \texttt{pd.Series} of shot sequence strings, a
+\textbf{conditioning set}, and an \textbf{event}, and returns a series
+of the count of the the number of times that the event follows the
+conditioning set in each shot sequence string.
+
+\textbf{Example Behavior 1:}
+
+If we call
+\texttt{count\_conditionally({[}\textquotesingle{}111111\textquotesingle{},\ \textquotesingle{}01111100111\textquotesingle{}{]},\ \textquotesingle{}111\textquotesingle{},\ \textquotesingle{}0\textquotesingle{})},
+we are counting the number of times that the event \texttt{0} follows
+\texttt{111} in each string. In this case, the function would return
+\texttt{pd.Series({[}0,\ 1{]})}.
+
+\textbf{Example Behavior 2:}
+
+If we call
+\texttt{count\_conditionally({[}\textquotesingle{}111111\textquotesingle{},\ \textquotesingle{}01111100111\textquotesingle{}{]},\ \textquotesingle{}111\textquotesingle{},\ \textquotesingle{}1\textquotesingle{})},
+we are counting the number of times that the event \texttt{1} follows
+\texttt{111} in each string. In this case, the function would return
+\texttt{pd.Series({[}3,\ 2{]})}. Note that events can overlap, e.g.
+\texttt{111111} has 3 occurrences of the event \texttt{1} that follow
+the condition \texttt{111}: {111}{1}11, 1{111}{1}1, 11{111}{1}.
+
+As with \texttt{count\_runs} and \texttt{find\_longest\_run}, for
+convenience, your \texttt{count\_conditionally} function should handle a
+string input corresponding to a single shot sequence as well.
+
+\textbf{Hint}: You should be able to recycle ideas from
+\texttt{count\_runs}.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}84}]:} \PY{k}{def} \PY{n+nf}{count\PYZus{}conditionally}\PY{p}{(}\PY{n}{shot\PYZus{}sequences}\PY{p}{,} \PY{n}{conditioning\PYZus{}set}\PY{p}{,} \PY{n}{event}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{    shot\PYZus{}sequences: pd.Series (string) of shot strings for a set of games or a single string}
+         \PY{l+s+sd}{       to be coerced into a pd.Series}
+         \PY{l+s+sd}{    conditioning\PYZus{}set: string or regex pattern representing the conditioning set}
+         \PY{l+s+sd}{    event: string or regex pattern representing the event of interest}
+         \PY{l+s+sd}{    }
+         \PY{l+s+sd}{    return: pd.Series of the number of times event occured after the}
+         \PY{l+s+sd}{       conditioning set in each game}
+         \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+             \PY{k}{if} \PY{n+nb}{type}\PY{p}{(}\PY{n}{shot\PYZus{}sequences}\PY{p}{)} \PY{o}{==} \PY{n+nb}{str}\PY{p}{:}
+                 \PY{n}{shot\PYZus{}sequences} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{n}{shot\PYZus{}sequences}\PY{p}{)}
+         
+             \PY{k}{return} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{n+nb}{len}\PY{p}{(}\PY{n}{re}\PY{o}{.}\PY{n}{findall}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{(?\PYZlt{}=}\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s1}{)}\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{conditioning\PYZus{}set}\PY{p}{,}\PY{n}{event}\PY{p}{)}\PY{p}{,} \PY{n}{x}\PY{p}{)}\PY{p}{)} \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n}{shot\PYZus{}sequences}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}85}]:} \PY{k}{assert} \PY{n+nb}{isinstance}\PY{p}{(}\PY{n}{count\PYZus{}conditionally}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{n}{klay\PYZus{}example}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{11}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{)}\PY{p}{,} \PYZbs{}
+         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{count\PYZus{}conditionally should return a pd.Series}\PY{l+s+s1}{\PYZsq{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}86}]:} \PY{c+c1}{\PYZsh{} Bah, test it yourself}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}87}]:} \PY{c+c1}{\PYZsh{} Nobody\PYZsq{}s home}
+\end{Verbatim}
+
+
+    \subsubsection{Worked examples}\label{worked-examples}
+
+Read this section carefully. It will probably take some time to digest,
+but it's a very valuable lesson in statistics that we'd like you to
+absorb.
+
+We'll look at the \(T_{k, make}\) statistic to make sure we understand
+what it is, as well as what we might expect under the null vs. hot hands
+hypothesis.
+
+\paragraph{Example 1}\label{example-1}
+
+Let's first consider a worked out example of computing \(T_{3, make}\),
+the observed rate of success following a streak of 3 makes. We'll use
+\texttt{111110001110} in our example. Looking at the string carefully,
+we see that the condition \texttt{111} occurs 4 times. Of the 4
+occurrences, 2 are followed by a make, and 2 are followed by a miss.
+Thus \(T_{3, make}\) for \texttt{111110001110} is 0.5. Another way of
+putting this is that
+\texttt{count\_conditionally(\textquotesingle{}111110001110\textquotesingle{},\ \textquotesingle{}111\textquotesingle{},\ \textquotesingle{}1\textquotesingle{})}
+returns the value 2 out of a possible maximum value of 4, and thus
+\(T_{3, make}\) is 0.5.
+
+\paragraph{Example 2}\label{example-2}
+
+As another example, let's consider \(T_{3, make}\) for
+\texttt{111110001110111}. In this case, the condition \texttt{111}
+occurs 5 times. However, we will not count the last \texttt{111} as a
+condition set, because there is no opportunity to flip again. We call
+this last occurrence of \texttt{111} an \textbf{unrealized conditioning
+set}. Of the remaining 4 occurrences, 2 are followed by a make, and 2
+are followed by a miss. Thus \(T_{3, make}\) for
+\texttt{111110001110111} is also 0.5. Another way of putting this is
+that
+\texttt{count\_conditionally(\textquotesingle{}111110001110111\textquotesingle{},\ \textquotesingle{}111\textquotesingle{},\ \textquotesingle{}1\textquotesingle{})}
+returns the value 2 out of a possible maximum value of 4, and thus
+\(T_{3, make}\) is 0.5.
+
+\paragraph{Check your understanding}\label{check-your-understanding}
+
+Compute \(T_{4, make}\) for \texttt{00000111100001111111000111} assuming
+the probability the player makes a shot is 75\%. Click here to show the
+answer Note that in \texttt{00000111100001111111000111}, there are 5
+occurrences of \texttt{1111}, and the last one is not at the end, so is
+not an unrealized conditioning set and thus all 5 conditioning sets are
+under consideration. Of those 5 occurrences, the first is followed by a
+miss, the second by a make, the third by a make, the fourth is followed
+by a make, and the fifth is followed by a miss. Thus for this sequence,
+\(T_{4, make}\) is 3/5 = 0.6.
+
+Now that you know how to compute \(T_{k, make}\), let's reiterate that
+it tells us the observed probability that we will make the next shot,
+given that we have made the previous k shots. That is for the sequence
+\texttt{00000111100001111111000111}, the fact that \(T_{4, make}\) is
+equal to 0.6 means that the \textbf{observed probability} of making a
+shot after 4 shots in a row is 60\%.
+
+\subsubsection{\texorpdfstring{Computing the Expectated Value of
+\(T_{1, make}\)}{Computing the Expectated Value of T\_\{1, make\}}}\label{computing-the-expectated-value-of-t_1-make}
+
+Consider \(T_{1, make}\), i.e. the observed probability that you make a
+shot, given that your last shot was also a make. Before continuing, make
+sure you can compute that \(T_{1, make}\) of \texttt{1110} is
+\(\frac{2}{3}\).
+
+We ultimately want to take player shot sequences and compute
+\(T_{k, make}\), so it'd be a good idea if we know what to expect under
+the null hypothesis.
+
+\paragraph{Thought Exercise}\label{thought-exercise}
+
+Suppose that a given player's probability of making a shot is 50\%, and
+that they make exactly 4 shots. Under the null hypothesis (hot hands
+does not exist), give your guess for the expected value of
+\(T_{1, make}\). Supply your answer by setting the variable
+\texttt{ev\_tk1\_make}.
+
+In other words, if you pick \texttt{ev\_tk1\_make\ =\ 0.8}, you're
+saying that for a shot sequence of four shots for a player with 50\%
+accuracy, under the null hypothesis (hot hands doesn't exist) you expect
+that you will observe the player making 80\% of their shots that follow
+a make.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}88}]:} \PY{c+c1}{\PYZsh{} Doesn\PYZsq{}t matter what you write.  This is just to keep you honest about}
+         \PY{c+c1}{\PYZsh{} your intuition}
+         \PY{n}{ev\PYZus{}tk1\PYZus{}make} \PY{o}{=} \PY{l+m+mf}{0.5}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}89}]:} \PY{k}{assert} \PY{l+m+mi}{0} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{ev\PYZus{}tk1\PYZus{}make} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mi}{1}
+\end{Verbatim}
+
+
+    We're guessing that you picked \texttt{ev\_tk1\_make\ =\ 0.5}, which is
+a great guess! It seems clear that if shots are made independently, the
+chance of making a basket is 50\%. While the OVERALL probability is
+50\%, the CONDITIONAL probability will not be 50\%. In other words the
+expected value of \(T_{1, make}\) will not be 0.5 under the null
+hypothesis if we're considering a shot sequence of 4 shots with 50\%
+probability.
+
+How can this be? We will show it to be true by enumerating all the
+possibilities. Run the cell below to list the four different
+possibilities for our shot sequences, with the value of \(T_{1, make}\)
+for each sequence in the rightmost column. \texttt{n11} is how many
+times our conditioning set is realized and followed by a 1, and
+\texttt{n10} is how many times our conditioning set is realized and
+followed by a 0.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}90}]:} \PY{k}{def} \PY{n+nf}{iterable\PYZus{}to\PYZus{}string}\PY{p}{(}\PY{n}{iterable}\PY{p}{)}\PY{p}{:}
+             \PY{k}{return} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{n+nb}{str}\PY{p}{,} \PY{n}{iterable}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{example} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}
+          \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sequence}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{n}{iterable\PYZus{}to\PYZus{}string}\PY{p}{(}\PY{n}{s}\PY{p}{)} \PY{k}{for} \PY{n}{s} \PY{o+ow}{in} \PY{n}{itertools}\PY{o}{.}\PY{n}{product}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{10}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{repeat}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{]}   
+         \PY{p}{\PYZcb{}}\PY{p}{)}
+         \PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n11}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{count\PYZus{}conditionally}\PY{p}{(}\PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sequence}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n10}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{count\PYZus{}conditionally}\PY{p}{(}\PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sequence}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tk1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n11}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{/} \PY{p}{(}\PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n11}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n10}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}
+         
+         \PY{n}{example}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}90}]:}    sequence  n11  n10   tk1
+         0      1111    3    0  1.00
+         1      1110    2    1  0.67
+         2      1101    1    1  0.50
+         3      1100    1    1  0.50
+         4      1011    1    1  0.50
+         5      1010    0    2  0.00
+         6      1001    0    1  0.00
+         7      1000    0    1  0.00
+         8      0111    2    0  1.00
+         9      0110    1    1  0.50
+         10     0101    0    1  0.00
+         11     0100    0    1  0.00
+         12     0011    1    0  1.00
+         13     0010    0    1  0.00
+         14     0001    0    0   NaN
+         15     0000    0    0   NaN
+\end{Verbatim}
+            
+    Since each sequence is equally likely (you should prove this to
+yourself!), each of the possible observations for \(T_{1, make}\) have
+the same probability, and we can just take the arithmetic average of
+\texttt{tk1}, dropping any undefined proportions, to get the expected
+value.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}91}]:} \PY{n}{ev\PYZus{}tk1\PYZus{}actual} \PY{o}{=} \PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tk1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The expected value of the conditional proportion is }\PY{l+s+si}{\PYZob{}ev\PYZus{}tk1\PYZus{}actual\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+The expected value of the conditional proportion is 0.4
+
+    \end{Verbatim}
+
+    Surprised? We certainly were! You can do a similar analysis of
+\(T_{k, miss}\) to find that it is greater than 0.5, meaning the
+expected proportion of streak reversals (a 1 after a sequence of
+consecutive 0s) is higher than 0.5, the overall probability of getting a
+1!
+
+Differently put, if we label the sequence as \(s_1, s_2, s_3, s_4\), we
+can write the proportion as:
+
+\[\begin{align}
+T_{1, make}
+&= \hat{\mathbb{P}} (\text{Get a 1 given that previous result was 1}) \\
+&= \hat{\mathbb{P}}(s_i = 1\ \vert\ s_{i-1}=1) \\
+&= \dfrac{n_{11}}{n_{10}+n_{11}}
+\end{align}\]
+
+It may seem like \(\mathbb{E}\left\lbrack T_{1, make} \right\rbrack\)
+should really be 0.5 if the chance of making a shot is 50\%, but the
+table above shows that this is NOT the case. The observed chance of
+getting a make given that you just got a make is actually 40\% when you
+have a sequence of 4 shots.
+
+Notice that the table above is also enough to fully describe the
+sampling distribution of \(T_{1, make}\) for a player with an accuracy
+of 50\%. Below is a plot of the probability distribution. There are only
+4 possible values for \(T_{1, make}\):
+\(0, \frac{1}{2}, \frac{2}{3}, \text{and } 1\).
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}92}]:} \PY{n}{sns}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tk1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+                      \PY{n}{kde}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.005}\PY{p}{,} \PY{l+m+mf}{1.015}\PY{p}{,} \PY{o}{.}\PY{l+m+mi}{01}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}hist}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{1.1}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{)}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sampling Distribution of \PYZdl{}T\PYZus{}}\PY{l+s+s1}{\PYZob{}}\PY{l+s+s1}{1, make\PYZcb{}\PYZdl{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{ k=1, 4 shots, 50}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{ Accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}T\PYZus{}}\PY{l+s+s1}{\PYZob{}}\PY{l+s+s1}{1,make\PYZcb{}\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Probability (Approx }\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_66_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{Problem 11 {[}5pts{]}}\label{problem-11-5pts}
+
+Recall that in the example above, we were conditioning on runs of length
+1 and a player that shoots 4 times with an accuracy of 50\%. Calculate
+the expected proportion of makes conditioned on runs of length 2 (i.e.
+\(T_{2, make}\)) when the player shoots 16 times with an accuracy of
+50\%.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}93}]:} \PY{n}{example} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}
+          \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sequence}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{n}{iterable\PYZus{}to\PYZus{}string}\PY{p}{(}\PY{n}{s}\PY{p}{)} \PY{k}{for} \PY{n}{s} \PY{o+ow}{in} \PY{n}{itertools}\PY{o}{.}\PY{n}{product}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{10}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{repeat}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}\PY{p}{]}   
+         \PY{p}{\PYZcb{}}\PY{p}{)}
+         
+         \PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{make}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{count\PYZus{}conditionally}\PY{p}{(}\PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sequence}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{11}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{miss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{count\PYZus{}conditionally}\PY{p}{(}\PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sequence}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{11}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tk2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{make}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{/} \PY{p}{(}\PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{make}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{miss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}94}]:} \PY{n}{expected\PYZus{}proportion} \PY{o}{=} \PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tk2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}95}]:} \PY{n}{expected\PYZus{}proportion}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}95}]:} 0.40000000000000002
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}96}]:} \PY{k}{assert} \PY{l+m+mi}{0} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{expected\PYZus{}proportion} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mi}{1}\PY{p}{,} \PYZbs{}
+         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The expected proportion should be between 0 and 1.}\PY{l+s+s1}{\PYZsq{}}
+\end{Verbatim}
+
+
+    \paragraph{Problem 12 {[}5pts{]}}\label{problem-12-5pts}
+
+Plot the sampling distribution of \(T_{2, make}\) of a player who shoots
+16 times with an accuracy of 50\%. You should be able to reuse your work
+from the last problem.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}97}]:} \PY{n}{sns}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{example}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tk2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+                      \PY{n}{kde}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.005}\PY{p}{,} \PY{l+m+mf}{1.015}\PY{p}{,} \PY{o}{.}\PY{l+m+mi}{01}\PY{p}{)}\PY{p}{,} \PY{n}{norm\PYZus{}hist}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{1.1}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{)}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sampling Distribution of \PYZdl{}T\PYZus{}}\PY{l+s+s1}{\PYZob{}}\PY{l+s+s1}{2, make\PYZcb{}\PYZdl{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{ k=2, 16 shots, 50}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{ Accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}T\PYZus{}}\PY{l+s+s1}{\PYZob{}}\PY{l+s+s1}{2,make\PYZcb{}\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Probability (Approx }\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_73_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    It turns out that the logic for calculating the exact sampling
+distribution for \(T_{k, make}\) when a player has an accuracy other
+than 50\% is a little more complicated than we're immediately equipped
+to deal with in this class. This might seem like our analysis is going
+to be doomed. If we can't compute \(T_{k, make}\) to expect under the
+null hypothesis for a given player, how will be able to recognize a
+\(T_{k, make}\) value that indicates that the hot hands hypothesis is
+true?
+
+Luckily, we don't have to, because we have a tool that will allow us to
+approximate the sampling distribution under the null hypothesis: the
+bootstrap. The key observation is that the bootstrap procedure naturally
+preserves the player's overall shot accuracy in a given game. We'll use
+the bootstrap in a little while at the very end of this homework.
+
+In short, all that hard work we just did to compute the exact sampling
+distribution of \(T_{k, make}\) isn't going to play a role in our
+analysis. Nonetheless, we felt it was important to really dig in and
+gain intuition on this test statistic.
+
+\subsection{The "Tversky Statistic" for Hot Hand
+Detection}\label{the-tversky-statistic-for-hot-hand-detection}
+
+It turns out that simply measuring \(T_k = T_{k, make}\) isn't as useful
+as the "Tversky statistic" for hot-hand detection, defined as
+
+\[T_k = T_{k, make} - T_{k, miss}\]
+
+The original inspiration for this statistic was to measure
+hot-handedness by comparing the proportion of times a player continued a
+success streak against their propensity to reverse a string of misses.
+As we saw above, computing the expected value of \(T_{k, make}\) is hard
+and the results are counterintuitive. We're not going to formally
+explore the expected value of \(T_k\), but you are free and encouraged
+to do so.
+
+We will, however, mention that for reasons similar to our analysis in
+the previous sections, despite most people's initial intuition that the
+expected value of \(T_k\) should be zero, this statistic has its
+sampling distribution centered around a value less than 0.
+
+\paragraph{Problem 13 {[}5pts{]}}\label{problem-13-5pts}
+
+The Tversky statistic is sometimes undefined (has no valid value). In
+our analysis, we will be discarding sequences where \(T_k\) is
+undefined. The reason is that it doesn't make sense to count cases where
+the conditioning set isn't present. Specifically describe the two cases
+where \(T_k\) is undefined.
+
+    \begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  One case is there is only one attempt : This value could be either 1
+  or 0 and in any case, there are no attempts after this so there cannot
+  be k+1 to compute which makes \(T_k\) undefined.
+\item
+  Another is when \(k\) is larger than the longest streak of the make
+  number.
+\item
+  When there are no match of k 0s or 1s and k+1 0s or 1s that it would
+  be 0/0 which is nan or undefined.
+\end{enumerate}
+
+    \paragraph{Problem 14 {[}5pts{]}}\label{problem-14-5pts}
+
+Write a function \texttt{calc\_tk\_stat} that can take a
+\texttt{pd.Series} of shot strings and return their Tversky statistics.
+If the statistic is undefined, return \texttt{NaN}.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}98}]:} \PY{k}{def} \PY{n+nf}{calc\PYZus{}tk\PYZus{}stat}\PY{p}{(}\PY{n}{games}\PY{p}{,} \PY{n}{k}\PY{p}{)}\PY{p}{:}
+             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{    Computes the tversky statistic for hot hands}
+         \PY{l+s+sd}{        }
+         \PY{l+s+sd}{    games: pd.Series (string) shot data for a set of games}
+         \PY{l+s+sd}{    k: int, conditioning set length; number of misses/hits to condition on}
+         \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+             
+             \PY{n}{a} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{games}\PY{p}{)}
+             
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{count\PYZus{}conditionally}\PY{p}{(}\PY{n}{a}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1}\PY{l+s+s1}{\PYZsq{}}\PY{o}{*}\PY{n}{k}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{count\PYZus{}conditionally}\PY{p}{(}\PY{n}{a}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1}\PY{l+s+s1}{\PYZsq{}}\PY{o}{*}\PY{n}{k}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{count\PYZus{}conditionally}\PY{p}{(}\PY{n}{a}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{o}{*}\PY{n}{k}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{count\PYZus{}conditionally}\PY{p}{(}\PY{n}{a}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{o}{*}\PY{n}{k}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]} \PY{o}{=} \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{+} \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{6}\PY{p}{]} \PY{o}{=} \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{+} \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]}
+         
+             \PY{n}{a}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{make}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{/} \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{miss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{/} \PY{n}{a}\PY{p}{[}\PY{l+m+mi}{6}\PY{p}{]}
+             \PY{n}{a}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tk}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{a}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{make}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{a}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{miss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+             
+             \PY{k}{return} \PY{n}{a}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tk}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}99}]:} \PY{k}{assert} \PY{n}{np}\PY{o}{.}\PY{n}{isclose}\PY{p}{(}\PY{n}{calc\PYZus{}tk\PYZus{}stat}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1110100110000011}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{,} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{15}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PYZbs{}
+         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{T\PYZus{}2 for 1110100110000011 is \PYZhy{}1/15}\PY{l+s+s1}{\PYZsq{}}
+\end{Verbatim}
+
+
+    \subsubsection{Statistically Testing the Null
+Hypothesis}\label{statistically-testing-the-null-hypothesis}
+
+Now we return to the question of whether or not Thompson has hot hands.
+Under the hypothesis that he does have hot hands, Klay Thompson has a
+higher chance of making shots when he has recently made shots. Under the
+null hypothesis, his chance of making a shot is independent of recent
+successes.
+
+Run the cell below, which we'll use to load all of Klay Thompson's data.
+
+Assuming you've correctly read in \texttt{shot\_data},
+\texttt{klay\_data} is a \texttt{pd.Series} containing Klay Thompson's
+shot records for the 2016-2017 season for all games (not just the game
+where he got 60 points).
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}100}]:} \PY{n}{klay\PYZus{}data} \PY{o}{=} \PY{n}{shot\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{pd}\PY{o}{.}\PY{n}{IndexSlice}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{K. Thompson}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shots}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+          \PY{n}{klay\PYZus{}data}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}100}]:} game          player     
+          201703050NYK  K. Thompson    101111110110000010011110101100
+          201611130GSW  K. Thompson             010111001101110111101
+          201611250LAL  K. Thompson             010100101011000101110
+          201612100MEM  K. Thompson                    00001000010110
+          201611030GSW  K. Thompson                   010010001100111
+          Name: shots, dtype: object
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}101}]:} \PY{k}{assert} \PY{n+nb}{isinstance}\PY{p}{(}\PY{n}{klay\PYZus{}data}\PY{p}{,} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{)}\PY{p}{,} \PYZbs{}
+          \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{klay\PYZus{}data should be a pd.Series}\PY{l+s+s1}{\PYZsq{}}
+          \PY{k}{assert} \PY{n}{klay\PYZus{}data}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{95}\PY{p}{,} \PYZbs{}
+          \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{You have too few observations (should be 95)}\PY{l+s+s1}{\PYZsq{}}
+          \PY{k}{assert} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0000010110101}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{klay\PYZus{}data}\PY{o}{.}\PY{n}{values}\PY{p}{,} \PYZbs{}
+          \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{000001011010 is missing from your data}\PY{l+s+s1}{\PYZsq{}}
+          \PY{k}{assert} \PY{n}{klay\PYZus{}data}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n+nb}{sum}\PY{p}{(}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{n}{n}\PY{p}{)} \PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n}{x}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)} \PY{o}{==} \PY{l+m+mi}{950}\PY{p}{,} \PYZbs{}
+          \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{You failed the checksum}\PY{l+s+s1}{\PYZsq{}}
+\end{Verbatim}
+
+
+    \paragraph{Problem 15 {[}10pts{]}}\label{problem-15-10pts}
+
+To help carry out the analysis at scale, write a function
+\texttt{calc\_p\_values} that can take a \texttt{pd.Series} of test
+statistics (one for each game) and compare it to a \texttt{pd.DataFrame}
+of simulated statistics. In the \texttt{pd.DataFrame}, each row
+corresponds to the a game, so the shape will be (number of games, number
+of bootstrap replications). You may assume \texttt{observed\_statistics}
+does not contain any \texttt{NaNs}; however,
+\texttt{simulated\_statistics} may have some.
+
+\textbf{Example Behavior}
+
+If our observed statistics are
+\texttt{pd.Series({[}0.5,\ 0.35,\ 0.4{]})} and our simulated statistics
+are a Dataframe with the values:
+
+\begin{verbatim}
+0.1, 0.3, 0.4, 0.6, 0.4, 0.6, 0.8, 0.9
+0.3, NaN, 0.7, 0.1, 0.3, 0.1, 0.8, 0.6
+0.3, 0.7, 0.1, 0.6, 0.7, NaN, NaN, 0.2
+\end{verbatim}
+
+Then your function should return
+\texttt{pd.Series({[}4/8,\ 3/7,\ 3/6{]})}, e.g. the number of simulated
+statistics that matched or exceeded the observed statistic were 4 out of
+a possible 8.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}102}]:} \PY{k}{def} \PY{n+nf}{calc\PYZus{}p\PYZus{}values}\PY{p}{(}\PY{n}{observed\PYZus{}statistics}\PY{p}{,} \PY{n}{simulated\PYZus{}statistics}\PY{p}{)}\PY{p}{:}
+              \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+          \PY{l+s+sd}{    observed\PYZus{}statistics: pd.Series (float), test statistics for each game }
+          \PY{l+s+sd}{    simulated\PYZus{}statistics: pd.DataFrame, rows represent games, columns contain }
+          \PY{l+s+sd}{        test statistics simulated under the null hypothesis }
+          \PY{l+s+sd}{    }
+          \PY{l+s+sd}{    return: pd.Series (float), p\PYZhy{}values for every game between 0 and 1}
+          \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+          
+              \PY{n}{size} \PY{o}{=} \PY{n}{simulated\PYZus{}statistics}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n+nb}{len}\PY{p}{(}\PY{n}{x}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{x}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+              \PY{n}{temp} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+              
+              \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{x} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{observed\PYZus{}statistics}\PY{p}{)}\PY{p}{:}
+                  \PY{n}{temp}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{x} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{simulated\PYZus{}statistics}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+          
+              \PY{k}{return} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{temp}\PY{p}{)} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{size}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}103}]:} \PY{n}{pv\PYZus{}obstat} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{l+m+mf}{0.35}\PY{p}{,} \PY{l+m+mf}{0.4}\PY{p}{]}\PY{p}{)}
+          \PY{n}{pv\PYZus{}simstat} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{100}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+          \PY{n}{pv\PYZus{}simstat}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.3}\PY{p}{,} \PY{l+m+mf}{0.4}\PY{p}{,} \PY{l+m+mf}{0.6}\PY{p}{,} \PY{l+m+mf}{0.4}\PY{p}{,} \PY{l+m+mf}{0.6}\PY{p}{,} \PY{l+m+mf}{0.8}\PY{p}{,} \PY{l+m+mf}{0.9}\PY{p}{]}\PY{p}{)}
+          \PY{n}{pv\PYZus{}simstat}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.3}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{nan}\PY{p}{,} \PY{l+m+mf}{0.7}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.3}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.8}\PY{p}{,} \PY{l+m+mf}{0.6}\PY{p}{]}\PY{p}{)}
+          \PY{n}{pv\PYZus{}simstat}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.3}\PY{p}{,} \PY{l+m+mf}{0.7}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.6}\PY{p}{,} \PY{l+m+mf}{0.7}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{nan}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{nan}\PY{p}{,} \PY{l+m+mf}{0.2}\PY{p}{]}\PY{p}{)}
+          
+          \PY{k}{assert} \PY{n+nb}{isinstance}\PY{p}{(}\PY{n}{calc\PYZus{}p\PYZus{}values}\PY{p}{(}\PY{n}{pv\PYZus{}obstat}\PY{p}{,} \PY{n}{pv\PYZus{}simstat}\PY{p}{)}\PY{p}{,} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{)}
+          \PY{k}{assert} \PY{n}{calc\PYZus{}p\PYZus{}values}\PY{p}{(}\PY{n}{pv\PYZus{}obstat}\PY{p}{,} \PY{n}{pv\PYZus{}simstat}\PY{p}{)}\PY{o}{.}\PY{n}{equals}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{4}\PY{o}{/}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{3}\PY{o}{/}\PY{l+m+mi}{7}\PY{p}{,} \PY{l+m+mi}{3}\PY{o}{/}\PY{l+m+mi}{6}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}104}]:} \PY{c+c1}{\PYZsh{} No admittance except on party business}
+\end{Verbatim}
+
+
+    \paragraph{Problem 16 {[}Graded in the Synthesis
+Portion{]}}\label{problem-16-graded-in-the-synthesis-portion}
+
+Carry out bootstrap hypothesis tests for all 95 records in
+\texttt{klay\_data} for conditioning sets of length \(k=1,2,3\). Use
+10000 bootstrap replicates to approximate the sampling distribution in
+each test. You will report your results in the following section.
+Technically, we should be worried about
+\href{https://en.wikipedia.org/wiki/Multiple_comparisons_problem}{multiple
+testing issues}, but you can ignore them in your analysis.
+
+For the cell below, there is no specific structure to the output that
+you must produce. However, your code should compute at least: * The
+observed Tversky statistic for each of the 95 games. For example, for
+\(k = 1\), for game
+\texttt{\textquotesingle{}201610250GSW\textquotesingle{}}, the observed
+Tversky statistic is exactly \texttt{-0.250000}. * The number of
+observations that had to be discarded due to an undefined Tversky
+statistic. For example, the game
+\texttt{\textquotesingle{}201610250GSW\textquotesingle{}} with shot
+sequence \texttt{\textquotesingle{}0000010110101\textquotesingle{}} has
+an undefined Tversky statistic for \(k = 3\). * The p-values for each of
+the 95 games. For eaxmple, for \(k=1\), for game
+\texttt{\textquotesingle{}201610250GSW\textquotesingle{}}, the p-value
+should be approximately 0.75. * The number of games whose p-values were
+significant at the 5\% level. For example, you might find that for
+\(k=1\), 90 out of 95 games have a p-value of less than 0.05, which
+would be strong evidence of the hot hands effect.
+
+You'll compile the results of your findings in the next and final
+section of this homework.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}105}]:} \PY{k}{def} \PY{n+nf}{bootstrap}\PY{p}{(}\PY{n}{seq}\PY{p}{,} \PY{n}{k}\PY{p}{,} \PY{n}{i}\PY{p}{)}\PY{p}{:}
+              \PY{n}{simulation} \PY{o}{=} \PY{n}{simulated\PYZus{}shots}\PY{p}{[}\PY{n+nb}{len}\PY{p}{(}\PY{n}{seq}\PY{p}{)}\PY{p}{]}
+              \PY{n}{simulation} \PY{o}{=} \PY{n}{calc\PYZus{}tk\PYZus{}stat}\PY{p}{(}\PY{n}{simulation}\PY{p}{,} \PY{n}{i}\PY{p}{)}
+              \PY{n}{simulation} \PY{o}{=} \PY{n}{simulation}\PY{o}{.}\PY{n}{to\PYZus{}frame}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)}
+          
+              \PY{k}{return} \PY{n}{calc\PYZus{}p\PYZus{}values}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{n}{k}\PY{p}{)}\PY{p}{,} \PY{n}{simulation}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}106}]:} \PY{k}{def} \PY{n+nf}{simulate}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{k}\PY{p}{,} \PY{n}{i}\PY{p}{)}\PY{p}{:}
+              \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{df}\PY{p}{)} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{:}
+                  \PY{k}{return} \PY{n+nb}{list}\PY{p}{(}\PY{n}{bootstrap}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shots}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{p}{,} \PY{n}{i}\PY{p}{)}\PY{p}{)}
+              \PY{k}{else}\PY{p}{:}
+                  \PY{n}{size} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{)}
+                  \PY{n}{left} \PY{o}{=} \PY{n}{simulate}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{p}{:}\PY{n}{size}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{p}{:}\PY{n}{size}\PY{p}{]}\PY{p}{,} \PY{n}{i}\PY{p}{)}
+                  \PY{n}{right} \PY{o}{=} \PY{n}{simulate}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{size}\PY{p}{:}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{size}\PY{p}{:}\PY{p}{]}\PY{p}{,} \PY{n}{i}\PY{p}{)}
+                  \PY{k}{return} \PY{n}{left} \PY{o}{+} \PY{n}{right}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}107}]:} \PY{n}{klay\PYZus{}data} \PY{o}{=} \PY{n}{klay\PYZus{}data}\PY{o}{.}\PY{n}{to\PYZus{}frame}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}108}]:} \PY{n}{simulated\PYZus{}shots} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{x}\PY{p}{:}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{13}\PY{p}{)}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}\PY{p}{)} \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{10000}\PY{p}{)}\PY{p}{]} \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n}{klay\PYZus{}data}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n+nb}{len}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shots}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}\PY{p}{\PYZcb{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}109}]:} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{:}
+              \PY{n}{klay\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{i}\PY{p}{)}\PY{p}{]} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{calc\PYZus{}tk\PYZus{}stat}\PY{p}{(}\PY{n}{klay\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shots}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{i}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}110}]:} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{:}
+              \PY{n}{klay\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{p}\PY{l+s+s1}{\PYZsq{}}\PY{o}{+}\PY{n+nb}{str}\PY{p}{(}\PY{n}{i}\PY{p}{)}\PY{p}{]} \PY{o}{=} \PY{n}{simulate}\PY{p}{(}\PY{n}{klay\PYZus{}data}\PY{p}{,} \PY{n}{klay\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{o}{+}\PY{n+nb}{str}\PY{p}{(}\PY{n}{i}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{n}{i}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}125}]:} \PY{n}{klay\PYZus{}data} \PY{o}{=} \PY{n}{klay\PYZus{}data}\PY{o}{.}\PY{n}{sort\PYZus{}index}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}126}]:} \PY{n}{klay\PYZus{}data}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}126}]:}                                               shots        k1        k2  \textbackslash{}
+          game         player                                                       
+          201610250GSW K. Thompson              0000010110101 -0.250000 -0.250000   
+          201610280NOP K. Thompson  0101011011100010001111111  0.042857  0.250000   
+          201610300PHO K. Thompson       00000111101001111000  0.366667  0.333333   
+          201611010POR K. Thompson        1011011010000010010 -0.250000 -0.400000   
+          201611030GSW K. Thompson            010010001100111  0.000000 -0.250000   
+          
+                                          k3        p1        p2        p3  
+          game         player                                               
+          201610250GSW K. Thompson       NaN  0.748374  0.492775  0.000000  
+          201610280NOP K. Thompson -0.200000  0.298179  0.148720  0.328679  
+          201610300PHO K. Thompson  0.166667  0.056034  0.100643  0.148760  
+          201611010POR K. Thompson       NaN  0.740722  0.626652  0.000000  
+          201611030GSW K. Thompson       NaN  0.396236  0.488344  0.000000  
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}112}]:} \PY{p}{(}\PY{n}{klay\PYZus{}data}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{n}{klay\PYZus{}data}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{n}{klay\PYZus{}data}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}112}]:} (k1    0
+           dtype: int64, k2    3
+           dtype: int64, k3    42
+           dtype: int64)
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}122}]:} \PY{p}{(}\PY{n}{klay\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{p1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mf}{0.05}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{n}{klay\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{p2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mf}{0.05}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{klay\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{(}\PY{n}{klay\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{p3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mf}{0.05}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{klay\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{p3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{]} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mf}{0.05}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}122}]:} (2, 5, 2)
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}123}]:} \PY{n}{klay\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{p1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{klay\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{p2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{klay\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{p3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}123}]:} (0.41290853602621896, 0.41553477834249197, 0.26704123341741082)
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}115}]:} \PY{c+c1}{\PYZsh{} klay\PYZus{}data}
+\end{Verbatim}
+
+
+    \subsection{Synthesis}\label{synthesis}
+
+Running the numerical computations in hypothesis testing is only part of
+the battle. Convincing others of the validity of the analysis is just as
+if not more important. Compile everything you have done/learned into a
+miniature report. Describe how you used the Tversky statistic to test
+whether or not Klay Thompson has hot hands. Your answer should follow
+the structure given below. While we can provide you with an idea of
+items you should definitely include in such a report, you will need to
+supply the wording to concisely and convincingly tell the story.
+
+\textbf{Note:} DO NOT copy this cell using command mode. This will cause
+the autograder to fail on your notebook. You may, however, double click
+on the cell and copy its text.
+
+\textbf{Data Generation Model}
+
+We modeled Klay Thompson's shot record for each game as sequences of
+\texttt{INSERT\ description\ of\ random\ variable} with the following
+assumptions
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{INSERT\ Assumption\ 1}
+\item
+  ...
+\end{itemize}
+
+We realize that this ignores the following real-life issues
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{INSERT\ Issue\ 1}
+\item
+  ...
+\end{itemize}
+
+However, this analysis can be used as a baseline that we can compare
+more complicated models to.
+
+\textbf{Null Hypothesis}
+
+Our null hypothesis is
+\texttt{INSERT\ null\ hypothesis\ in\ plain\ English}. In terms of our
+model, this means that
+\texttt{INSERT\ mathematical\ implication\ of\ null\ hypothesis}.
+
+\textbf{Test Statistic}
+
+To test our hypothesis, we used the Tversky statistic, which can be
+interpreted as \texttt{INSERT\ plain\ English\ description\ in\ words}.
+This can be written mathematically as:
+
+\[\text{INSERT LaTeX statistic = function of data}\]
+
+\textbf{Results}
+
+Looking Klay's December 5th game against the Pacers, we calculated a
+p-value of \texttt{INSERT\ p-value} for \(k=1\), which
+\texttt{CHOOSE\ ONE:\ is\ \ or\ is\ not} significant at the 5\% level.
+This can be verified visually in the following plot.
+
+\[\text{Insert plot of sampling distribution and observed statistic}\]
+
+We go on to analyze all of Thompson's games and find that
+\texttt{CHOOSE\ ONE:\ few\ or\ many} of the observations are significant
+at the 5\% level for conditioning sets of length \(k=1,2,3\). The table
+below shows the number of observations that we discarded due to the
+statistic being undefined and the number that are significant at each
+conditioning length.
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule
+\begin{minipage}[b]{0.05\columnwidth}\raggedright\strut
+Player\strut
+\end{minipage} & \begin{minipage}[b]{0.05\columnwidth}\raggedright\strut
+Number of Games\strut
+\end{minipage} & \begin{minipage}[b]{0.05\columnwidth}\raggedright\strut
+k\strut
+\end{minipage} & \begin{minipage}[b]{0.05\columnwidth}\raggedright\strut
+Number of Games Discarded\strut
+\end{minipage} & \begin{minipage}[b]{0.05\columnwidth}\raggedright\strut
+Number of Games Significant\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+Thompson\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+95\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+1\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+\texttt{INSERT\ \#\ Dropped\ for\ k=1}\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+\texttt{INSERT\ \#\ Significant\ for\ k=1}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+-\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+2\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+\texttt{INSERT\ \#\ Dropped\ for\ k=2}\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+\texttt{INSERT\ \#\ Significant\ for\ k=2}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+-\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+3\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+\texttt{INSERT\ \#\ Dropped\ for\ k=3}\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+\texttt{INSERT\ \#\ Significant\ for\ k=3}\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+    \paragraph{Data Generation Model
+{[}8pts{]}}\label{data-generation-model-8pts}
+
+    We modeled Klay Thompson's shot record for each game as sequences of the
+indications of shots made (1 for shot made and 0 for shot missed) with
+the following assumptions
+
+\begin{itemize}
+\tightlist
+\item
+  A player (or Klay) has higher chances of scoring if his last k
+  sequential shots are made.
+\end{itemize}
+
+We realize that this ignores the following real-life issues
+
+\begin{itemize}
+\tightlist
+\item
+  He could just have been near goal (Don't know the basketball term)
+  with no one around in opposite teams that he had almost 100\% chance
+  of scoring.
+\item
+  Depending on his condition on game day, in certain games he could have
+  scored more than other games where in usual case he should have scored
+  less.
+\item
+  Opposing defenders affect the difficulty of a shot
+\item
+  Distance affects the difficulty of a shot
+\item
+  Shot types vary in difficulty (3-pointers, 2-points, free-throws)
+\item
+  Team mate behavior may create more favorable scoring conditions
+\end{itemize}
+
+However, this analysis can be used as a baseline that we can compare
+more complicated models to.
+
+    \paragraph{Null Hypothesis {[}5pts{]}}\label{null-hypothesis-5pts}
+
+    Our null hypothesis is that the streak of goals doesn't affect the
+outcome of the next shooting, meaning that 5 continuous shots made don't
+increase the probability of next shot being made, thus Klay doesn't have
+hot hands. In terms of our model, this means that if we assume the
+probability of a shot being made is \(p\) and so far \(i^{th}\) shots
+are made, the probability of \(i+1^{th}\) shot is still the same as
+\(p\) or \[P(p_{i+1}|\sum_1^i{p_i}) = P(p_{i+1})\]
+
+    \paragraph{Test Statistic {[}2pts{]}}\label{test-statistic-2pts}
+
+    \textbf{Test Statistic}
+
+To test our hypothesis, we used the Tversky statistic, which can be
+interpreted as the probability from the difference of the probabilty of
+shots made (current streak of shots made + 2) and the probability of
+shots missed (current streak of missed shots + 2) so far. This can be
+written mathematically as:
+
+\begin{align*}
+  T_{k, make}
+  & = \frac{\#\{\text{Streaks of $k+1$ makes in a row}\}}{\#\{\text{Streaks of $k$ makes in a row preceeding an attempt}\}}
+\end{align*}
+
+\begin{align*}
+  T_{k, miss}
+  & = \frac{\#\{\text{Streaks of $k$ misses followed by make}\}}{\#\{\text{Streaks of $k$ misses in a row preceeding an attempt}\}}
+\end{align*}
+
+and \[Tversky = T_{k, make} - T_{k, miss}\]
+
+    \paragraph{Results {[}20pts{]}}\label{results-20pts}
+
+    \textbf{Results}
+
+Looking Klay's December 5th game against the Pacers, we calculated a
+p-value of 0.74 for \(k=1\), which is not significant at the 5\% level.
+This can be verified visually in the following plot.
+
+We go on to analyze all of Thompson's games and find that few of the
+observations are significant at the 5\% level for conditioning sets of
+length \(k=1,2,3\). The table below shows the number of observations
+that we discarded due to the statistic being undefined and the number
+that are significant at each conditioning length.
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule
+\begin{minipage}[b]{0.05\columnwidth}\raggedright\strut
+Player\strut
+\end{minipage} & \begin{minipage}[b]{0.05\columnwidth}\raggedright\strut
+Number of Games\strut
+\end{minipage} & \begin{minipage}[b]{0.05\columnwidth}\raggedright\strut
+k\strut
+\end{minipage} & \begin{minipage}[b]{0.05\columnwidth}\raggedright\strut
+Number of Games Discarded\strut
+\end{minipage} & \begin{minipage}[b]{0.05\columnwidth}\raggedright\strut
+Number of Games Significant\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+Thompson\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+95\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+1\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+0\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+3\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+-\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+2\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+3\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+5\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+-\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+3\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+42\strut
+\end{minipage} & \begin{minipage}[t]{0.05\columnwidth}\raggedright\strut
+2\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+    By looking at the graph below for \(k=1\), we see that almost all games
+have higher p-value than 0.05 that we can conclude for when \(k=1\),
+there is no hot-hand effects.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}148}]:} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{131}\PY{p}{)}
+          \PY{n}{sns}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{klay\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{p1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{hist}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+          
+          \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{132}\PY{p}{)}
+          \PY{n}{sns}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{klay\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{p2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{hist}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+          
+          \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{133}\PY{p}{)}
+          \PY{n}{sns}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{klay\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{p3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{hist}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_109_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}116}]:} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+          \PY{n}{sns}\PY{o}{.}\PY{n}{barplot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{95}\PY{p}{)}\PY{p}{,} \PY{n}{klay\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{p1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{ascending}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Number of Games}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{15}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P\PYZhy{}value for \PYZdl{}k=1\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{15}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P\PYZhy{}Value at Each Game}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{rotation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vertical}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{hlines}\PY{p}{(}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{n}{xmin}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{xmax}\PY{o}{=}\PY{l+m+mi}{95}\PY{p}{,} \PY{n}{colors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{xlim}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mf}{94.5}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_110_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    
+
+    In order to quickly grade your table, we ask that you include the values
+of the table in the cell below. \texttt{n\_discarded\_k*} is the number
+of discarded observations due to undefined statistics, and
+\texttt{n\_sig\_k*} is the number of significant observations where
+\texttt{*} is the length of the conditioning set.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}151}]:} \PY{n}{n\PYZus{}discarded\PYZus{}k1} \PY{o}{=} \PY{l+m+mi}{0}
+          \PY{n}{n\PYZus{}discarded\PYZus{}k2} \PY{o}{=} \PY{l+m+mi}{3}
+          \PY{n}{n\PYZus{}discarded\PYZus{}k3} \PY{o}{=} \PY{l+m+mi}{42}
+          \PY{n}{n\PYZus{}sig\PYZus{}k1} \PY{o}{=} \PY{l+m+mi}{2}
+          \PY{n}{n\PYZus{}sig\PYZus{}k2} \PY{o}{=} \PY{l+m+mi}{5}
+          \PY{n}{n\PYZus{}sig\PYZus{}k3} \PY{o}{=} \PY{l+m+mi}{2}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}118}]:} \PY{c+c1}{\PYZsh{} No moleste}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}119}]:} \PY{c+c1}{\PYZsh{} Yeah I\PYZsq{}m empty.  Wanna fight?}
+\end{Verbatim}
+
+
+    \subsection{Further Reading}\label{further-reading}
+
+\textbf{ESPN reports on this type of analysis}\\
+\emph{Haberstroh (2017)}. "He's heating up, he's on fire! Klay Thompson
+and the truth about the hot hand".
+http://www.espn.com/nba/story/\_/page/presents-19573519/heating-fire-klay-thompson-truth-hot-hand-nba
+
+\textbf{PDFs included in this homework folder}\\
+\emph{Daks, Desai, Goldberg (2018)}. "Do the GSW Have Hot Hands?"\\
+\emph{Miller, Sanjurjo (2015)}. "Surprised by the Gambler's and Hot Hand
+Fallacies? A Truth in the Law of Small Numbers"
+
+We thank Alon Daks, Nishant Desai, Lisa Goldberg, and Alex Papanicolaou
+for their contributions and suggestions in making this homework.
+
+    \subsection{Submission}\label{submission}
+
+You're almost done!
+
+Before submitting this assignment, ensure that you have:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Restarted the Kernel (in the menubar, select
+  Kernel\(\rightarrow\)Restart \& Run All)
+\item
+  Validated the notebook by clicking the "Validate" button.
+\end{enumerate}
+
+Then,
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Submit} the assignment via the Assignments tab in
+  \textbf{Datahub}
+\item
+  \textbf{Upload and tag} the manually reviewed portions of the
+  assignment on \textbf{Gradescope}
+\end{enumerate}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
