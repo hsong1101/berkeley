@@ -1,0 +1,318 @@
+\documentclass[11pt]{article}
+\usepackage{header_problems}
+\usepackage{header_template}
+\begin{document}
+\fontsize{12}{15}\selectfont
+
+\Question{Getting Started}
+
+\textbf{Read through this page carefully.} You may typeset your homework in latex or submit neatly handwritten/scanned solutions. Please start each question on a new page. Deliverables:
+
+\begin{enumerate}
+  \item Submit a PDF of your writeup, 
+  %\textbf{with an appendix for your code}, 
+  to assignment on Gradescope, ``HW5 Write-Up". 
+  %If there are graphs, include those graphs in the correct sections. Do not simply reference your appendix.
+  %\item If there is code, submit all code needed to reproduce your results, ``<<title>> Code".
+  %\item If there is a test set, submit your test set evaluation results, ``<<title>> Test Set".
+\end{enumerate}
+
+%After you've submitted your homework, watch out for the self-grade form.
+
+\begin{Parts}
+
+\Part Who else did you work with on this homework? In case of course events, just describe the group. How did you work on this homework? Any comments about the homework?
+
+\vspace{15pt}
+\framebox(465, 75){}
+
+\Part Please copy the following statement and sign next to it. We just want to make it \textit{extra} clear so that no one inadvertently cheats.
+
+\textit{I certify that all solutions are entirely in my words and that I have not looked at another student's solutions. I have credited all external sources in this write up.}
+
+\vspace{15pt}
+\framebox(465, 75){}
+
+\end{Parts}
+
+\pagebreak
+
+This homework is due \textbf{Wednesday, October 10th at 10pm.}
+
+\Question{Step Size in Gradient Descent}
+
+In this problem, we will look at the convex function $f(\vec x) = ||\vec x-\vec b||_2$. Note that we are using ``just'' the regular
+Euclidean $\ell_2$ norm, \emph{not} the norm squared! This problem illustrates
+the importance of understanding how gradient descent works and choosing step
+sizes strategically. In fact, there is a lot of active research in variations on
+gradient descent.
+Throughout the question we will look at different kinds of step sizes. We will also look at the the rate at which the different step sizes decrease and draw some conclusions about the rate of convergence.
+ You have been provided with a tool in \texttt{step\_size\_helper.py} which will help you
+visualize the problems below.
+
+\begin{Parts}
+
+\Part Let $\vec{x}, \vec{b} \in \mathbb{R}^d$.
+{\bf Prove that $f(\vec{x}) = \|\vec{x}-\vec{b}\|_2$ is a convex function of $\vec{x}$.}
+
+
+
+\Part {\bf For $\nabla_{\vec x} f(\vec{x})$, determine where it is well-defined and compute its value.}
+
+
+
+
+\Part We are minimizing $f(\vec{x}) = \|\vec{x}-\vec{b}\|_2$,
+where $\vec{x} \in \mathbb{R}^2$ and $\vec{b} = [6, 4.5] \in \mathbb{R}^2$,
+with gradient descent. We use a constant step size of $t_i = 1$. That is,
+$$\vec{x}_{i+1} = \vec{x}_i - t_i \nabla f(\vec{x}_i) = \vec{x}_i - \nabla f(\vec{x}_i).$$
+We start at $\vec{x}_0 = [0, 0].$
+\textbf{Will gradient descent find the optimal solution?
+If so, how many steps will it take to get within $0.01$ of the optimal solution (for this and subsequent problems, this is in terms of $\|\vec{x_k}-\vec{x_*}\|_2$)? If not, why not?}
+Prove your answer. (Hint: use the tool to compute the first ten steps.)
+\textbf{What about general $\vec{b} \neq \vec{0}$?}
+
+
+
+
+\Part We are minimizing $f(\vec{x}) = \|\vec{x}-\vec{b}\|_2$,
+where $\vec{x} \in \mathbb{R}^2$ and $\vec{b} = [6, 4.5] \in \mathbb{R}^2$,
+now with a decreasing step size of $t_i = (\frac{6}{7})^i$ at step $i$. That is,
+$$\vec{x}_{i+1} = \vec{x}_i - t_i \nabla f(\vec{x}_i) =
+\vec{x}_i - (\frac{6}{7})^i \nabla f(\vec{x}_i).$$
+We start at $\vec{x}_0 = [0, 0].$
+\textbf{Will gradient descent find the optimal solution?
+If so, how many steps will it take to get within $0.01$ of the optimal solution?
+If not, why not?} Prove your answer. (Hint: examine $\|\vec{x}_i\|_2$.)
+\textbf{What about general $\vec{b} \neq \vec{0}$?}
+
+
+
+
+\Part We are minimizing $f(\vec{x}) = \|\vec{x}-\vec{b}\|_2$,
+where $\vec{x} \in \mathbb{R}^2$ and $\vec{b} = [6, 4.5] \in \mathbb{R}^2$,
+now with a decreasing step size of $t_i = \frac{1}{i+1}$ at step $i$. That is,
+$$\vec{x}_{i+1} = \vec{x}_i - t_i \nabla f(\vec{x}_i)
+= \vec{x}_i - \frac{1}{i+1} \nabla f(\vec{x}_i).$$
+We start at $\vec{x}_0 = [0, 0].$
+\textbf{Will gradient descent find the optimal solution?
+If so, how many steps will it take to get within $0.01$ of the optimal solution?
+If not, why not?}
+Prove your answer. (Hint: examine $\|\vec{x}_i\|_2$,
+and use $\sum_{i=1}^n \frac 1 i$ is of the order $\log n$.)
+\textbf{What about general $\vec{b} \neq \vec{0}$? State (roughly---up to the correct order) the amount of steps required to reach the optimum in the general case, for whichever cases are possible.}
+
+
+
+
+\Part Now, say we are minimizing $f(\vec x) = \|\mat A\vec x-\vec b\|_2$. Use the code provided to test several values of $\mat A$ with the step sizes suggested above. Make plots to visualize what is happening. We suggest trying $\mat A = [[1, 0], [0, 10]]$ and $\mat A = [[6, 5], [15, 8]]$. \textbf{Will any of the step sizes above work (i.e. eventually be within any presribed distance $\epsilon$) for all choices of $\mat A$ and $\vec b$?} You do not need to prove your answer, but you should briefly explain your reasoning.
+
+
+
+\end{Parts}
+
+\Question{Convergence Rate of Gradient Descent}
+
+\newcommand{\CC}{\rho}  
+In the previous problem, you examined $||\mat{A}\vec{x}-\vec{b}||_2$ (without the square).
+You showed that even though it is convex, getting gradient descent to converge
+requires some care.
+In this problem, you will examine $\frac{1}{2}||\mat{A}\vec{x}-\vec{b}||_2^2$
+(with the square). You will show that now gradient descent converges quickly.
+
+For a matrix $\mat{A} \in \mathbb{R}^{n \times d}$ and a vector $\vec{b} \in \mathbb{R}^n$,
+consider the quadratic function $f(\vec{x}) = \frac{1}{2} \| \mat{A}\vec{x}-\vec{b} \|_2^2$
+such that $\mat{A}^\top\mat{A}$ is positive definite.
+
+
+
+\begin{Parts}
+
+\Part First, consider the case $\vec{b} = \vec{0}$, and think of each $\vec{x} \in \mathbb{R}^d$
+as a ``state." Performing gradient descent moves us sequentially through the states,
+which is called a ``state evolution."
+{\bf Write out the state
+evolution for $n$ iterations of gradient descent using step-size
+$\gamma > 0$. That is, explicitly express $\vec{x}_n$ as a function of $\vec{x}_0$ (and not as a function of any other iterates).}
+
+
+
+\Part A state evolution is said to be \emph{stable} if it does not blow up arbitrarily
+over time. Specifically,
+if state $n$ is $$\vec{x}_n = \mat{B}^n\vec{x}_0$$ then we need \emph{all} the eigenvalues
+of $\mat{B}$ to be less than or equal to $1$ in absolute value, otherwise $\mat{B}^n$
+might blow up $\vec{x}_0$ for large enough $n$. To see this, consider the case when $\vec{x}_0$ is an eigenvector of $\mat{B}$ corresponding to an eigenvalue with magnitude greater than $1$.
+
+{\bf When is the state evolution of the iterations you calculated
+above stable? Express this condition in terms of eigenvalues of $\mat{A}^\top \mat{A}$.}
+
+
+
+\Part We want to bound the progress of gradient descent in
+the general case, when $\vec{b}$ is arbitrary. To do this, we first show a
+slightly more general bound,
+which relates how much the spacing between two points changes if they
+\textit{both} take a gradient step. If this spacing shrinks, this is called a contraction.
+Define map taking an iterate to its next step as $\varphi(\vec{x}) = \vec{x} - \gamma \nabla f(\vec{x})$,
+for some constant step size $\gamma > 0$.
+\textbf{Show that for any} $\vec{x},\vec{x}' \in \mathbb{R}^d$,
+\begin{align*}
+\| \varphi(\vec{x}) - \varphi(\vec{x}') \|_2 \leq \CC \| \vec{x} - \vec{x}'\|_2
+\end{align*}
+where $\CC = \max \left\{ | 1 - \gamma \lambda_{\max}(\mat{A}^\top\mat{A}) |,
+| 1 -\gamma \lambda_{\min}(\mat{A}^\top\mat{A}) | \right\}$.
+Note that $\lambda_{\min}(\mat{A}^\top\mat{A})$
+denotes the smallest eigenvalue of the matrix $\mat{A}^\top\mat{A}$; similarly,
+$\lambda_{\max}(\mat{A}^\top\mat{A})$ denotes the largest eigenvalue of the matrix
+$\mat{A}^\top\mat{A}$. (Hint: You may use the fact regarding the spectral norm (the ``induced 2-norm''): $\|Qz\|_2 \leq \|Q\|_2\|z\|_2$, where $\|Q\|_2 := \sigma_1(Q)$. )
+
+
+
+
+
+
+\Part \label{pt:x-bound} Now we give a bound for progress after $k$ steps of gradient descent. Define
+$$\vec{x}^* = \arg \min_{\vec{x} \in \mathbb{R}^d} f(\vec{x}).$$
+\textbf{Show that }
+\begin{align*}
+\| \vec{x}_{k+1} - \vec{x}^* \|_2 = \| \varphi(\vec{x}_k) - \varphi(\vec{x}^*) \|_2
+\end{align*}
+\textbf{ and conclude that}
+\begin{align*}
+\| \vec{x}_{k+1} - \vec{x}^* \|_2 \leq \CC^{k+1} \|\vec{x}_0 - \vec{x}^*\|_2.
+\end{align*}
+
+
+
+\Part Now, denote $D = \|\vec{x}_0 - \vec{x}^*\|_2$, and assume $\CC<1$. Assume we stop gradient descent after $k$ iterations. {\bf{Give a sufficient condition on $k$ to ensure we stopped within $\epsilon$ of the optimal $\vec{x}_*$. Write your answer in terms of positive quantites.}}
+
+ 
+
+\Part  However, what we often care about is progress in the
+objective value $f(\vec{x})$. That is, we want to show how quickly $f(\vec{x}_k)$
+is converging to $f(\vec{x}^*)$. We can do this by relating $f(\vec{x}_k)-f(\vec{x}^*)$ to
+$\|\vec{x}_k-\vec{x}^*\|_2$, or even better,
+relating $f(\vec{x}_k)-f(\vec{x}^*)$ to $\|\vec{x}_0-\vec{x}^*\|_2$,
+for some starting point $\vec{x}_0$. First, \textbf{show that}
+\begin{align*}
+f(\vec{x}) - f(\vec{x}^*) = \frac{1}{2}\|\mat{A} (\vec{x}-\vec{x}^*)\|_2^2.
+\end{align*}
+
+
+
+\Part {\bf Now, show that
+\begin{align*}
+f(\vec{x}_k) - f(\vec{x}^*) \leq \frac{\lambda_1}{2} \|\vec{x}_k-\vec{x}^*\|_2^2,
+\end{align*}
+for $\lambda_1 = \lambda_{\max}(\mat{A}^\top\mat{A})$, and show that
+\begin{align*}
+f(\vec{x}_k) - f(\vec{x}^*) \leq \frac{\lambda_1}{2} \CC^{2k} \|\vec{x}_0-\vec{x}^*\|_2^2.
+\end{align*}}
+(Hint: Compare with parts (c) and (d)).
+
+
+
+
+\Part As before, denote $D = \|\vec{x}_0 - \vec{x}^*\|_2$, and assume $\CC<1$. Assume we stop gradient descent after $k$ iterations. {\bf{Give a sufficient condition on $k$ to ensure our function value when we stop, $f(\vec{x_k})$, is within $\eta$ of the optimal function value $f(\vec{x}_*)$. Write your answer in terms of positive quantites (assume $D$ is large). How does the scaling in $\eta$ in this bound differ from the scaling in $\epsilon$ in the bound derived in part (e)?}}
+
+ 
+
+\Part Finally, the convergence rate is a function of $\CC$, so it's desirable
+for $\CC$ to be as small as possible. Recall that $\CC$ is a function of $\gamma$,
+so we want to pick $\gamma$ such that $\CC$ is as small as possible, as a function of
+$\lambda_{\min}(\mat{A}^\top\mat{A}), \lambda_{\max}(\mat{A}^\top\mat{A})$.
+\textbf{Write the resulting convergence rate $\CC$ as a function of
+$\kappa = \frac{\lambda_{\max}(\mat{A}^\top\mat{A})}{\lambda_{\min}(\mat{A}^\top\mat{A})}$}. This quantity is known as the \emph{condition number} of $\mat{A}^\top\mat{A}$.
+
+
+
+
+\end{Parts}
+
+\Question{A Simple Classification Approach}
+
+\textbf{Make sure to submit the code you write in this problem to ``HW5 Code'' on Gradescope.}
+
+Classification is an important problem in applied machine
+learning and is used in many different applications like image classification,
+object detection, speech recognition, machine translation and others.
+
+In \emph{classification}, we assign each datapoint a class from a finite set
+(for example the image of a digit could be assigned the value $0, 1, \dots, 9$ of that digit).
+This is different from \emph{regression}, where each datapoint is assigned a value from a
+continuous domain like $\R$ (for example features of a house like location,
+number of bedrooms, age of the house, etc. could be assigned the price of the house).
+
+In this problem we consider the simplified setting of classification where we want to
+classify data points from $\R^d$ into \emph{two} classes. For a linear classifier,
+the space $\R^d$ is split into two parts by a hyperplane: All points on
+one side of the hyperplane are classified as one class and all points on
+the other side of the hyperplane are classified as the other class.
+
+The goal of this problem is to
+show that even a regression technique like linear regression can be used to solve a
+classification problem. This can be
+achieved by regressing the data points in the training set against $-1$ or $1$
+depending on their class and then using the level set of 0 of the regression
+function as the classification hyperplane (i.e. we use 0 as a threshold
+on the output to decide between the classes).
+
+Later in lecture we will learn why linear regression is not the optimal
+approach for classification and we will study better approaches like logistic
+regression, SVMs and neural networks.
+
+\begin{Parts}
+
+\Part The dataset used in this exercise is a subset of the MNIST dataset.
+The MNIST dataset assigns
+each image of a handwritten digit their value from 0 to 9 as a class.
+For this problem we only keep digits that are assigned a 0 or 1, so we
+simplify the problem to a two-class classification problem.
+
+\textbf{Download and visualize the dataset (example code included). Include three
+images that are labeled as 0 and three images that are labeled as 1
+in your submission.}
+
+
+
+\Part We now want to use linear regression for the problem, treating class
+labels as real values $y = -1$ for class ``zero'' and $y = 1$ for class ``one''. In the dataset we
+provide, the images have already been flattened into one dimensional vectors
+(by concatenating all pixel values of the two dimensional image into a vector)
+and stacked as rows into a feature matrix $\mat X$. We want to set up the regression
+problem $\min_{\vec w}\norm{\mat X\vec w - \vec y}_2^2$ where the entry $y_i$ is the value of the
+class ($-1$ or $1$) corresponding to the image in row $\vec{x}_i^\top$ of the feature matrix.
+\textbf{Solve this regression problem for the training set and report the value of
+$\norm{\mat X\vec w - \vec y}_2^2$ as well as the weights $\vec w$.} For this problem you
+may only use pure Python and numpy (no machine learning libraries!).
+
+
+
+\Part Given a new flattened image $\vec x$, one natural rule to classify it is
+the following one: It is a zero if $\vec x^\top \vec w \leq 0$ and a one if
+$\vec x^\top \vec w > 0$. \textbf{Report what percentage of the digits in the training set
+are correctly classified by this rule. Report what percentage of the digits in the test
+set are correctly classified by this rule.}
+
+
+
+\Part \textbf{Why is the performance typically evaluated on a separate test set
+(instead of the training set) and why is the performance on the training and
+test set similar in our case?} We will cover these questions in more detail
+later in the class.
+
+
+\Part Unsatisfied with the current performance of your classifier, you call your mother for advice, and she suggests to use random features instead of raw pixel features. Specifically, she suggests to use the feature map
+\begin{equation*}
+\phi(\vec{x}) = \cos(\mat{G}^\top \vec{x} + \vec{b})\:,
+\end{equation*}
+where each entry of $G\in \mathbb{R}^{d \times p}$ is drawn i.i.d. as $\mathcal{N}(0,0.01)$ and each entry in the vector $b\in \mathbb{R}^p$ is drawn i.i.d from the uniform distribution on $[0, 2\pi]$. Note that $\cos$ should be taken point wise, i.e. $\phi(x)$ should output a vector in $\mathbb{R}^p$.
+\textbf{With $p=5000$, report what percentage of digits
+are correctly classified using this approach on the training set and test set. Make sure to adapt the classification rule, i.e. the threshold set for the outputs.}
+
+
+
+\end{Parts}
+
+
+\end{document}

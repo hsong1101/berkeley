@@ -1,0 +1,426 @@
+\documentclass[preview]{standalone}
+\usepackage{header_problems}
+\usepackage{header_template}
+\begin{document}
+\fontsize{12}{15}\selectfont
+
+\Question{Getting Started}
+
+\textbf{Read through this page carefully.} You may typeset your homework in latex or submit neatly handwritten/scanned solutions. Please start each question on a new page. Deliverables:
+
+\begin{enumerate}
+  \item Submit a PDF of your writeup, 
+  %\textbf{with an appendix for your code}, 
+  to assignment on Gradescope, ``<<title>> Write-Up". 
+  %If there are graphs, include those graphs in the correct sections. Do not simply reference your appendix.
+  %\item If there is code, submit all code needed to reproduce your results, ``<<title>> Code".
+  %\item If there is a test set, submit your test set evaluation results, ``<<title>> Test Set".
+\end{enumerate}
+
+%After you've submitted your homework, watch out for the self-grade form.
+
+\begin{Parts}
+
+\Part Who else did you work with on this homework? In case of course events, just describe the group. How did you work on this homework? Any comments about the homework?
+
+\vspace{15pt}
+\framebox(465, 75){}
+
+\Part Please copy the following statement and sign next to it. We just want to make it \textit{extra} clear so that no one inadvertently cheats.
+
+\textit{I certify that all solutions are entirely in my words and that I have not looked at another student's solutions. I have credited all external sources in this write up.}
+
+\vspace{15pt}
+\framebox(465, 75){}
+
+\end{Parts}
+
+\pagebreak
+
+This homework is due \textbf{Friday, November 2nd, 2018 at 10pm}.
+
+% stephen: SGD question
+%\input{gradient_descent/coordinate_descent.tex}
+% max: stability question
+\Question{Stability and the Regularized Hinge Loss}
+\newcommand{\hinge}{\mathrm{hinge}}
+\newcommand{\what}{\widehat{\w}}
+\newcommand{\risk}{\mathcal{R}}
+\newcommand{\calS}{\mathcal{S}}
+In this problem, we are going to prove that minimizing the regularized hinge loss leads to a classifier with lower average prediction error. Throughout, let $\calD$ denote a distribution over data-labels pairs $(\x,y) \in \R^d \times \{-1,1\}$, where, with probability $1$, $\|\x\|_2 \le 1$.
+
+Ideally, we would want a predictor which minimizes the population misclassification error,
+\begin{align*}
+\risk_{0,1}[\w] := \Pr_{(\x, y) \sim \calD}[\sign(\w^\top \x) \ne y].
+\end{align*}
+If our data are not linearly spearable, it turns out that directly optimizing the $0-1$ loss $\I(\sign(\w^\top \x) \ne  y)$ is computationally intractable (recall that $\I(a \ne b)$ is the function which is $1$ if $a \ne b$ and $0$ otherwise). Instead, we will optimize a regularized hinge loss,
+\begin{align*}
+\hinge_{\lambda}(\w,\x,y):= \max\{1 - y\cdot \w^\top \x, 0 \} + \frac{\lambda}{2}\|\w\|_2^2,
+\end{align*}
+with $\norm{w}_2 \leq R$. This is called an \emph{surrogate loss} because it replaces the $0-1$ loss. Though surrogate losses help retain efficiency when the data are not separable, we will give an analysis of using the surrogate loss when the data are separable with margin.
+
+
+Specifically, let $\calS = \{(\x_1,y_1),\dots,(\x_n,y_n)\}$ denote a dataset of $n$ points drawn $i.i.d.$ from $\calD$.
+We define the empirical and population risk
+\begin{align*}
+\risk(\w)&:= \E_{(\x,y)\sim \calD} \left[\hinge_{\lambda}(\w,\x,y)\right] \:, \\
+\risk_{\calS}(\w)&:= \frac{1}{n}\sum_{i=1}^n \hinge_{\lambda}(\w,\x_i,y_i) \:,
+\end{align*}
+and consider the \emph{constrained ERM} estimator $\what$, for a fixed $\lambda > 0, R > 0$,
+\begin{align*}
+\what_{\calS} = \arg\min_{\w:\|\w\|_2 \le R} \risk_{\calS}(\w).
+\end{align*}
+
+
+
+\begin{Parts}
+
+\Part
+
+\textbf{Show that $\hinge_{\lambda}(\w,\x,y) \ge \hinge_{0}(\w,\x,y) \ge \I(\sign(\w^\top \x) \ne y)$. Conclude that }
+\begin{align*}
+    \E_{\calS}[\risk_{0,1}[\what_{\calS}]] \le  \E_{\calS}[\risk(\what_{\calS})] \:.
+\end{align*}
+
+
+
+
+\Part
+\newcommand{\ballr}{\calB_{R}}
+Recall that a function $g(\w)$ is $L$-Lipschitz on a ball of radius $R$, $\ballr:= \{\w \in \R^d: \|\w\|_2 \le R\}$ if
+\begin{align*}
+|g(\w_1) - g(\w_2)| \le L, \quad \text{ for all } \w_1,\w_2 \in \ballr.
+\end{align*}
+Furthermore, it is convex on $\ballr$ if
+\begin{align*}
+g(\alpha \w_1 +(1-\alpha) \w_2) \le \alpha g(\w_1) + (1-\alpha) g(\w_2),\quad \text{ for all } \w_1,\w_2 \in \ballr, \alpha \in [0,1].
+\end{align*}
+Note that $\ballr$ is a convex set (by the triangle inequality), so $\alpha \w_1 + (1-\alpha) \w_2 \in \ballr$ as long as $\w_1, \w_2 \in \ballr$. \textbf{Show that
+\begin{enumerate}
+	\item if $f(\w)$ is $L_f$-Lipschitz and $g(\w)$ is $L_g$-Lipschitz on $\ballr$, then $h(\w):= \max\{f(\w),g(\w)\}$ is $\max\{L_f,L_g\}$-Lipschitz on $\ballr$.
+	\item If $f$ and $g$ are convex, then $h(\w):= \max\{f(\w),g(\w)\}$ is convex.
+\end{enumerate}
+	}
+
+\emph{Hint: Begin by showing that for any real numbers $a,b,c,d$,
+\begin{enumerate}
+\item $|\max\{a,b\} - \max\{c,d\}| \le \max\{|a-c|,|b-d|\}$
+\item $\max\{a+ b,c +d\} \le \max\{a,c\} + \max\{b,d\}$
+\end{enumerate}
+Note that, by swapping out $(a,b)$ for $(c,d)$, you can assume without loss of generality that  $\max\{a,b\} \ge \max\{c,d\}$ when trying to prove the first inequality. Similarly, you can assume without loss of generality that $\max\{a+ b,c +d\} = a+b$ when trying to prove the second inequality.}
+
+
+
+
+
+\Part
+\textbf{Show that for any $\x \in \R^d$ and $y \in \{-1,1\}$,
+\begin{enumerate}
+    \item $\hinge_0(\w,\x,y)$ is convex in $\w$. That is, the  function  $\w \mapsto \hinge_0(\w,\x,y)$ is convex, i.e. for all $\alpha \in [0, 1]$,
+\begin{align*}
+\hinge_0(\alpha \w_1 + (1-\alpha)\w_2, \x, y ) \le  \alpha\hinge_0( \w_1, \x, y ) + (1-\alpha)\hinge_0( \w_2, \x, y )  \:.
+\end{align*}
+\item The function $\hinge_0(\w,\x,y)$ is $\|\x\|_2$-Lipschitz in $\w$ on $\R^d$. That is, the function $\w \mapsto \hinge_0(\w,\x,y)$ satisfies
+\begin{align*}
+|\hinge_0(\w_1,\x,y) - \hinge_0(\w_2,\x,y)| \le \|\x\|_2 \|\w_1 - \w_2\|_2.
+\end{align*}
+\end{enumerate}}
+\emph{Hint: Use part (b).}
+
+
+
+\Part
+\textbf{Show that for any $\x,y$ such that $y \in \{-1,1\}$ and $\|\x\|_2 \le 1$, the function $\w \mapsto \hinge_{\lambda}(\w,\x,y)$ is $L = (1 + 2 \lambda R)$-Lipschitz on the ball of radius $R$, $\ballr$. That is, for any $\w_1,\w_2 \in \ballr$,
+\begin{align*}
+|\hinge_{\lambda}(\w_1,\x,y) - \hinge_{\lambda}(\w_2,\x,y)| \le(1 + 2 \lambda R) \|\w_1 - \w_2\|_2.
+\end{align*}
+}
+
+\emph{Hint: You may need to bound $|\|\w_1\|_2^2 - \|\w_2\|_2^2|$. Try writing $\|\w_1\|_2^2 = \|\w_2 + (\w_1 - \w_2)\|_2^2$, and then expanding out $\|\w_2 + (\w_1 - \w_2)\|_2^2$. Ultimately, you should try to establish the following inequality:
+\begin{align*}
+|\|\w_1\|_2^2 - \|\w_2\|_2^2|  \le \|\w_1 - \w_2\|_2 (2\|\w_2\|_2 + \|\w_1 - \w_2\|_2).
+\end{align*}
+Now think about how to use the condition that $\w_1,\w_2 \in \ballr$.
+}
+
+
+\Part
+In the slides from EE227c, we linked to notes which prove a theorem which links convexity to uniform stability. You do not need to prove the theorem (if you are curious, read the proof at \url{https://ee227c.github.io/notes/ee227c-lecture11.pdf}). The theorem is as follows:
+\begin{theorem} Let $\calD$ be a distribution over data-label pairs $(\x,y)$. Moreover, suppose that if $(\x,y)$ is drawn from $\calD$, the loss functions $\w \mapsto \ell(\w,\x,y)$ are always (i.e. with probability one) $L$-Lipschitz and $\alpha$-strongly convex in $w$ for all $\w \in \ballr$. Then, the constrained empirical risk minimizer, defined as
+\begin{align*}
+\widehat{\w}:= \arg\min_{\w \in \ballr}\frac{1}{n}\sum_{i=1}^n\ell(\w,\x_i,y_i)
+\end{align*}
+always (i.e. with probability 1) has uniform stability bounded by $\Delta_{\mathrm{sup}}\le \frac{4 L^2}{\alpha n}$,
+where $\Delta_{\mathrm{sup}}$ is the uniform stability bound defined in the lecture slides.
+\end{theorem}
+
+Use this bound,  the relationship between uniform stabililty, average stability and generalization error, and the properties of $\hinge_{\lambda}$ derived above, to \textbf{show that for the estimator $\what_{\calS}$ defined above, we have }
+\begin{align*}
+\E_{\calS}\left[\risk(\what_{\calS}) - \risk_{\calS}(\what_{\calS})\right] \le \frac{1}{n}\left(\frac{8 }{\lambda} + 32 \lambda R^2\right)
+\end{align*}
+
+\emph{Hint: Recall that $\w \mapsto \ell(\w,\x,y)$ is $\alpha$ strongly convex if $\w \mapsto \ell(\w,\x,y) - \frac{\alpha}{2}\|\w\|_2^2$ is convex. You may also want the inequality $(a+b)^2 \le 2(a^2 + b^2)$.}
+
+
+\Part
+Suppose that there exists an exact classifier with margin $b$. That is, there exists a $w_*$ such that
+\begin{align*}
+\Pr_{(\x,y) \sim \calD}\left[ \frac{y \cdot \w_*^\top \x  }{\|\w_*\|_2} \ge b\right] = 1.
+\end{align*}
+\textbf{Show that by choosing $R$ appropriately as a function of $b$, that
+\begin{align*}
+\E_{\calS}[\risk_{\calS}(\what_{\calS})] \le \frac{\lambda }{2b^2}.
+\end{align*}
+Conclude that for this value of $R$, we have the following bound on the $0,1$ loss
+\begin{align*}
+\E_{\calS}[\risk_{0,1}(\what_{\calS})] \le \frac{C}{n}\left( \frac{1}{\lambda} + \frac{\lambda}{b^2}\right),
+\end{align*}
+where $C$ is a universal that does not depend on $C,b,n,\lambda$. Finally, what $\lambda$ would you choose to optimize the right handside of the above equation? What do you get?}
+
+\emph{Hint: For the conclusion, will may want to remember what you proved in part (a).}
+
+
+
+
+
+
+
+\end{Parts}
+\iffalse
+\fi
+
+% stephen: non-convex optimization question
+\Question{Non-Convex Optimization}
+
+In this question, we will look at the importance of random initialization for
+gradient descent on non-convex problems.
+We will look one of the simplest non-trivial non-convex problems we know, which is
+the familiar \emph{principal component analysis} problem.
+Instead of using SVD, however, we will consider the use of gradient descent to solve PCA.
+
+Specifically, let $\mat{M} \in \R^{d \times d}$ be a symmetric positive semi-definite matrix
+with eigenvalues $\lambda_i$ such that $\lambda_1 > \lambda_2 \geq ... \geq \lambda_d \geq 0$.
+Define $f : \R^d \rightarrow \R$ as:
+\begin{align*}
+  f(\vec{w}) = \frac{1}{4} \norm{ \mat{M} - \vec{w}\vec{w}^\top }_F^2 \:.
+\end{align*}
+Let $\mat{M} = \sum_{i=1}^{d} \lambda_i \vec{u}_i\vec{u}_i^\top$ denote the eigendecomposition of $\mat{M}$.
+Now, consider the optimization problem:
+\begin{align*}
+  \min_{\vec{w} \in \R^d} f(\vec{w}) \:.
+\end{align*}
+From our study of PCA, we know the optimal solution to this
+problem is to set $\vec{w} \in \{ \pm \sqrt{\lambda_1} \vec{u}_1 \}$.
+Let us consider what happens when we instead apply gradient descent to solve this optimization problem:
+\begin{align*}
+  \vec{w}_{t+1} = \vec{w}_t - \alpha_t \nabla f(\vec{w}_t) \:.
+\end{align*}
+
+\begin{Parts}
+
+\Part Show that $f(\vec{w})$ is \textbf{\emph{not}} convex.
+
+\emph{Hint:} Consider the line
+between $\sqrt{\lambda_1} \vec{u}_1$ and $-\sqrt{\lambda_1} \vec{u}_1$.
+
+
+
+\Part Compute the gradient $\nabla f(\vec{w})$.
+
+\emph{Hint:} There are two ways to approach this, which are both valid.
+The first way is to write $f(\vec{w})$ in terms of the sum of quantities for which
+it is either easy to compute the gradients or we already know the answer.
+The second way is from first principles, by
+finding the vector $\nabla f(\vec{w}) \in \R^d$ such that
+$f(\vec{w} + \vec{\Delta}) = f(\vec{w}) + \inner{\nabla f(\vec{w})}{\vec{\Delta}} + o(\norm{\vec{\Delta}}_2)$ holds.
+
+
+
+\Part
+Recall that a stationary point of $f$ is a point $\vec{w}$ such that $\nabla f(\vec{w}) = \vec{0}$.
+In this question we will show that the set of stationary points of $f$ is given by the zero vector and
+scaled eigenvectors of $\mat{M}$. Specifically, show that:
+\begin{align*}
+  \{ \vec{w} \in \R^d : \nabla f(\vec{w}) = \vec{0} \} = \{\vec{0}\} \cup \{ \pm \sqrt{\lambda_i} \vec{u}_i \: : \: i=1, ..., d \} \:.
+\end{align*}
+
+
+
+\Part Show that for any $i=2, ..., d$ such that $\lambda_i > 0$, we have that
+$\vec{w}_i = \pm \sqrt{\lambda_i} \vec{u}_i$ is a saddle point of $f$.
+Recall that a saddle point is a stationary point that is not a local extremum of the function.
+
+\emph{Hint:} For a unit vector $\vec{v} \in \R^d$, define the function $g(t; \vec{v}) = f( \vec{w}_i + t \vec{v})$.
+Find two directions $\vec{v}_1, \vec{v}_2$ such that $\frac{d^2}{dt^2} g(t; \vec{v}_1) \bigg|_{t=0} < 0$
+and $\frac{d^2}{dt^2} g(t; \vec{v}_2) \bigg|_{t=0} > 0$. That is,
+the point $\vec{w}_i$ is a local minimum along the direction $\vec{v}_2$,
+but there exists a direction $\vec{v}_1$ for which it the function at $\vec{w}_i$ can be decreased.
+
+Another proof involves computing the Hessian $\nabla^2 f(\vec{w}_i)$ and showing that it has
+a positive and negative eigenvalue.
+
+
+
+\Part Show that for any step sizes $\alpha_t$ and for any index set $\mathcal{I} \subset \{1, ..., d\}$, that
+if $\vec{w}_0 \in \mathrm{span}\{ \vec{u}_i \}_{i \in \mathcal{I}}$, then
+$\vec{w}_t \in \mathrm{span}\{ \vec{u}_i \}_{i \in \mathcal{I}}$ for all $t \geq 0$.
+
+
+
+\Part In light of the previous part, how would you initialize gradient descent
+(i.e. how would you set $\vec{w}_0$) so that gradient descent does not converge
+to the incorrect answer? You do not need to prove your initialization works, just
+provide an explanation based on your intuition.
+
+\emph{Hint: consider a random initialization.}
+
+
+
+\end{Parts}
+
+% max: linear neural network
+%\input{linear_neural_net/linear_neural_net.tex}
+\Question{Backpropagation Algorithm for Neural Networks}
+
+In this problem, we will be implementing the backpropagation algorithm to train a neural network to classify the difference between two handwritten digits (specifically the digits 3 and 9).
+
+Before we start we will install the library mnist so we can load our data properly.\\
+Run \verb|pip install mnist| in your terminal so the library is properly installed. \\
+\textbf{Please attach screenshots of all your code in your code and terminal outputs in your submission!}
+
+To establish notation for this problem, we define:
+\begin{align*}
+\vec a_{i+1} = \sigma(\vec z_i) = \sigma(\mat W_i\vec a_i+\vec b_i).
+\end{align*}
+
+In this equation, $\mat W_i$ is a $n_{i+1}\times m_i$ matrix that maps the input $\vec a_i$ of dimension $m_i$ to a vector of dimension $n_{i+1}$, where $n_{i+1}$ is the size of layer $i+1$ and we have that $m_i=n_{i}$.  The vector $\vec{b}_i$ is the bias vector added after the matrix multiplication, and $\sigma$ is the nonlinear function applied element-wise to the result of the matrix multiplication and addition.  $\vec z_i = \mat W_i\vec a_i +\vec{b}_i$ is a shorthand for the intermediate result within layer $i$ before applying the nonlinear activation function $\sigma$. Each layer is computed sequentially where the output of one layer is used as the input to the next.  To compute the derivatives with respect to the weights $\mat W_i$ and the biases $\vec{b}_i$ of each layer, we use the chain rule starting with the output of the network and work our way backwards through the layers, which is where the backprop algorithm gets its name.
+
+You are given starter code with incomplete function implementations.  For this problem, you will fill in the missing code so that we can train a neural network to learn your nonlinear classifier. The code currently trains a network with one hidden layer with 4 nodes.
+
+\begin{Parts}
+\Part
+{\bf Start by drawing a small example network with one hidden layer, where the last layer has a single scalar output. The first layer should have  784 inputs corresponding to the input image $x$ which consists of a $28 \times 28$ pixels. The computational layers should have widths of $16$, and $1$ respectively. The final ``output'' layer's ``nonlinearity'' should be a linear unit that just returns its input. The earlier ``hidden'' layers should have ReLU units. Label all the $n_i$ and $m_i$ as well as all the $\vec a_i$ and $\mat W_i$ and $\vec b_i$ weights. You can consider the bias terms to be weights connected to a dummy unit whose output is always $1$ for the purpose of labeling. You can also draw and label the loss function that will be important during training --- use a squared-error loss.}
+
+Here, the important thing is for you to understand your own clear ways to illustrate neural nets. You can follow conventions seen online or in lecture or discussion, or you can modify those conventions to pick something that makes the most sense to you. The important thing is to have your illustration be unambiguous so you can use it to help understand the forward flow of information during evaluation and the backward flow during gradient computations. Since you're going to be implementing all this during this problem, it is good to be clear.
+
+
+
+\Part
+Let's start by implementing the cost function of the network.  We will be using a simple least squares classifier. We will regress all the positive classes to 1, and the negative classes to -1. The sign of the predicted value will be the predicted class label.
+This function is used to assign an error for each prediction made by the network during training.
+
+The error we actually care about is the  misclassification error (MCE) which will be:
+\begin{align*}
+    \text{MCE}(\hat{\vec{y}})=\frac{1}{n}\sum_{i=1}^n \I\{\sign(y_i) \neq \sign(\hat{y}_i)\} \:.
+\end{align*}
+
+However this function is hard to to optimize so the implementation will be optimizing the mean squared error cost (MSE) function, which is given by
+\begin{align*}
+\text{MSE}(\hat{\vec{y}})=\frac{1}{2n}\sum_{i=1}^n( y_i - \hat{y}_i)^2
+\end{align*}
+where $y_i$ is the observation that we want the neural network to output and $\hat{y}_i$ is the prediction from the network.
+
+
+
+\textbf{Write the derivative of the mean squared error cost function with respect to the predicted outputs $\hat{\vec{y}}$.  In \texttt{backprop.py} implement the functions \texttt{QuadraticCost.fx} and \texttt{QuadraticCost.dx}}
+
+
+
+\Part Now, let's take the derivatives of the nonlinear activation functions used in the network.  \textbf{Implement the following nonlinear functions in the code and their derivatives:}
+\begin{align*}
+\sigma_{\text{linear}}(z)=z
+\end{align*}
+
+\begin{align*}
+\sigma_{\text{ReLU}}(z)=\begin{cases}0 & z<0 \\ z & \text{otherwise}\end{cases}
+\end{align*}
+
+\begin{align*}
+\sigma_{\text{tanh}}(z)=\frac{e^z-e^{-z}}{e^z+e^{-z}}
+\end{align*}
+
+For the $\tanh$ function, feel free to use the $\tanh$ function in \texttt{numpy}.  We have provided the sigmoid function as an example activation function.
+
+
+
+
+
+\Part We have implemented the forward propagation part of the network for you (see \texttt{Model.evaluate} in the code). We now need to compute the derivative of the cost function with respect to the weights $\mat W$ and the biases $\vec{b}$ of each layer in the network.  We will be using all of the code we previously implemented to help us compute these gradients.  \textbf{Assume that $\frac{\partial\text{MSE}}{\partial\vec{a}_{i+1}}$ is given, where $\vec{a}_{i+1}$ is the input to layer $i+1$.  Write the expression for $\frac{\partial\text{MSE}}{\partial \vec{a}_i}$ in terms of $\frac{\partial\text{MSE}}{\partial\vec{a}_{i+1}}$.  Then implement these derivative calcualtions in the function \texttt{Model.compute\_grad}.}  Recall, $\vec{a}_{i+1}$ is given by
+$$\vec a_{i+1} = \sigma(\vec z_i) = \sigma(\mat W_i\vec a_i+\vec{b}_i) \:.$$
+
+
+
+\Part
+One method to shortcut training is to randomly initialize the weights of the neural network
+and only train the weights of the last layer. This effectively treats the hidden layers of the neural
+network as random feature mappings, similar in spirit to the random feature mappings we implemented in Homework 5.
+{\bf Use regularized least-squares classification to optimize the weights of the final layer.
+Compare the
+resulting approximation mean-squared-error values  and misclassification error
+values for the 8 cases above (2 nonlinearities times 4 widths). Comment on what
+you see.}
+
+
+
+\Part We use gradients to update the model parameters using batched stochastic gradient descent.  \textbf{Implement the function \texttt{GDOptimizer.update} to update the parameters in each layer of the network.}  You will need to use the derivatives $\frac{\partial\text{MSE}}{\partial \vec{z}_i}$ and the outputs of each layer $\vec{a}_i$ to compute the derivates $\frac{\partial\text{MSE}}{\partial \mat W_i}$ and $\frac{\partial\text{MSE}}{\partial \vec{b}_i}$.  Use the learning rate $\eta$, given by \texttt{self.eta} in the function, to scale the gradients when using them to update the model parameters.
+\textbf{Choose several different batch sizes  and number of training epochs. Report the final error on the training set given the various batch sizes and training epochs}
+
+
+
+
+
+\Part Let's now explore how the number of hidden nodes per layer affects the approximation.  \textbf{Train a models using the tanh and the ReLU activation functions with $2$, $4$, $8$, $16$, and $32$ hidden nodes per layer (width)}.  Use the same training iterations and learning rate from the starter code.  \textbf{Report the resulting error on the training set after training for each combination of parameters.}
+
+\Part \textbf{Bonus:} Currently the code classifies between the digits 3 and 9, modify the variables \verb|N0| and \verb|N1| in the code to classify between other pairs of digits. Do your results change if you pick different digits? Do you need more or less hidden nodes to reach the same accuracy? Do you need more or less training epochs?
+
+\Part \textbf{Bonus:} Modify the code to implement \textbf{multi-class} classification. That is regress to a \textit{vector} of a one hot encoding of the label. (Class 0 will be mapped to $e_1$ (the first standard basis vector), class 1 will be mapped to $e_2$ and so on). You will need to change the code that loads the data to
+load all the classes. Report the accuracy on the test set.
+
+
+
+\end{Parts}
+
+% TODO: some coding question
+% dataset creation question
+\Question{Dataset Creation: Accessibility}
+In March of 2018, Google announced a ``wheelchair accessible'' routes option in transit navigation on Google Maps.\footnote{\tiny \url{https://www.blog.google/products/maps/introducing-wheelchair-accessible-routes-transit-navigation/}} The tool is based largely on crowd-sourced information,\footnote{\tiny\url{https://www.blog.google/products/maps/building-map-everyone/}} and it is currently only available in six cities. Can we scale up this process using other information?
+
+Motivated by this question, we will consider the problem of automatically labeling images of building entrances as either accessible or inaccessible to a person in a wheelchair from the sidewalk. The first step is to collect labeled examples, which is your task for this homework problem.
+
+
+{\bf Take twenty pictures each of specific building entrances that are accessible or inaccessible, for a total of 40 images}.
+The images should be taken from the sidewalk or the street, with the entrance centered. A human should be able to determine from the image whether or not the entrance is accessible or inaccessible. See examples below. 
+
+Once you have collected the images, {\bf crop and/or resize each one to be $256\times256$ pixels}, keeping the entrance centered. You are provided with a script which demonstrates how to use functions from \texttt{skimage} to automate this process in \texttt{crop\_resize.py}. 
+{\bf Save the resized images as .png files}. Do not save the pictures as .jpg files, since these are lower quality.
+
+\begin{figure}[h!]
+    \begin{center}
+    \includegraphics[height=150px]{src/problems/data_collection/house.png}$\qquad$
+    \includegraphics[height=150px]{src/problems/data_collection/cory.png}
+    \caption{Example of images of entrances: inaccessible (left) and accessible (right).} \label{fig:robot}
+    \end{center}
+\end{figure}
+
+Next, place all images of accessible entrances in a folder named \emph{acc} and all images of inaccessible entrances in a folder named \emph{inacc}. 
+In each of these folders, 
+{\bf include a file named \emph{rich\_labels.txt} which contains information about the geographic location of each image}.
+The file should contain entries for each image in the folder. Entries should be
+on new lines prefixed by the file name in the following form:
+\[\underbrace{\textrm{sodahall.png}}_{\textrm{filename}}
+\underbrace{\textrm{ }}_{\textrm{space}}
+\underbrace{\textrm{37.875315}}_{\textrm{latitude}}
+\underbrace{\textrm{ }}_{\textrm{space}}
+\underbrace{\textrm{-122.258645}}_{\textrm{longitude}}
+\]
+
+The GPS coordinate need not be exact, but please report the latitude and longitude to at least 4 points after the decimal.\footnote{
+	You can use Google Maps to find the GPS coordinate of a location on the map after the fact. Additionally, many cell phones will automatically tag images with the location. You can view this under `Get Info'$\to$`More Info' or `Properties'$\to$`Details'.
+}
+Place the \emph{acc} and \emph{inacc} folders into a folder titled \emph{data}. To turn in the folder, {\bf compress it to a .zip and upload it to Gradescope}.
+We have provided a file called \texttt{view\_data.py} that will be used to examine and grade your submission. You are encourage to validate the form of your submissions by ensuring that this code runs without warnings.
+
+
+
+
+\end{document}
