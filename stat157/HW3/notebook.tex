@@ -1,0 +1,845 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{homework3}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{homework-3---berkeley-stat-157}{%
+\section{Homework 3 - Berkeley STAT
+157}\label{homework-3---berkeley-stat-157}}
+
+Handout 2/5/2019, due 2/12/2019 by 4pm in Git by committing to your
+repository.
+
+\textbf{Formatting: please include both a .ipynb and .pdf file in your
+homework submission, named homework3.ipynb and homework3.pdf. You can
+export your notebook to a pdf either by File -\textgreater{} Download as
+-\textgreater{} PDF via Latex (you may need Latex installed), or by
+simply printing to a pdf from your browser (you may want to do File
+-\textgreater{} Print Preview in jupyter first). Please don't change the
+filename.}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{from} \PY{n+nn}{mxnet} \PY{k}{import} \PY{n}{nd}\PY{p}{,} \PY{n}{autograd}\PY{p}{,} \PY{n}{gluon}
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\end{Verbatim}
+
+
+    \hypertarget{logistic-regression-for-binary-classification}{%
+\section{1. Logistic Regression for Binary
+Classification}\label{logistic-regression-for-binary-classification}}
+
+In multiclass classification we typically use the exponential model
+
+\[p(y|\mathbf{o}) = \mathrm{softmax}(\mathbf{o})_y = \frac{\exp(o_y)}{\sum_{y'} \exp(o_{y'})}\]
+
+1.1. Show that this parametrization has a spurious degree of freedom.
+That is, show that both \(\mathbf{o}\) and \(\mathbf{o} + c\) with
+\(c \in \mathbb{R}\) lead to the same probability estimate. 1.2. For
+binary classification, i.e.~whenever we have only two classes
+\(\{-1, 1\}\), we can arbitrarily set \(o_{-1} = 0\). Using the
+shorthand \(o = o_1\) show that this is equivalent to
+
+\[p(y=1|o) = \frac{1}{1 + \exp(-o)}\]
+
+1.3. Show that the log-likelihood loss (often called logistic loss) for
+labels \(y \in \{-1, 1\}\) is thus given by
+
+\[-\log p(y|o) = \log (1 + \exp(-y \cdot o))\]
+
+1.4. Show that for \(y = 1\) the logistic loss asymptotes to \(o\) for
+\(o \to \infty\) and to \(\exp(o)\) for \(o \to -\infty\).
+
+    \hypertarget{section}{%
+\subsubsection{1.1}\label{section}}
+
+    \[\frac{\exp(o_y)}{\sum_{y'}\exp(o_{y'})}\]
+\[= \frac{\exp(o_y + c)}{\sum_{y'}\exp(o_{y'+c})}\]
+\[= \frac{\exp(x+c)}{\sum_i \exp(x_i+c)}\]
+\[= \frac{\exp(x)\cdot\exp(c)}{\sum \exp(x_i)\cdot\exp(c)}\]
+\[= \frac{\exp(x)\cdot\exp(c)}{n\exp(c)\sum_i \exp(x_i)}\]
+\[= \frac{\exp(x)}{n\sum \exp(x_i)}\]
+\[= \frac{1}{n}\frac{\exp(x)}{\sum \exp(x_i)} = \frac{1}{n}\frac{\exp(o_y)}{\sum_{y'}\exp(o_{y'})} = \frac{1}{n}softmax(\mathbf{o}_y)\]
+
+The last statement is the same as the first statement but the result is
+just rescaled by \(1/n\) where \(n\) is the number of distinct labels.
+
+    \hypertarget{section}{%
+\paragraph{1.2}\label{section}}
+
+    \[\frac{exp(o_1)}{exp(o_1) + exp(o_{-1})} = \frac{1}{1 + \exp(-o_1))}\]
+where \(o_{-1} = 0\)
+\[\frac{exp(o)}{exp(o) + 1} = \frac{1}{1 + \exp(-o))}\]
+\[\exp(o)(1 + \exp(-o)) = 1 + \exp(o)\]
+\[\exp(o) + \exp(-o)\exp(o) = 1 + \exp(o)\]
+\[\exp(o) + \exp(-o + o) = 1 + \exp(o)\] \[\exp(o) + 1\ = 1 + \exp(o)\]
+
+    \hypertarget{section}{%
+\paragraph{1.3}\label{section}}
+
+    \[-\log \frac{1}{1 + e^{-o}} = \log(1 + e^{-y \cdot o})\]
+\[= - (\log 1 - \log(1 + e^{-o})) = \log(1 + e^{-y \cdot o})\]
+\[= \log(1 + e^{-o}) - \log 1 = \log(1 + e^{-y \cdot o})\]
+\[= \log(1 + e^{-o}) = \log(1 + e^{-y \cdot o})\]
+\[= 1 + e^{-o} = 1 + e^{-y \cdot o}\] Since it is binary and as
+mentioned in part 1.2, we can arbitrarily set \(o_{-1}\) to 0. So if
+\(y = 0\), then the equation becomes 0 on both sides. If it is 1, they
+are \(e^{-o} = e^{-o}\)
+
+    \hypertarget{section}{%
+\paragraph{1.4}\label{section}}
+
+    \[\log (1 + e^{-x}) \to 0\] when \(x \to \infty\) and
+\[\log (1 + e^{-x}) \to e^x\] when \(x \to -\infty\)
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \(\log (1 + e^{-x}) \to \log(\frac{e^x + 1}{e^x}) \to \log(e^x + 1) - \log(e^x)\).
+  As \(x \to \infty\), both equation goes to infinity and their
+  difference goes to 0 but since the first equation is always 1 greater
+  than the second, it doesn't actually reach 0.
+\item
+  \(\log (1 + \frac{1}{e^x})\). The \(e^x\) goes to \(\infty\) as
+  \(x \to \infty\) but since it is now inversed, it goes to zero.
+  However since our x goes to \(-\infty\), this effect also becomes
+  inverse that goes to the left side of the graph that it acts like a
+  regular \(e^x\) that as \(x \to -\infty\), the equation becomes
+  \(e^x\).
+\end{enumerate}
+
+    \hypertarget{logistic-regression-and-autograd}{%
+\section{2. Logistic Regression and
+Autograd}\label{logistic-regression-and-autograd}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Implement the binary logistic loss
+  \(l(y,o) = \log (1 + \exp(-y \cdot o))\) in Gluon
+\item
+  Plot its values for \(y \in \{-1, 1\}\) over the range of
+  \(o \in [-5, 5]\).
+\item
+  Plot its derivative with respect to \(o\) for \(o \in [-5, 5]\) using
+  `autograd'.
+\end{enumerate}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{n}{loss} \PY{o}{=} \PY{n}{gluon}\PY{o}{.}\PY{n}{loss}\PY{o}{.}\PY{n}{LogisticLoss}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{n}{pred} \PY{o}{=} \PY{n}{nd}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mf}{0.15}\PY{p}{)}
+        
+        \PY{n}{label} \PY{o}{=} \PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1} \PY{o}{*} \PY{n}{nd}\PY{o}{.}\PY{n}{ones\PYZus{}like}\PY{p}{(}\PY{n}{pred}\PY{p}{)}\PY{p}{,} \PY{n}{nd}\PY{o}{.}\PY{n}{ones\PYZus{}like}\PY{p}{(}\PY{n}{pred}\PY{p}{)}\PY{p}{]}
+        
+        \PY{n}{l} \PY{o}{=} \PY{p}{[}\PY{n}{loss}\PY{p}{(}\PY{n}{pred}\PY{p}{,} \PY{n}{label}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{loss}\PY{p}{(}\PY{n}{pred}\PY{p}{,} \PY{n}{label}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+        \PY{n}{y} \PY{o}{=} \PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}
+        
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{:}
+            
+            \PY{n}{ax}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{pred}\PY{o}{.}\PY{n}{asnumpy}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{l}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{asnumpy}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+            \PY{n}{ax}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y : }\PY{l+s+si}{\PYZob{}y[i]\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{15}\PY{p}{)}
+            \PY{n}{ax}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}
+            \PY{n}{ax}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{15}\PY{p}{)}
+            \PY{n}{ax}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Range}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{15}\PY{p}{)}
+        
+        \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{pred1} \PY{o}{=} \PY{n}{pred}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+        \PY{n}{pred2} \PY{o}{=} \PY{n}{pred}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+        
+        \PY{n}{pred1}\PY{o}{.}\PY{n}{attach\PYZus{}grad}\PY{p}{(}\PY{p}{)}
+        \PY{n}{pred2}\PY{o}{.}\PY{n}{attach\PYZus{}grad}\PY{p}{(}\PY{p}{)}
+        
+        \PY{k}{with} \PY{n}{autograd}\PY{o}{.}\PY{n}{record}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            
+            \PY{n}{do1} \PY{o}{=} \PY{n}{loss}\PY{p}{(}\PY{n}{pred1}\PY{p}{,} \PY{n}{label}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+            \PY{n}{do2} \PY{o}{=} \PY{n}{loss}\PY{p}{(}\PY{n}{pred2}\PY{p}{,} \PY{n}{label}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+            
+        \PY{n}{do1}\PY{o}{.}\PY{n}{backward}\PY{p}{(}\PY{p}{)}
+        \PY{n}{do2}\PY{o}{.}\PY{n}{backward}\PY{p}{(}\PY{p}{)}
+        
+        \PY{n}{dpred} \PY{o}{=} \PY{p}{[}\PY{n}{pred1}\PY{p}{,} \PY{n}{pred2}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+        
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{:}
+            
+            \PY{n}{ax}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{pred}\PY{o}{.}\PY{n}{asnumpy}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{dpred}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{grad}\PY{o}{.}\PY{n}{asnumpy}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+            \PY{n}{ax}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gradient with y : }\PY{l+s+si}{\PYZob{}y[i]\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{15}\PY{p}{)}
+            \PY{n}{ax}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gradient}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{15}\PY{p}{)}
+            \PY{n}{ax}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Range}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{15}\PY{p}{)}
+        
+            
+        \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_16_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{ohms-law}{%
+\section{3. Ohm's Law}\label{ohms-law}}
+
+Imagine that you're a young physicist, maybe named
+\href{https://en.wikipedia.org/wiki/Georg_Ohm}{Georg Simon Ohm}, trying
+to figure out how current and voltage depend on each other for
+resistors. You have some idea but you aren't quite sure yet whether the
+dependence is linear or quadratic. So you take some measurements,
+conveniently given to you as `ndarrays' in Python. They are indicated by
+`current' and `voltage'.
+
+Your goal is to use least mean squares regression to identify the
+coefficients for the following three models using automatic
+differentiation and least mean squares regression. The three models are:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Quadratic model where
+  \(\mathrm{voltage} = c + r \cdot \mathrm{current} + q \cdot \mathrm{current}^2\).
+\item
+  Linear model where
+  \(\mathrm{voltage} = c + r \cdot \mathrm{current}\).
+\item
+  Ohm's law where \(\mathrm{voltage} = r \cdot \mathrm{current}\).
+\end{enumerate}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{n}{current} \PY{o}{=} \PY{n}{nd}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{1.5420291}\PY{p}{,} \PY{l+m+mf}{1.8935232}\PY{p}{,} \PY{l+m+mf}{2.1603365}\PY{p}{,} \PY{l+m+mf}{2.5381863}\PY{p}{,} \PY{l+m+mf}{2.893443}\PY{p}{,} \PYZbs{}
+                            \PY{l+m+mf}{3.838855}\PY{p}{,} \PY{l+m+mf}{3.925425}\PY{p}{,} \PY{l+m+mf}{4.2233696}\PY{p}{,} \PY{l+m+mf}{4.235571}\PY{p}{,} \PY{l+m+mf}{4.273397}\PY{p}{,} \PYZbs{}
+                            \PY{l+m+mf}{4.9332876}\PY{p}{,} \PY{l+m+mf}{6.4704757}\PY{p}{,} \PY{l+m+mf}{6.517571}\PY{p}{,} \PY{l+m+mf}{6.87826}\PY{p}{,} \PY{l+m+mf}{7.0009003}\PY{p}{,} \PYZbs{}
+                            \PY{l+m+mf}{7.035741}\PY{p}{,} \PY{l+m+mf}{7.278681}\PY{p}{,} \PY{l+m+mf}{7.7561755}\PY{p}{,} \PY{l+m+mf}{9.121138}\PY{p}{,} \PY{l+m+mf}{9.728281}\PY{p}{]}\PY{p}{)}
+        \PY{n}{voltage} \PY{o}{=} \PY{n}{nd}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{63.802246}\PY{p}{,} \PY{l+m+mf}{80.036026}\PY{p}{,} \PY{l+m+mf}{91.4903}\PY{p}{,} \PY{l+m+mf}{108.28776}\PY{p}{,} \PY{l+m+mf}{122.781975}\PY{p}{,} \PYZbs{}
+                            \PY{l+m+mf}{161.36314}\PY{p}{,} \PY{l+m+mf}{166.50816}\PY{p}{,} \PY{l+m+mf}{176.16772}\PY{p}{,} \PY{l+m+mf}{180.29395}\PY{p}{,} \PY{l+m+mf}{179.09758}\PY{p}{,} \PYZbs{}
+                            \PY{l+m+mf}{206.21027}\PY{p}{,} \PY{l+m+mf}{272.71857}\PY{p}{,} \PY{l+m+mf}{272.24033}\PY{p}{,} \PY{l+m+mf}{289.54745}\PY{p}{,} \PY{l+m+mf}{293.8488}\PY{p}{,} \PYZbs{}
+                            \PY{l+m+mf}{295.2281}\PY{p}{,} \PY{l+m+mf}{306.62274}\PY{p}{,} \PY{l+m+mf}{327.93243}\PY{p}{,} \PY{l+m+mf}{383.16296}\PY{p}{,} \PY{l+m+mf}{408.65967}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{n}{current} \PY{o}{=} \PY{n}{current}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+        \PY{n}{voltage} \PY{o}{=} \PY{n}{voltage}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{k}{def} \PY{n+nf}{data\PYZus{}iter}\PY{p}{(}\PY{n}{batch\PYZus{}size}\PY{p}{,} \PY{n}{features}\PY{p}{,} \PY{n}{labels}\PY{p}{)}\PY{p}{:}
+            
+            \PY{k+kn}{import} \PY{n+nn}{random}
+            
+            \PY{n}{num\PYZus{}examples} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{features}\PY{p}{)}
+            \PY{n}{indices} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}examples}\PY{p}{)}\PY{p}{)}
+            \PY{c+c1}{\PYZsh{} The examples are read at random, in no particular order}
+            \PY{n}{random}\PY{o}{.}\PY{n}{shuffle}\PY{p}{(}\PY{n}{indices}\PY{p}{)}
+            \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{num\PYZus{}examples}\PY{p}{,} \PY{n}{batch\PYZus{}size}\PY{p}{)}\PY{p}{:}
+                \PY{n}{j} \PY{o}{=} \PY{n}{nd}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{indices}\PY{p}{[}\PY{n}{i}\PY{p}{:} \PY{n+nb}{min}\PY{p}{(}\PY{n}{i} \PY{o}{+} \PY{n}{batch\PYZus{}size}\PY{p}{,} \PY{n}{num\PYZus{}examples}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+                \PY{k}{yield} \PY{n}{features}\PY{o}{.}\PY{n}{take}\PY{p}{(}\PY{n}{j}\PY{p}{)}\PY{p}{,} \PY{n}{labels}\PY{o}{.}\PY{n}{take}\PY{p}{(}\PY{n}{j}\PY{p}{)}
+                \PY{c+c1}{\PYZsh{} The “take” function will then return the corresponding element based}
+                \PY{c+c1}{\PYZsh{} on the indices}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{k}{def} \PY{n+nf}{sgd}\PY{p}{(}\PY{n}{params}\PY{p}{,} \PY{n}{lr}\PY{p}{,} \PY{n}{batch\PYZus{}size}\PY{p}{)}\PY{p}{:}
+             \PY{k}{for} \PY{n}{param} \PY{o+ow}{in} \PY{n}{params}\PY{p}{:}
+                 \PY{k}{if} \PY{n}{param} \PY{o+ow}{is} \PY{k+kc}{None}\PY{p}{:}
+                     \PY{k}{continue}
+                 \PY{n}{param}\PY{p}{[}\PY{p}{:}\PY{p}{]} \PY{o}{=} \PY{n}{param} \PY{o}{\PYZhy{}} \PY{n}{lr} \PY{o}{*} \PY{n}{param}\PY{o}{.}\PY{n}{grad} \PY{o}{/} \PY{n}{batch\PYZus{}size}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{k}{def} \PY{n+nf}{mse}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{y\PYZus{}hat}\PY{p}{)}\PY{p}{:}
+             \PY{k}{return} \PY{n}{nd}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{nd}\PY{o}{.}\PY{n}{square}\PY{p}{(}\PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{y\PYZus{}hat}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{k}{def} \PY{n+nf}{model}\PY{p}{(}\PY{n}{features}\PY{p}{,} \PY{n}{labels}\PY{p}{,} \PY{n}{net}\PY{p}{,} \PY{n}{w1}\PY{p}{,} \PY{n}{w2}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,} \PY{n}{b}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,} \PY{n}{lr}\PY{o}{=}\PY{l+m+mf}{0.01}\PY{p}{,} \PY{n}{num\PYZus{}epochs}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{loss}\PY{o}{=}\PY{n}{mse}\PY{p}{,} \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{iter\PYZus{}ver}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{:}
+             
+             \PY{n}{w1}\PY{o}{.}\PY{n}{attach\PYZus{}grad}\PY{p}{(}\PY{p}{)}
+             
+             \PY{k}{if} \PY{n}{b} \PY{o+ow}{is} \PY{o+ow}{not} \PY{k+kc}{None}\PY{p}{:}
+                 \PY{n}{b}\PY{o}{.}\PY{n}{attach\PYZus{}grad}\PY{p}{(}\PY{p}{)}
+                 
+             \PY{k}{if} \PY{n}{w2} \PY{o+ow}{is} \PY{o+ow}{not} \PY{k+kc}{None}\PY{p}{:}
+                 \PY{n}{w2}\PY{o}{.}\PY{n}{attach\PYZus{}grad}\PY{p}{(}\PY{p}{)}
+             
+             \PY{k}{for} \PY{n}{epoch} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}epochs}\PY{p}{)}\PY{p}{:}
+                 
+                 \PY{k}{for} \PY{n}{X}\PY{p}{,} \PY{n}{y} \PY{o+ow}{in} \PY{n}{data\PYZus{}iter}\PY{p}{(}\PY{n}{batch\PYZus{}size}\PY{p}{,} \PY{n}{features}\PY{p}{,} \PY{n}{labels}\PY{p}{)}\PY{p}{:}
+                     
+                     \PY{k}{with} \PY{n}{autograd}\PY{o}{.}\PY{n}{record}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+         
+                         \PY{n}{l} \PY{o}{=} \PY{n}{loss}\PY{p}{(}\PY{n}{net}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{w1}\PY{p}{,} \PY{n}{w2}\PY{p}{,} \PY{n}{b}\PY{p}{)}\PY{p}{,} \PY{n}{y}\PY{p}{)}
+         
+                     \PY{n}{l}\PY{o}{.}\PY{n}{backward}\PY{p}{(}\PY{p}{)}
+         
+                     \PY{n}{sgd}\PY{p}{(}\PY{p}{[}\PY{n}{w1}\PY{p}{,} \PY{n}{w2}\PY{p}{,} \PY{n}{b}\PY{p}{]}\PY{p}{,} \PY{n}{lr}\PY{p}{,} \PY{n}{batch\PYZus{}size}\PY{p}{)}
+                     
+                 \PY{n}{train\PYZus{}l} \PY{o}{=} \PY{n}{loss}\PY{p}{(}\PY{n}{labels}\PY{p}{,} \PY{n}{net}\PY{p}{(}\PY{n}{features}\PY{p}{,} \PY{n}{w1}\PY{p}{,} \PY{n}{w2}\PY{p}{,} \PY{n}{b}\PY{p}{)}\PY{p}{)}
+                 
+                 \PY{k}{if} \PY{n}{epoch} \PY{o}{\PYZpc{}} \PY{n}{iter\PYZus{}ver} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+                     \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{epoch }\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{, loss }\PY{l+s+si}{\PYZpc{}f}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{epoch} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{train\PYZus{}l}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{asnumpy}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                 
+             \PY{k}{return} \PY{n}{w1}\PY{p}{,} \PY{n}{w2}\PY{p}{,} \PY{n}{b}
+\end{Verbatim}
+
+
+    \hypertarget{quadratic-model}{%
+\paragraph{Quadratic Model}\label{quadratic-model}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}13}]:} \PY{k}{def} \PY{n+nf}{quad}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{w1}\PY{p}{,} \PY{n}{w2}\PY{p}{,} \PY{n}{b}\PY{p}{)}\PY{p}{:}
+             \PY{k}{return} \PY{n}{X} \PY{o}{*} \PY{n}{w1} \PY{o}{+} \PY{p}{(}\PY{n}{X}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)} \PY{o}{*} \PY{n}{w2} \PY{o}{+} \PY{n}{b}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{n}{r}\PY{p}{,} \PY{n}{q}\PY{p}{,} \PY{n}{c} \PY{o}{=} \PY{n}{model}\PY{p}{(}\PY{n}{current}\PY{p}{,} \PY{n}{voltage}\PY{p}{,} \PY{n}{quad}\PY{p}{,} \PY{n}{nd}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{nd}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{b}\PY{o}{=}\PY{n}{nd}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{num\PYZus{}epochs}\PY{o}{=}\PY{l+m+mi}{10000}\PY{p}{,} \PY{n}{lr}\PY{o}{=}\PY{l+m+mf}{0.00015}\PY{p}{,} \PY{n}{iter\PYZus{}ver}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+epoch 1, loss 17263.068359
+epoch 1001, loss 1009.545898
+epoch 2001, loss 287.549500
+epoch 3001, loss 85.914734
+epoch 4001, loss 29.276550
+epoch 5001, loss 13.472377
+epoch 6001, loss 9.005405
+epoch 7001, loss 7.691024
+epoch 8001, loss 7.258520
+epoch 9001, loss 7.071026
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Optimal value r, q and c for Linear model are : }\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{r.asscalar(), q.asscalar(), c.asscalar()\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Optimal value r, q and c for Linear model are : (37.18543, 0.4063551, 12.544488)
+
+    \end{Verbatim}
+
+    \hypertarget{linear-model}{%
+\paragraph{Linear Model}\label{linear-model}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}16}]:} \PY{k}{def} \PY{n+nf}{linear}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{w}\PY{p}{,} \PY{n}{w2}\PY{p}{,} \PY{n}{b}\PY{p}{)}\PY{p}{:}
+             \PY{k}{return} \PY{n}{X} \PY{o}{*} \PY{n}{w} \PY{o}{+} \PY{n}{b}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} \PY{n}{r}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{c} \PY{o}{=} \PY{n}{model}\PY{p}{(}\PY{n}{current}\PY{p}{,} \PY{n}{voltage}\PY{p}{,} \PY{n}{linear}\PY{p}{,} \PY{n}{nd}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{b}\PY{o}{=}\PY{n}{nd}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{num\PYZus{}epochs}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,} \PY{n}{lr}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+epoch 1, loss 258.695831
+epoch 6, loss 11.315999
+epoch 11, loss 7.353860
+epoch 16, loss 6.537631
+epoch 21, loss 4.719824
+epoch 26, loss 3.916882
+epoch 31, loss 4.198429
+epoch 36, loss 2.654677
+epoch 41, loss 2.345388
+epoch 46, loss 3.174131
+epoch 51, loss 3.027113
+epoch 56, loss 2.004357
+epoch 61, loss 1.577524
+epoch 66, loss 2.271075
+epoch 71, loss 1.395448
+epoch 76, loss 1.953512
+epoch 81, loss 1.403591
+epoch 86, loss 1.731378
+epoch 91, loss 1.310277
+epoch 96, loss 2.026414
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} \PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Optimal value r and c for Linear model are : }\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{r.asscalar(), c.asscalar()\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Optimal value r and c for Linear model are : (41.839638, 1.059855)
+
+    \end{Verbatim}
+
+    \hypertarget{ohms-law}{%
+\paragraph{Ohm's Law}\label{ohms-law}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}19}]:} \PY{k}{def} \PY{n+nf}{ohm}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{w}\PY{p}{,} \PY{n}{w2}\PY{p}{,} \PY{n}{b}\PY{p}{)}\PY{p}{:}
+             \PY{k}{return} \PY{n}{X} \PY{o}{*} \PY{n}{w}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}20}]:} \PY{n}{r}\PY{p}{,} \PY{o}{*}\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{model}\PY{p}{(}\PY{n}{current}\PY{p}{,} \PY{n}{voltage}\PY{p}{,} \PY{n}{ohm}\PY{p}{,} \PY{n}{nd}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{num\PYZus{}epochs}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{,} \PY{n}{lr}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+epoch 1, loss 1.507786
+epoch 6, loss 1.739575
+epoch 11, loss 2.139585
+epoch 16, loss 1.932953
+epoch 21, loss 1.553277
+epoch 26, loss 1.287606
+epoch 31, loss 1.334121
+epoch 36, loss 1.431311
+epoch 41, loss 1.370204
+epoch 46, loss 1.308531
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}21}]:} \PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Optimal value r for Ohm}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{s formula is : }\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{r.asscalar()\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Optimal value r for Ohm's formula is : 41.91114044189453
+
+    \end{Verbatim}
+
+    I would say that the relationship is rather linear than quadratic.
+
+    \hypertarget{entropy}{%
+\section{4. Entropy}\label{entropy}}
+
+Let's compute the \emph{binary} entropy of a number of interesting data
+sources.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Assume that you're watching the output generated by a
+  \href{https://en.wikipedia.org/wiki/File:Chimpanzee_seated_at_typewriter.jpg}{monkey
+  at a typewriter}. The monkey presses any of the \(44\) keys of the
+  typewriter at random (you can assume that it has not discovered any
+  special keys or the shift key yet). How many bits of randomness per
+  character do you observe?
+\item
+  Unhappy with the monkey you replaced it by a drunk typesetter. It is
+  able to generate words, albeit not coherently. Instead, it picks a
+  random word out of a vocabulary of \(2,000\) words. Moreover, assume
+  that the average length of a word is \(4.5\) letters in English. How
+  many bits of randomness do you observe now?
+\item
+  Still unhappy with the result you replace the typesetter by a high
+  quality language model. These can obtain perplexity numbers as low as
+  20 points per character. The perplexity is defined as a length
+  normalized probability, i.e.
+\end{enumerate}
+
+\[\mathrm{PPL}(x) = \left[p(x)\right]^{1/\mathrm{length}(x)}\]
+
+    \begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \[44 * \frac{1}{44} * (-\log_2 \frac{1}{44}) = 5.46 bits / char\]
+\item
+  \[2000 * \frac{1}{2000} * (-\log_2 \frac{1}{2000}) = 10.97 bits / word = 2.44 bits / char\]
+\end{enumerate}
+
+    \hypertarget{wiens-approximation-for-the-temperature-bonus}{%
+\section{5. Wien's Approximation for the Temperature
+(bonus)}\label{wiens-approximation-for-the-temperature-bonus}}
+
+We will now abuse Gluon to estimate the temperature of a black body. The
+energy emanated from a black body is given by Wien's approximation.
+
+\[B_\lambda(T) = \frac{2 h c^2}{\lambda^5} \exp\left(-\frac{h c}{\lambda k T}\right)\]
+
+That is, the amount of energy depends on the fifth power of the
+wavelength \(\lambda\) and the temperature \(T\) of the body. The latter
+ensures a cutoff beyond a temperature-characteristic peak. Let us define
+this and plot it.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}22}]:} \PY{c+c1}{\PYZsh{} Lightspeed}
+         \PY{n}{c} \PY{o}{=} \PY{l+m+mi}{299792458}
+         \PY{c+c1}{\PYZsh{} Planck\PYZsq{}s constant}
+         \PY{n}{h} \PY{o}{=} \PY{l+m+mf}{6.62607004e\PYZhy{}34}
+         \PY{c+c1}{\PYZsh{} Boltzmann constant}
+         \PY{n}{k} \PY{o}{=} \PY{l+m+mf}{1.38064852e\PYZhy{}23}
+         \PY{c+c1}{\PYZsh{} Wavelength scale (nanometers)}
+         \PY{n}{lamscale} \PY{o}{=} \PY{l+m+mf}{1e\PYZhy{}6}
+         \PY{c+c1}{\PYZsh{} Pulling out all powers of 10 upfront}
+         \PY{n}{p\PYZus{}out} \PY{o}{=} \PY{l+m+mi}{2} \PY{o}{*} \PY{n}{h} \PY{o}{*} \PY{n}{c}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{/} \PY{n}{lamscale}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{5}
+         \PY{n}{p\PYZus{}in} \PY{o}{=} \PY{p}{(}\PY{n}{h} \PY{o}{/} \PY{n}{k}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{c}\PY{o}{/}\PY{n}{lamscale}\PY{p}{)} 
+         
+         \PY{c+c1}{\PYZsh{} Wien\PYZsq{}s law}
+         \PY{k}{def} \PY{n+nf}{wien}\PY{p}{(}\PY{n}{lam}\PY{p}{,} \PY{n}{t}\PY{p}{)}\PY{p}{:}
+             \PY{k}{return} \PY{p}{(}\PY{n}{p\PYZus{}out} \PY{o}{/} \PY{n}{lam}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{5}\PY{p}{)} \PY{o}{*} \PY{n}{nd}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{p\PYZus{}in} \PY{o}{/} \PY{p}{(}\PY{n}{lam} \PY{o}{*} \PY{n}{t}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Plot the radiance for a few different temperatures}
+         \PY{n}{lam} \PY{o}{=} \PY{n}{nd}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mf}{0.01}\PY{p}{)}
+         \PY{k}{for} \PY{n}{t} \PY{o+ow}{in} \PY{p}{[}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{,} \PY{l+m+mi}{150}\PY{p}{,} \PY{l+m+mi}{200}\PY{p}{,} \PY{l+m+mi}{250}\PY{p}{,} \PY{l+m+mi}{300}\PY{p}{,} \PY{l+m+mi}{350}\PY{p}{]}\PY{p}{:}
+             \PY{n}{radiance} \PY{o}{=} \PY{n}{wien}\PY{p}{(}\PY{n}{lam}\PY{p}{,} \PY{n}{t}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{lam}\PY{o}{.}\PY{n}{asnumpy}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{radiance}\PY{o}{.}\PY{n}{asnumpy}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{T=}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{t}\PY{p}{)} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{K}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_40_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Next we assume that we are a fearless physicist measuring some data. Of
+course, we need to pretend that we don't really know the temperature.
+But we measure the radiation at a few wavelengths.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}23}]:} \PY{c+c1}{\PYZsh{} real temperature is approximately 0C}
+         \PY{n}{realtemp} \PY{o}{=} \PY{l+m+mi}{273}
+         \PY{c+c1}{\PYZsh{} we observe at 3000nm up to 20,000nm wavelength}
+         \PY{n}{wavelengths} \PY{o}{=} \PY{n}{nd}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{20}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{} our infrared filters are pretty lousy ...}
+         \PY{n}{delta} \PY{o}{=} \PY{n}{nd}\PY{o}{.}\PY{n}{random\PYZus{}normal}\PY{p}{(}\PY{n}{shape}\PY{o}{=}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{wavelengths}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{1}
+         
+         \PY{n}{radiance} \PY{o}{=} \PY{n}{wien}\PY{p}{(}\PY{n}{wavelengths} \PY{o}{+} \PY{n}{delta}\PY{p}{,}\PY{n}{realtemp}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths}\PY{o}{.}\PY{n}{asnumpy}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{radiance}\PY{o}{.}\PY{n}{asnumpy}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{measured}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths}\PY{o}{.}\PY{n}{asnumpy}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{wien}\PY{p}{(}\PY{n}{wavelengths}\PY{p}{,} \PY{n}{realtemp}\PY{p}{)}\PY{o}{.}\PY{n}{asnumpy}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{true}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_42_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Use Gluon to estimate the real temperature based on the variables
+\texttt{wavelengths} and \texttt{radiance}.
+
+\begin{itemize}
+\tightlist
+\item
+  You can use Wien's law implementation \texttt{wien(lam,t)} as your
+  forward model.
+\item
+  Use the loss function \(l(y,y') = (\log y - \log y')^2\) to measure
+  accuracy.
+\end{itemize}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
