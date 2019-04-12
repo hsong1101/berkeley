@@ -81,6 +81,8 @@ class Agent(object):
     #                           ----------PROBLEM 1----------
     #========================================================================================#
     def define_placeholders(self):
+        
+        
         """
         Placeholders for batch batch observations / actions / advantages in
         policy gradient loss function.  See Agent.build_computation_graph for
@@ -91,6 +93,7 @@ class Agent(object):
             sy_ac_na: placeholder for actions
             sy_adv_n: placeholder for advantages
         """
+        
         sy_ob_no = tf.placeholder(shape=[None, self.ob_dim], name="ob", dtype=tf.float32)
         if self.discrete:
             sy_ac_na = tf.placeholder(shape=[None], name="ac", dtype=tf.int32)
@@ -99,6 +102,9 @@ class Agent(object):
         # ------------------------------------------------------------------
         # START OF YOUR CODE
         # ------------------------------------------------------------------
+        
+        sy_adv_n = tf.placeholder(shape=[None], name='adv', dtype=tf.float32)
+        
         # ------------------------------------------------------------------
         # END OF YOUR CODE
         # ------------------------------------------------------------------
@@ -138,6 +144,7 @@ class Agent(object):
             # ------------------------------------------------------------------
             # START OF YOUR CODE
             # ------------------------------------------------------------------
+            sy_logits_na = build_mlp(sy_ob_no, [None, self.ac_dim], 'ac', self.n_layers, self.size)
             # ------------------------------------------------------------------
             # END OF YOUR CODE
             # ------------------------------------------------------------------
@@ -146,6 +153,8 @@ class Agent(object):
             # ------------------------------------------------------------------
             # START OF YOUR CODE
             # ------------------------------------------------------------------
+            sy_mean = 
+            sy_logstd = 
             # ------------------------------------------------------------------
             # END OF YOUR CODE
             # ------------------------------------------------------------------

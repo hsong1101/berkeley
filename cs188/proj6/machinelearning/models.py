@@ -17,7 +17,6 @@ class Model(object):
     def train(self):
         """
         Train the model.
-
         `get_data_and_monitor` will yield data points one at a time. In between
         yielding data points, it will also monitor performance, draw graphics,
         and assist with automated grading. The model (self) is passed as an
@@ -33,7 +32,6 @@ class Model(object):
 class RegressionModel(Model):
     """
     TODO: Question 4 - [Application] Regression
-
     A neural network model for approximating a function that maps from real
     numbers to real numbers. The network should be sufficiently large to be able
     to approximate sin(x) on the interval [-2pi, 2pi] to reasonable precision.
@@ -56,14 +54,11 @@ class RegressionModel(Model):
     def run(self, x, y=None):
         """
         TODO: Question 4 - [Application] Regression
-
         Runs the model for a batch of examples.
-
         The correct outputs `y` are known during training, but not at test time.
         If correct outputs `y` are provided, this method must construct and
         return a nn.Graph for computing the training loss. If `y` is None, this
         method must instead return predicted y-values.
-
         Inputs:
             x: a (batch_size x 1) numpy array
             y: a (batch_size x 1) numpy array, or None
@@ -71,11 +66,9 @@ class RegressionModel(Model):
             (if y is not None) A nn.Graph instance, where the last added node is
                 the loss
             (if y is None) A (batch_size x 1) numpy array of predicted y-values
-
         Note: DO NOT call backprop() or step() inside this method!
         """
         graph = nn.Graph([self.w1,self.w2,self.b1,self.b2])
-        # print(x.shape)
 
         input_x = nn.Input(graph, x)
 
@@ -105,10 +98,8 @@ class RegressionModel(Model):
 class OddRegressionModel(Model):
     """
     TODO: Question 5 - [Application] OddRegression
-
     A neural network model for approximating a function that maps from real
     numbers to real numbers.
-
     Unlike RegressionModel, the OddRegressionModel must be structurally
     constrained to represent an odd function, i.e. it must always satisfy the
     property f(x) = -f(-x) at all points during training.
@@ -121,21 +112,18 @@ class OddRegressionModel(Model):
         # Remember to set self.learning_rate!
         # You may use any learning rate that works well for your architecture
         self.learning_rate = 0.01
-        self.w1 = nn.Variable(1,30)
-        self.w2 = nn.Variable(30,1)
-        self.b1 = nn.Variable(30)
+        self.w1 = nn.Variable(1,16)
+        self.w2 = nn.Variable(16,1)
+        self.b1 = nn.Variable(16)
 
     def run(self, x, y=None):
         """
         TODO: Question 5 - [Application] OddRegression
-
         Runs the model for a batch of examples.
-
         The correct outputs `y` are known during training, but not at test time.
         If correct outputs `y` are provided, this method must construct and
         return a nn.Graph for computing the training loss. If `y` is None, this
         method must instead return predicted y-values.
-
         Inputs:
             x: a (batch_size x 1) numpy array
             y: a (batch_size x 1) numpy array, or None
@@ -143,7 +131,6 @@ class OddRegressionModel(Model):
             (if y is not None) A nn.Graph instance, where the last added node is
                 the loss
             (if y is None) A (batch_size x 1) numpy array of predicted y-values
-
         Note: DO NOT call backprop() or step() inside this method!
         """
         graph = nn.Graph([self.w1,self.w2,self.b1])
@@ -185,15 +172,11 @@ class OddRegressionModel(Model):
 class DigitClassificationModel(Model):
     """
     TODO: Question 6 - [Application] Digit Classification
-
     A model for handwritten digit classification using the MNIST dataset.
-
     Each handwritten digit is a 28x28 pixel grayscale image, which is flattened
     into a 784-dimensional vector for the purposes of this model. Each entry in
     the vector is a floating point number between 0 and 1.
-
     The goal is to sort each digit into one of 10 classes (number 0 through 9).
-
     (See RegressionModel for more information about the APIs of different
     methods here. We recommend that you implement the RegressionModel before
     working on this part of the project.)
@@ -215,19 +198,15 @@ class DigitClassificationModel(Model):
     def run(self, x, y=None):
         """
         TODO: Question 6 - [Application] Digit Classification
-
         Runs the model for a batch of examples.
-
         The correct labels are known during training, but not at test time.
         When correct labels are available, `y` is a (batch_size x 10) numpy
         array. Each row in the array is a one-hot vector encoding the correct
         class.
-
         Your model should predict a (batch_size x 10) numpy array of scores,
         where higher scores correspond to greater probability of the image
         belonging to a particular class. You should use `nn.SoftmaxLoss` as your
         training loss.
-
         Inputs:
             x: a (batch_size x 784) numpy array
             y: a (batch_size x 10) numpy array, or None
@@ -266,10 +245,8 @@ class DigitClassificationModel(Model):
 class DeepQModel(Model):
     """
     TODO: Question 7 - [Application] Reinforcement Learning
-
     A model that uses a Deep Q-value Network (DQN) to approximate Q(s,a) as part
     of reinforcement learning.
-
     (We recommend that you implement the RegressionModel before working on this
     part of the project.)
     """
@@ -295,21 +272,16 @@ class DeepQModel(Model):
     def run(self, states, Q_target=None):
         """
         TODO: Question 7 - [Application] Reinforcement Learning
-
         Runs the DQN for a batch of states.
-
         The DQN takes the state and computes Q-values for all possible actions
         that can be taken. That is, if there are two actions, the network takes
         as input the state s and computes the vector [Q(s, a_1), Q(s, a_2)]
-
         When Q_target == None, return the matrix of Q-values currently computed
         by the network for the input states.
-
         When Q_target is passed, it will contain the Q-values which the network
         should be producing for the current states. You must return a nn.Graph
         which computes the training loss between your current Q-value
         predictions and these target values, using nn.SquareLoss.
-
         Inputs:
             states: a (batch_size x 4) numpy array
             Q_target: a (batch_size x 2) numpy array, or NotImplementedError
@@ -319,17 +291,29 @@ class DeepQModel(Model):
             (if Q_target is None) A (batch_size x 2) numpy array of Q-value
                 scores, for the two actions
         """
+        graph = nn.Graph([self.w1, self.w2])
+        graph = nn.Graph([self.w1, self.w2, self.b1, self.b2])
+        input_x = nn.Input(graph, states)
 
-        # if Q_target is not None:
+        xW1 = nn.MatrixMultiply(graph, input_x, self.w1)
+        xW1_plus_b1 = nn.MatrixVectorAdd(graph, xW1, self.b1)
+        relu1 = nn.ReLU(graph, xW1_plus_b1)
 
-        # else:
+        xW2 = nn.MatrixMultiply(graph, relu1, self.w2)
+        xW2_plus_b2 = nn.MatrixVectorAdd(graph, xW2, self.b2)
+
+        if Q_target is not None:
+            input_y = nn.Input(graph, Q_target)
+            loss = nn.SquareLoss(graph, xW2_plus_b2, input_y)
+            return graph
+        else:
+            return graph.get_output(xW2_plus_b2)
 
 
 
     def get_action(self, state, eps):
         """
         Select an action for a single state using epsilon-greedy.
-
         Inputs:
             state: a (1 x 4) numpy array
             eps: a float, epsilon to use in epsilon greedy
@@ -346,7 +330,6 @@ class DeepQModel(Model):
 class LanguageIDModel(Model):
     """
     A model for language identification at a single-word granularity.
-
     (See RegressionModel for more information about the APIs of different
     methods here. We recommend that you implement the RegressionModel before
     working on this part of the project.)
@@ -366,32 +349,36 @@ class LanguageIDModel(Model):
         # You may use any learning rate that works well for your architecture
         self.learning_rate = 0.01
 
+
+        self.w1 = nn.Variable(60, 400)
+        self.b1 = nn.Variable(400)
+
+        self.w2 = nn.Variable(400, 60)
+        self.b2 = nn.Variable(60)
+
+        self.w3 = nn.Variable(60, 5)
+
     def run(self, xs, y=None):
         """
         Runs the model for a batch of examples.
-
         Although words have different lengths, our data processing guarantees
         that within a single batch, all words will be of the same length (L).
-
         Here `xs` will be a list of length L. Each element of `xs` will be a
         (batch_size x self.num_chars) numpy array, where every row in the array
         is a one-hot vector encoding of a character. For example, if we have a
         batch of 8 three-letter words where the last word is "cat", we will have
         xs[1][7,0] == 1. Here the index 0 reflects the fact that the letter "a"
         is the inital (0th) letter of our combined alphabet for this task.
-
         The correct labels are known during training, but not at test time.
         When correct labels are available, `y` is a (batch_size x 5) numpy
         array. Each row in the array is a one-hot vector encoding the correct
         class.
-
         Your model should use a Recurrent Neural Network to summarize the list
         `xs` into a single node that represents a (batch_size x hidden_size)
         array, for your choice of hidden_size. It should then calculate a
         (batch_size x 5) numpy array of scores, where higher scores correspond
         to greater probability of the word originating from a particular
         language. You should use `nn.SoftmaxLoss` as your training loss.
-
         Inputs:
             xs: a list with L elements (one per character), where each element
                 is a (batch_size x self.num_chars) numpy array
@@ -400,13 +387,35 @@ class LanguageIDModel(Model):
             (if y is not None) A nn.Graph instance, where the last added node is
                 the loss
             (if y is None) A (batch_size x 5) numpy array of scores (aka logits)
-
         Hint: you may use the batch_size variable in your code
         """
         batch_size = xs[0].shape[0]
 
+        graph = nn.Graph([self.w1,self.w2, self.w3, self.b1, self.b2])
 
-        # if y is not None:
+        zeros = np.zeros((batch_size, 60))
+        temp = np.zeros((batch_size, 60 - self.num_chars))
 
-        # else:
+        h = nn.Input(graph, zeros)
+
+        for x in xs:
+
+            input_x = nn.Input(graph, np.hstack((x,temp)))
+            x_plus_H = nn.Add(graph, input_x, h)
+            xW1 = nn.MatrixMultiply(graph, x_plus_H, self.w1)
+            xW1_plus_b1 = nn.MatrixVectorAdd(graph, xW1, self.b1)
+            relu = nn.ReLU(graph, xW1_plus_b1)
+            xW2 = nn.MatrixMultiply(graph, relu, self.w2)
+            h = nn.MatrixVectorAdd(graph, xW2, self.b2)
+
+        xW3 = nn.MatrixMultiply(graph, h, self.w3)
+
+        if y is not None:
+
+            input_y = nn.Input(graph, y)
+            loss = nn.SoftmaxLoss(graph, xW3, input_y)
+
+            return graph
+        else:
             
+            return graph.get_output(xW3)
